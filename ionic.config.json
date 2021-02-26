@@ -1,0 +1,7 @@
+{
+  "name": "studentorgportal",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
