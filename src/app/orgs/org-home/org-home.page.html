@@ -1,0 +1,231 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/home"></ion-back-button>
+    </ion-buttons>
+    <ion-title>{{ orgName }}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content *ngIf="loadOrganization">
+  <ion-card class="action-card ion-no-margin ion-no-padding">
+    <img class="header-img" [src]="loadOrganization?.imageUrl" />
+  </ion-card>
+
+  <ion-grid>
+    <ion-row>
+      <ion-col
+        size-lg="3"
+        size-md="4"
+        size-sm="6"
+        size="12"
+        offsetLg="2"
+        offsetMd="2"
+        class="about"
+      >
+        <ion-card>
+          <ion-card-header>
+            <ion-chip>
+              <ion-icon name="book" color="secondary"></ion-icon>
+              <ion-label>Organization</ion-label>
+            </ion-chip>
+            <ion-card-title class="org-title">{{ orgName }}</ion-card-title>
+          </ion-card-header>
+          <ion-card-content> {{ orgDesc }} </ion-card-content>
+          <ion-item>
+            <ion-icon name="person" slot="start"></ion-icon>
+            <ion-text>Members</ion-text>
+            <ion-badge slot="end">00</ion-badge>
+          </ion-item>
+          <ion-button
+            color="primary"
+            *ngIf="auth.canDelete(user)"
+            class="ion-margin"
+            expand="full"
+            (click)="editOrgForm(null)"
+          >
+            <ion-icon name="create" slot="start"></ion-icon>
+            <ion-text>Edit Org</ion-text>
+          </ion-button>
+          <ion-button
+            color="primary"
+            *ngIf="auth.canDelete(user)"
+            class="ion-margin"
+            expand="full"
+            (click)="deleteOrg()"
+          >
+            <ion-icon name="trash-bin" slot="start"></ion-icon>
+            <ion-text>Delete Org</ion-text>
+          </ion-button>
+          <ion-button
+            color="primary"
+            class="ion-margin"
+            expand="full"
+            (click)="openFileSystem()"
+          >
+            <ion-icon name="file-tray-full" slot="start"></ion-icon>
+            <ion-text>Files</ion-text>
+          </ion-button>
+        </ion-card>
+      </ion-col>
+      <ion-col size-lg="5" size-md="4" size-sm="6" size="12">
+        <ion-segment
+          value="post"
+          color="secondary"
+          [(ngModel)]="segmentModel"
+          (ionChange)="onSegmentChange()"
+        >
+          <ion-segment-button value="post">
+            <ion-label>Posts</ion-label>
+          </ion-segment-button>
+          <ion-segment-button value="event">
+            <ion-label>Events</ion-label>
+          </ion-segment-button>
+          <ion-segment-button value="poll">
+            <ion-label>Polls</ion-label>
+          </ion-segment-button>
+        </ion-segment>
+
+        <div *ngIf="segmentModel === 'event' ? auth.canEdit(user): auth.canRead(user)">
+        <ion-card class="post-card" *ngIf="segmentModel">
+          <form>
+            <ion-row>
+              <ion-col>
+                <ion-item class="shape-field">
+                  <ion-avatar slot="start">
+                    <img [src]="userPhoto" *ngIf="userPhoto" alt="name" />
+                  </ion-avatar>
+                  <ion-input
+                    class="placeholder-title"
+                    (click)="segmentModel === 'post' ? addPost(null) : segmentModel === 'event' ? addEvent(null) : false"
+                    [placeholder]="'Add ' + segmentModel +  ' content...'"
+                  >
+                  </ion-input>
+                </ion-item>
+              </ion-col>
+            </ion-row>
+          </form>
+        </ion-card>
+        </div>
+
+        <!-- Post Section -->
+      <div *ngIf="segmentModel === 'post'">
+        <div class="ion-text-center ion-padding" *ngIf="!isLoading && posts?.length <= 0">
+          <ion-icon name="shapes" class="label-icon"></ion-icon>
+          <p><strong>No Post is added.</strong></p>
+        </div>
+        <div *ngIf="!isLoading && posts?.length > 0">
+          <div *ngFor="let p of posts">
+            <ion-card>
+              <ion-item lines="none">
+                <ion-avatar slot="start">
+                  <img [src]="p.postedByPhoto" alt="" />
+                </ion-avatar>
+                <ion-label>
+                  <h2 class="userpost-name">{{ p.postedBy }}</h2>
+                  <p>{{ p.createdAt | date }}</p>
+                </ion-label>
+                <ion-button color="secondary" fill="clear" slot="end" (click)="editPost($event, p.postId)" *ngIf="p.postedById === cUser">
+                  <ion-icon name="ellipsis-vertical" slot="icon-only"></ion-icon>
+                </ion-button>
+              </ion-item>
+              <img [src]="p.postImageUrl" />
+              <ion-card-header>
+                <ion-card-title>{{ p.postTitle }}</ion-card-title>
+              </ion-card-header>
+              <ion-card-content>
+                <p class="content-font">{{ p.postContent }}</p>
+              </ion-card-content>
+              <ion-row class="reaction-sys">
+                <ion-col size="6">
+                  <ion-button color="secondary" fill="clear" (click)="toggleHeart(p.postId)">
+                    <ion-icon
+                      class="reaction-icon"
+                      [name]="heartType"
+                      slot="start"
+                    ></ion-icon>
+                    <ion-text class="reaction-num">0</ion-text>
+                  </ion-button>
+                </ion-col>
+                <ion-col size="6">
+                  <ion-button color="secondary" fill="clear" (click)="openCommentSection(p.postId)">
+                    <ion-icon
+                      class="reaction-icon"
+                      name="chatbox"
+                      slot="start"
+                    ></ion-icon>
+                    <ion-text class="reaction-num">0</ion-text>
+                  </ion-button>
+                </ion-col>
+              </ion-row>
+            </ion-card>
+          </div>
+        </div>
+      </div>
+
+
+        <!-- Event Section -->
+      <div *ngIf="segmentModel === 'event'">
+        <div class="ion-text-center ion-padding" *ngIf="!isLoading && eventsList?.length <= 0">
+          <ion-icon name="shapes" class="label-icon"></ion-icon>
+          <p><strong>No Event is added.</strong></p>
+        </div>
+        <div *ngIf="!isLoading && eventsList?.length > 0">
+          <div *ngFor="let eventz of eventsList">
+            <ion-card>
+              <ion-item lines="none">
+                <ion-avatar slot="start">
+                  <img [src]="eventz.eventPostedByPhoto" alt="" />
+                </ion-avatar>
+                <ion-label>
+                  <h2 class="userpost-name">{{ eventz.eventPostedBy }}</h2>
+                  <p>{{ eventz.createdAt | date }}</p>
+                </ion-label>
+                <ion-button color="secondary" fill="clear" slot="end" (click)="editPost($event, eventz.eventId)" *ngIf="eventz.eventPostedById === cUser">
+                  <ion-icon name="ellipsis-vertical" slot="icon-only"></ion-icon>
+                </ion-button>
+              </ion-item>
+              <img [src]="eventz.eventImageUrl" />
+              <ion-card-header>
+                <ion-card-title class="ion-padding-bottom"
+                  >{{ eventz.eventTitle }}</ion-card-title
+                >
+                <ion-chip>
+                  <ion-icon color="secondary" name="calendar-number"></ion-icon>
+                  <ion-label>Start: {{ eventz.eventStartDate | date }}</ion-label>
+                </ion-chip>
+                <ion-chip>
+                  <ion-icon color="secondary" name="calendar-number"></ion-icon>
+                  <ion-label>End: {{ eventz.eventEndDate | date }}</ion-label>
+                </ion-chip>
+                <ion-chip>
+                  <ion-icon color="secondary" name="time"></ion-icon>
+                  <ion-label>{{ eventz.eventTime | date:'shortTime' }}</ion-label>
+                </ion-chip>
+              </ion-card-header>
+              <ion-card-content>
+                <p class="content-font">
+                  {{ eventz.eventContent }}
+                </p>
+              </ion-card-content>
+              <ion-row class="reaction-sys">
+                <ion-col size="12">
+                  <ion-button color="secondary" fill="clear">
+                    <ion-icon
+                      class="reaction-icon"
+                      name="heart-outline"
+                      slot="start"
+                    ></ion-icon>
+                    <ion-text class="reaction-num">0</ion-text>
+                  </ion-button>
+                </ion-col>
+              </ion-row>
+            </ion-card>
+          </div>
+        </div>
+      </div>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+</ion-content>

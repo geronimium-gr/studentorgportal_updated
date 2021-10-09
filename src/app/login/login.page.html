@@ -1,0 +1,96 @@
+
+  <!-- <ion-card>
+    <form #f="ngForm" (ngSubmit)="onSubmit(f)">
+      <ion-list lines="full">
+        <ion-item>
+          <ion-label position="fixed">Email:</ion-label>
+          <ion-input name="email" required type="email" ngModel #email="ngModel" email></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label position="fixed">Password:</ion-label>
+          <ion-input
+            name="password"
+            required
+            [type]="showPassword ? 'text' : 'password'"
+            ngModel
+            #password="ngModel"
+            minlength="6">
+          </ion-input>
+          <ion-icon [name]="passwordToggleIcon" (click)="togglePassword()"></ion-icon>
+        </ion-item>
+
+        <div class="ion-text-right ion-padding-end">
+          <p><a style="text-decoration: none;" [routerLink]="['/forgot-password']">Forgot Password?</a></p>
+        </div>
+
+        <ion-button class="ion-margin" type="submit" expand="block" [disabled]="!f.valid">Login</ion-button>
+      </ion-list>
+    </form>
+  </ion-card> -->
+
+  <img class="wave" src="../../assets/images/wave2.png">
+
+  <div class="wrapper">
+  <ion-grid class="square">
+    <ion-row class="ion-align-items-center ion-justify-content-center">
+      <ion-col class="left" size-lg="3" size-md="4" size-sm="6" size="12">
+        <ion-card class="left-side">
+          <ion-card-content>
+            <ion-img class="logo" src="../../assets/images/PLVlogo.png"></ion-img>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+      <ion-col class="right" size-lg="5" size-md="6" size-sm="6" size="12">
+        <ion-card>
+          <ion-card-header><h5>Pamantasan ng Lungsod ng Valenzuela</h5></ion-card-header>
+          <ion-card-content>
+            <form #f="ngForm" (ngSubmit)="onSubmit(f)">
+              <ion-list lines="full">
+                <ion-item>
+                  <ion-icon name="at-circle" slot="start" [color]="email.touched && !email.valid ? 'danger' : 'secondary'"></ion-icon>
+                  <ion-input name="email" placeholder="Email" required type="email" ngModel #email="ngModel" email></ion-input>
+                </ion-item>
+                <ion-item>
+                  <ion-icon name="lock-closed" slot="start" [color]="password.touched && !password.valid ? 'danger' : 'secondary'"></ion-icon>
+                  <ion-input
+                    name="password"
+                    placeholder="Password"
+                    required
+                    [type]="showPassword ? 'text' : 'password'"
+                    ngModel
+                    #password="ngModel"
+                    minlength="6">
+                  </ion-input>
+                  <ion-icon [name]="passwordToggleIcon" (click)="togglePassword()"></ion-icon>
+                </ion-item>
+
+                <div class="ion-text-right ion-padding-end ion-padding-vertical">
+                  <p><a class="fpass" [routerLink]="['/forgot-password']">Forgot Password?</a></p>
+                </div>
+
+                <ion-item color="danger" lines="none" *ngIf="email.touched && !email.valid">
+                  <ion-icon name="close-circle" slot="start"></ion-icon>
+                  <ion-text>Enter valid email.</ion-text>
+                </ion-item>
+                <ion-item color="danger" lines="none" *ngIf="password.touched && !password.valid">
+                  <ion-icon name="close-circle" slot="start"></ion-icon>
+                  <ion-text>Enter valid password.</ion-text>
+                </ion-item>
+
+                <ion-button class="ion-margin" type="submit" expand="block" [disabled]="!f.valid">Login</ion-button>
+              </ion-list>
+            </form>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</div>
+
+<!-- <div class="container">
+  <div class="image">
+    <img src="../../assets/images/PLVlogo.png" alt="">
+  </div>
+</div> -->
+
+

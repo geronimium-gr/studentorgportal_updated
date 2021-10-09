@@ -1,20 +1,73 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-menu-button (click)="openFirst()"></ion-menu-button>
+    </ion-buttons>
     <ion-title>
-      Blank
+      Home
     </ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Blank</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-content>
 
-  <div id="container">
-    <strong>Ready to create an app?</strong>
-    <p>Start with Ionic <a target="_blank" rel="noopener noreferrer" href="https://ionicframework.com/docs/components">UI Components</a></p>
+  <ion-fab vertical="top" horizontal="end" slot="fixed" edge style="margin-right: 10px;">
+    <ion-fab-button color="tertiary">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+    <ion-fab-list>
+      <ion-fab-button color="light" (click)="openAddForm(null)" data-desc="Add Org">
+        <ion-icon name="create"></ion-icon>
+      </ion-fab-button>
+      <ion-fab-button color="light" data-desc="Add Announcement">
+        <ion-icon name="easel"></ion-icon>
+      </ion-fab-button>
+    </ion-fab-list>
+  </ion-fab>
+
+  <ion-slides pager="true" [options]="slideOpts" autoplay="7000">
+    <ion-slide>
+      <ion-img class="img-carousel" src="assets/images/bg.png"></ion-img>
+    </ion-slide>
+    <ion-slide>
+      <ion-img class="img-carousel" src="assets/images/bg.png"></ion-img>
+    </ion-slide>
+  </ion-slides>
+
+  <ion-item class="ion-padding" color="none">
+    <ion-icon name="apps-outline"></ion-icon>
+    <ion-title>My Orgs</ion-title>
+  </ion-item>
+
+  <div class="ion-text-center ion-padding" *ngIf="!isLoading && organization?.length <= 0">
+    <ion-icon name="shapes" class="label-icon"></ion-icon>
+    <p><strong>No Organization is added. Create one?</strong></p>
+    <ion-button color="primary" (click)="openAddForm(null)">Create Organization</ion-button>
   </div>
+
+  <!-- Org List -->
+  <ion-grid *ngIf="!isLoading && organization.length > 0">
+    <ion-row>
+      <ion-col size-lg="3" size-md="4" size-sm="6" size="12" *ngFor="let o of organization">
+        <ion-card>
+          <div class="container">
+            <ion-img class="img" [src]="o.imageUrl"></ion-img>
+          </div>
+          <ion-card-header>
+            <ion-card-title class="truncateWord">{{ o.orgName }}</ion-card-title>
+            <ion-card-subtitle>0 members</ion-card-subtitle>
+          </ion-card-header>
+          <ion-card-content>
+            <p class="truncateWord">{{ o.description }}</p>
+          </ion-card-content>
+          <ion-button fill="solid" class="ion-margin" expand="block" color="primary" [routerLink]="['/home', o.orgId]">
+            <ion-icon name="open" slot="start"></ion-icon>
+            <ion-label>View</ion-label>
+          </ion-button>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+
 </ion-content>

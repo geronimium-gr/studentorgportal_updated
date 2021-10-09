@@ -1,0 +1,191 @@
+.profile-header {
+  width: 100%;
+  display: flex;
+  height: 190px;
+  position: relative;
+  box-shadow: 0px 3px 4px rgba(0, 0, 0, .2);
+  background: var(--ion-color-light);
+}
+
+.profile-img {
+  float: left;
+  width: 340px;
+  height: 200px;
+}
+
+.profile-img img {
+  height: 230px;
+  width: 230px;
+  border: 4px solid var(--ion-color-secondary);
+  border-radius: 50%;
+  box-shadow: 0px 5px 10px rgba(0, 0, 0, .2);
+  position: absolute;
+  left: 50px;
+  top: 20px;
+  z-index: 5;
+  object-fit: cover;
+}
+
+.profile-nav-info {
+  float: left;
+  flex-direction: column;
+  justify-content: center;
+  padding-top: 60px;
+}
+
+.profile-nav-info h3 {
+  font-size: 2rem;
+  font-family: sans-serif;
+  font-weight: bold;
+}
+
+.profile-nav-info .address {
+  font-weight: bold;
+}
+
+.profile-nav-info .address p {
+  margin-right: 5px;
+}
+
+.main-bd {
+  width: 100%;
+  display: flex;
+  padding-right: 15px;
+}
+
+.profile-side {
+  width: 325px;
+  box-shadow: 0px 3px 5px rgba(0, 0, 0, .2);
+  padding: 90px 30px 20px;
+  margin-left: 10px;
+  z-index: 99;
+  background: var(--ion-color-light);
+}
+
+//other profile features
+.no-bg {
+  --background: none;
+  opacity:1;
+}
+
+.profile-side p {
+  margin-bottom: 7px;
+  color: var(--ion-color-light-contrast);
+  font-size: 14px;
+  margin-right: 10px;
+}
+
+.school-id,
+.user-mail {
+  color: #888;
+  font-size: 14px;
+}
+
+.profile-btn {
+  display: block;
+}
+
+.chatbtn,
+.createbtn {
+  border: 0;
+  width: 100%;
+  border-radius: 3px;
+}
+
+.nav {
+  width: 100%;
+  z-index: -1;
+}
+
+.nav ul {
+  display: flex;
+  justify-content: center;
+  list-style-type: none;
+  height: 40px;
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, .3);
+}
+
+.nav ul li {
+  padding: 10px;
+  width: 100%;
+  text-align: center;
+}
+
+.profile-body {
+  width: 100%;
+  z-index: -1;
+}
+
+.tab {
+  padding: 20px;
+  width: 100%;
+}
+
+
+@media(max-width: 1100px) {
+  .profile-side {
+    width: 250px;
+    padding: 90px 15px 20px;
+  }
+
+  .profile-img img {
+    height: 200px;
+    width: 200px;
+    left: 50px;
+    top: 50px;
+  }
+}
+
+@media(max-width: 900px) {
+  body {
+    margin: 0 20px;
+  }
+  .profile-header {
+    display: flex;
+    height: 100%;
+    flex-direction: column;
+    text-align: center;
+    padding-bottom: 20px;
+  }
+  .profile-img {
+    float: left;
+    width: 100%;
+    height: 200px;
+  }
+  .profile-img img {
+    position: relative;
+    left: 0;
+  }
+  .profile-nav-info {
+    text-align: center;
+  }
+  .profile-nav-info .address {
+    justify-content: center;
+  }
+  .main-bd {
+    flex-direction: column;
+    padding-right: 0px;
+  }
+  .profile-side {
+    width: 100%;
+    text-align: center;
+    padding: 20px;
+    margin: 5px 0;
+  }
+  @media(max-width: 400px) {
+    body {
+      margin: 0;
+    }
+    .profile-header h3 {
+      font-size: 1.7rem;
+    }
+    .profile-header p {
+      font-size: .9rem;
+    }
+    .nav ul li {
+      padding-right: 50px;
+      text-align: center;
+    }
+  }
+
+}

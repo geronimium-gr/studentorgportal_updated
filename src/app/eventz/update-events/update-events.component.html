@@ -1,0 +1,112 @@
+<ion-header>
+  <ion-toolbar color="light">
+    <ion-title>Update Event</ion-title>
+    <ion-buttons slot="primary">
+      <ion-button (click)="onClose()">
+        <ion-icon name="close" slot="icon-only"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-list class="ion-no-margin">
+  <ion-list-header>
+    <h6>Change photo:</h6>
+  </ion-list-header>
+
+  <div class="picker">
+    <div class="selectedImage" *ngIf="selectedImage; else elseBlock">
+      <img class="img" [src]="selectedImageUri" alt="" />
+    </div>
+
+    <ng-template #elseBlock>
+      <img class="img" [src]="loadedEventDetails?.eventImageUrl" *ngIf="loadedEventDetails?.eventImageUrl" alt="No Image" />
+    </ng-template>
+  </div>
+  <input
+  type="file"
+  accept=".jpg,.png"
+  *ngIf="usePicker"
+  #filePicker
+  (change)="onFileChosen($event)"
+  />
+
+  <ion-button color="primary" expand="full" class="ion-margin-vertical" (click)="onPickImage()">
+    <ion-icon name="image" slot="start"></ion-icon>
+    <ion-text>Choose Image</ion-text>
+  </ion-button>
+
+  <form [formGroup]="formGroup">
+    <ion-list lines="none">
+      <ion-item>
+        <ion-label *ngIf="!formGroup.get('eventTitle').valid && formGroup.get('eventTitle').touched" color="danger" position="floating">FIELD CANNOT BE EMPTY</ion-label>
+        <ion-icon [color]="!formGroup.get('eventTitle').valid && formGroup.get('eventTitle').touched ? 'danger' : 'secondary'" name="receipt" slot="start"></ion-icon>
+        <ion-input
+        formControlName="eventTitle"
+        [value]="loadedEventDetails?.eventTitle"
+        placeholder="Event Title">
+        </ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label *ngIf="!formGroup.get('eventContent').valid && formGroup.get('eventContent').touched" color="danger" position="floating">FIELD CANNOT BE EMPTY</ion-label>
+        <ion-icon [color]="!formGroup.get('eventContent').valid && formGroup.get('eventContent').touched ? 'danger' : 'secondary'" name="newspaper" slot="start"></ion-icon>
+        <ion-textarea
+        formControlName="eventContent"
+        [value]="loadedEventDetails?.eventContent"
+        rows="2"
+        placeholder="Event Content">
+        </ion-textarea>
+      </ion-item>
+      <ion-item>
+        <ion-label *ngIf="!formGroup.get('startDate').valid && formGroup.get('startDate').touched" color="danger" position="floating">FIELD CANNOT BE EMPTY</ion-label>
+        <ion-icon *ngIf="loadedEventDetails?.eventStartDate" [color]="!formGroup.get('startDate').valid && formGroup.get('startDate').touched || !datesValidator() ? 'danger' : 'secondary'" name="calendar" slot="start"></ion-icon>
+        <ion-label *ngIf="!datesValidator() && formGroup.get('startDate').touched" color="danger" position="floating">ENTER VALID DATES</ion-label>
+        <ion-datetime
+          [ngClass]="!datesValidator() && formGroup.get('startDate').touched ? 'datetime-error' : 'datetime-success'"
+          displayFormat="MMM DD, YYYY"
+          [value]="loadedEventDetails?.eventStartDate"
+          max="2100-12-31"
+          formControlName="startDate"
+          placeholder="Start Date"
+          #startDate>
+          </ion-datetime>
+      </ion-item>
+      <ion-item>
+        <ion-label *ngIf="!formGroup.get('endDate').valid && formGroup.get('endDate').touched" color="danger" position="floating">FIELD CANNOT BE EMPTY</ion-label>
+        <ion-icon *ngIf="loadedEventDetails?.eventEndDate" [color]="!formGroup.get('endDate').valid && formGroup.get('endDate').touched || !datesValidator() ? 'danger' : 'secondary'" name="calendar" slot="start"></ion-icon>
+        <ion-label *ngIf="!datesValidator() && formGroup.get('endDate').touched" color="danger" position="floating">ENTER VALID DATES</ion-label>
+          <ion-datetime
+          [ngClass]="!datesValidator() && formGroup.get('endDate').touched ? 'datetime-error' : 'datetime-success'"
+          displayFormat="MMM DD, YYYY"
+          [value]="loadedEventDetails?.eventEndDate"
+          max="2100-12-31"
+          formControlName="endDate"
+          placeholder="End Date">
+          </ion-datetime>
+      </ion-item>
+      <ion-item>
+        <ion-label *ngIf="!formGroup.get('startTime').valid && formGroup.get('startTime').touched" color="danger" position="floating">FIELD CANNOT BE EMPTY</ion-label>
+        <ion-icon [color]="!formGroup.get('startTime').valid && formGroup.get('startTime').touched ? 'danger' : 'secondary'" name="time" slot="start"></ion-icon>
+          <ion-datetime
+          displayFormat="h:mm A"
+          [value]="loadedEventDetails?.eventTime"
+          pickerFormat="h:mm A"
+          formControlName="startTime"
+          placeholder="Start Time">
+          </ion-datetime>
+      </ion-item>
+    </ion-list>
+  </form>
+
+</ion-list>
+
+<ion-item lines="none" color="success" detail="true" button [disabled]="!formGroup.valid || !datesValidator()" (click)="updateEvent()">
+  <ion-icon name="checkmark-circle-outline" slot="start"></ion-icon>
+  <ion-text>Update Event</ion-text>
+</ion-item>
+
+
+
+
+
+

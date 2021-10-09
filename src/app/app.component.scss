@@ -1,0 +1,87 @@
+//Author: https://www.youtube.com/channel/UCKfdwqnvq372ZKUEIn2_XQA
+.menu-header-bg {
+  height: 180px;
+  width: 350px;
+  background: #0093B7;
+  background: linear-gradient(90deg,  #0093B7 0%, #0d6175 100%);
+  box-shadow: 0px 1px 10px rgba(98, 140, 255, 0.5);
+  transform: rotate(-15deg);
+  border-radius: 10px 10px 10px 50px;
+  margin-left: -18px;
+  margin-top: -50px;
+  margin-bottom: 60px;
+}
+
+.header-content {
+  position: absolute;
+  top: 30px;
+  left: 15px;
+  display: flex;
+  align-items: center;
+
+  img {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    border: 5px solid #A0C5CF;
+    object-fit: cover;
+    margin-right: 14px;
+  }
+
+  h2 {
+    font-weight: 600;
+    color: #e4e4e4;
+
+  }
+
+  p {
+    font-size: 12px;
+    color: #e4e4e4;
+    font-weight: 100;
+    letter-spacing: 0.4px;
+  }
+}
+
+.action-button {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+
+  ion-button {
+    font-weight: 300;
+    --background: #005F89;
+    --border-radius: 7px;
+    --box-shadow: none;
+  }
+}
+
+.icon-bg {
+  --background: none;
+  opacity:1;
+}
+
+.truncateWord{
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+// ion-item {
+//   --ion-item-background: #131212;
+// }
+
+
+
+// .color-palette{
+//   color: #005F89;
+//   color: #0093B7;
+//   color: #A0C5CF;
+//   color: #E6ECEB;
+//   color: #63CDD7;
+// }
+
+//193F6E
+//3B6BA5
+//72A5D3
+//B1D3E3
+//E1EBEC

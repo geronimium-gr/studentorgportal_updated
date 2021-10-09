@@ -1,0 +1,72 @@
+<ion-header>
+  <ion-toolbar color="light">
+    <ion-title>Add Org</ion-title>
+    <ion-buttons slot="primary">
+      <ion-button (click)="onClose()">
+        <ion-icon name="close" slot="icon-only"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-list class="ion-no-margin">
+
+  <ion-list-header>
+    <h6>Add a cover photo: (Required)</h6>
+  </ion-list-header>
+  <div class="picker">
+    <div class="selectedImage" *ngIf="selectedImage">
+      <img class="img" [src]="selectedImageUri" alt=" " />
+    </div>
+    <ion-button fill="clear" (click)="onPickImage()" *ngIf="!selectedImage">
+      <ion-icon name="image" slot="icon-only"></ion-icon>
+    </ion-button>
+  </div>
+  <input
+  type="file"
+  accept=".jpg,.png"
+  *ngIf="usePicker"
+  #filePicker
+  (change)="onFileChosen($event)"
+  />
+
+  <ion-button color="primary" expand="full" class="ion-margin-vertical" (click)="onPickImage()">
+    <ion-icon name="image" slot="icon-only"></ion-icon>
+  </ion-button>
+
+  <form #f="ngForm" (ngSubmit)="onSubmit(f)">
+    <ion-list lines="none">
+      <ion-item>
+        <ion-label *ngIf="orgCtrl.touched && !orgCtrl.valid" color="danger" position="floating">FIELD CANNOT BE EMPTY</ion-label>
+        <ion-icon [color]="orgCtrl.touched && !orgCtrl.valid ? 'danger' : 'secondary'" name="people" slot="start"></ion-icon>
+        <ion-input
+        name="orgName"
+        required
+        placeholder="Organization Name"
+        type="text"
+        [(ngModel)]="orgName"
+        #orgCtrl="ngModel">
+        </ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label *ngIf="descCtrl.touched && !descCtrl.valid" color="danger" position="floating">FIELD CANNOT BE EMPTY</ion-label>
+        <ion-icon [color]="descCtrl.touched && !descCtrl.valid ? 'danger' : 'secondary'" name="reader" slot="start"></ion-icon>
+        <ion-textarea
+        name="descName"
+        rows="2"
+        required
+        placeholder="Description"
+        type="text"
+        [(ngModel)]="orgDesc"
+        #descCtrl="ngModel">
+        </ion-textarea>
+      </ion-item>
+    </ion-list>
+  </form>
+</ion-list>
+
+<ion-item lines="none" color="success" detail="true" button (click)="onSubmit(f)" [disabled]="!f.valid || !selectedImage">
+  <ion-icon name="add-circle-outline" slot="start"></ion-icon>
+  <ion-text>Add Organization</ion-text>
+</ion-item>
+

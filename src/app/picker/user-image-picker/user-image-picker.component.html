@@ -1,0 +1,21 @@
+<div class="picker">
+  <div class="selectedImage" *ngIf="selectedImage">
+    <img class="img" [src]="selectedImageUri" alt=" " />
+  </div>
+  <ion-button fill="clear" (click)="onPickImage()" *ngIf="!selectedImage">
+    <ion-icon name="image" slot="start"></ion-icon>
+    <ion-text>Choose Image</ion-text>
+  </ion-button>
+</div>
+<input
+type="file"
+accept=".jpg,.png"
+*ngIf="usePicker"
+#filePicker
+(change)="onFileChosen($event)"
+/>
+
+<ion-button color="secondary" expand="full" class="ion-margin-vertical" (click)="onPickImage()">
+  <ion-icon name="image" slot="start"></ion-icon>
+  <ion-text>Choose Image</ion-text>
+</ion-button>

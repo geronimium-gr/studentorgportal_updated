@@ -1,0 +1,78 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/home"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Profile Information</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <div class="container">
+    <div class="profile-header">
+      <div class="profile-img">
+          <ion-spinner *ngIf="!userPhoto"></ion-spinner>
+          <img [src]="userPhoto" *ngIf="userPhoto">
+      </div>
+      <div class="profile-nav-info">
+        <h3 class="user-name">{{ user?.userName }}</h3>
+        <div class="address">
+          <p class="state">{{ user?.roleName }}</p>
+        </div>
+      </div>
+    </div>
+    <div class="main-bd">
+      <div class="left-side">
+        <div class="profile-side">
+          <ion-item lines="none" class="no-bg">
+            <ion-icon name="id-card" slot="start"></ion-icon>
+            <ion-text class="school-id">{{ user?.userSchoolId }}</ion-text>
+          </ion-item>
+          <ion-item lines="none" class="no-bg">
+            <ion-icon name="at-circle" slot="start"></ion-icon>
+            <ion-text class="user-mail">{{ user?.userEmail }}</ion-text>
+          </ion-item>
+          <!-- <p class="user-mail">{{ user?.userEmail }}</p> -->
+          <div class="user-bio">
+            <p class="bio">{{ user?.bio }}</p>
+          </div>
+          <div class="profile-btn">
+            <ion-button color="primary" class="chatbtn" (click)="updateProfile(null)">
+              <ion-icon name="person" slot="start"></ion-icon>
+              Edit Profile
+            </ion-button>
+            <ion-button color="primary" class="createbtn" (click)="updatePassword(null)">
+              <ion-icon name="lock-closed" slot="start"></ion-icon>
+              Edit Password
+            </ion-button>
+          </div>
+          <ion-item lines="none" class="no-bg">
+            <ion-icon name="information-circle" slot="start"></ion-icon>
+            <ion-text class="school-id">Created at: {{ user?.createdAt | date}}</ion-text>
+          </ion-item>
+        </div>
+      </div>
+      <div class="right-side">
+        <div class="nav">
+          <ul>
+            <li class="user-post">Your Post</li>
+          </ul>
+        </div>
+        <div class="profile-body">
+          <div class="profile-posts tab">
+            <h1>Your Posts</h1>
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatem perspiciatis saepe molestiae nesciunt. Recusandae deleniti, aspernatur nobis ratione magnam minus rem. Officiis, velit. Voluptas, minima libero commodi sit eius esse.</p>
+          </div>
+          <div class="profile-posts tab">
+            <h1>Your Posts</h1>
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatem perspiciatis saepe molestiae nesciunt. Recusandae deleniti, aspernatur nobis ratione magnam minus rem. Officiis, velit. Voluptas, minima libero commodi sit eius esse.</p>
+          </div>
+          <div class="profile-posts tab">
+            <h1>Your Posts</h1>
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatem perspiciatis saepe molestiae nesciunt. Recusandae deleniti, aspernatur nobis ratione magnam minus rem. Officiis, velit. Voluptas, minima libero commodi sit eius esse.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</ion-content>

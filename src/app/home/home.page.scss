@@ -1,27 +1,57 @@
-#container {
-  text-align: center;
+.label-icon {
+  font-size: 10rem;
+}
 
+.img-carousel {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: brightness(50%);
+}
+
+ion-slides{
+  height: 40%;
+}
+
+//Add Button
+ion-fab-button[data-desc] {
+  position: relative;
+}
+
+ion-fab-button[data-desc]::after {
   position: absolute;
-  left: 0;
-  right: 0;
-  top: 50%;
-  transform: translateY(-50%);
+  content: attr(data-desc);
+  z-index: 1;
+  right: 55px;
+  bottom: 4px;
+  background-color: var(--ion-color-primary);
+  padding: 9px;
+  border-radius: 10px;
+  color: white;
+  box-shadow: 0 3px 5px -1px rgba(0,0,0,0.2), 0 6px 10px 0 rgba(0,0,0,0.14), 0 1px 18px 0 rgba(0,0,0,0.12);
 }
 
-#container strong {
-  font-size: 20px;
-  line-height: 26px;
+//ion card
+.container {
+  width: 30rem;
+  max-width: 100%;
+  height: 20rem;
+  max-height: 30vh;
+  margin: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-#container p {
-  font-size: 16px;
-  line-height: 22px;
-
-  color: #8c8c8c;
-
-  margin: 0;
+.img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
-#container a {
-  text-decoration: none;
+//Truncated Text: https://stackoverflow.com/q/60513213/13848366
+.truncateWord{
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }

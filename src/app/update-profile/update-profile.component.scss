@@ -1,0 +1,45 @@
+// .profile-img img {
+//   height: 160px;
+//   width: 160px;
+//   border: 4px solid #fff;
+//   border-radius: 50%;
+//   object-fit: cover;
+// }
+
+// .profile-img {
+//   text-align: center;
+// }
+
+h5 {
+  font-weight: 600;
+}
+
+.picker {
+  width: 30rem;
+  max-width: 80%;
+  height: 20rem;
+  max-height: 30vh;
+  border: 4px solid var(--ion-color-secondary);
+  border-radius: 50%;
+  margin: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.selectedImage, .img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+input[type='file'] {
+  display: none;
+}
+
+.spinner {
+  position: absolute;
+  text-align: center;
+}
+

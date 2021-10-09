@@ -1,3 +1,54 @@
 <ion-app>
-  <ion-router-outlet></ion-router-outlet>
+  <ion-menu menuId="m1" contentId="main-content" swipe-gesture="false">
+    <ion-content>
+      <div class="menu-header-bg"></div>
+      <div class="header-content">
+        <img [src]="userPhoto" *ngIf="userPhoto" alt="name">
+        <ion-label>
+          <h2>{{ user?.userName }}</h2>
+          <p>{{ user?.roleName }}</p>
+        </ion-label>
+      </div>
+      <div class="action-button">
+        <ion-button (click)="viewProfile()">
+          <ion-icon name="person-circle" slot="start"></ion-icon>
+           View Profile
+        </ion-button>
+      </div>
+
+      <ion-list lines="none" style="background: transparent;">
+        <ion-menu-toggle>
+          <ion-item routerLink="/home" detail>
+            <ion-icon name="home-outline" slot="start"></ion-icon>
+            <ion-label>Home</ion-label>
+          </ion-item>
+        </ion-menu-toggle>
+        <ion-menu-toggle>
+          <ion-item (click)="enterUserList()" *ngIf="authService.canEdit(user)" detail>
+            <ion-icon name="list-outline" slot="start"></ion-icon>
+            <ion-label>User List</ion-label>
+          </ion-item>
+        </ion-menu-toggle>
+        <ion-menu-toggle>
+          <ion-item (click)="enterAuditTrail()" *ngIf="authService.canEdit(user)" detail>
+            <ion-icon name="receipt-outline" slot="start"></ion-icon>
+            <ion-label>Audit Trail</ion-label>
+          </ion-item>
+        </ion-menu-toggle>
+        <!-- <ion-menu-toggle>
+          <ion-item button class="ion-button" detail>
+            <ion-icon name="file-tray-full-outline" slot="start"></ion-icon>
+            <ion-label>File System</ion-label>
+          </ion-item>
+        </ion-menu-toggle> -->
+        <ion-menu-toggle>
+          <ion-item button (click)="onLogout()" class="ion-button" detail>
+            <ion-icon name="log-out-outline" slot="start"></ion-icon>
+            <ion-label>Logout</ion-label>
+          </ion-item>
+        </ion-menu-toggle>
+      </ion-list>
+    </ion-content>
+  </ion-menu>
+  <ion-router-outlet id="main-content"></ion-router-outlet>
 </ion-app>

@@ -1,0 +1,81 @@
+.action-card .header-img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+}
+
+.action-card {
+  box-shadow: none;
+}
+
+.org-title {
+  font-weight: bold;
+  font-size: 30px;
+}
+
+ion-item {
+  --background: none;
+  opacity: 1;
+}
+
+ion-chip {
+  pointer-events: none;
+}
+
+//Username Post
+.userpost-name {
+  font-weight: 600;
+}
+
+//Reaction
+.reaction-sys {
+  text-align: center;
+}
+
+.reaction-icon {
+  font-size: 1.3rem;
+}
+
+.reaction-num {
+  font-size: 1rem;
+}
+
+//Left Column
+// .about {
+//   position: -webkit-sticky;
+// }
+
+.placeholder-title {
+  --placeholder-font-weight: 600;
+}
+
+//No Post Icon
+.label-icon {
+  font-size: 10rem;
+}
+
+//Content font
+
+.content-font {
+  font-size: 15px;
+}
+
+//Oval Input
+//https://stackoverflow.com/a/58195405/13848366
+.shape-field {
+  --border-color: var(--ion-color-dark-shade);
+  --border-radius: 50px;
+  --border-width: 2px;
+  --box-shadow: 2px gray;
+  --highlight-height: 0;
+  cursor: pointer !important;
+}
+
+.post-card {
+  box-shadow: none;
+  background: transparent;
+  cursor: pointer !important;
+}
+
+
+
