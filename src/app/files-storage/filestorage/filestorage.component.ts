@@ -134,7 +134,6 @@ export class FilestorageComponent implements OnInit, OnDestroy {
       this.toast(error.message, 'danger');
     });
     slidingMember.close();
-    console.log("Hello");
   }
 
   dismissModal() {
