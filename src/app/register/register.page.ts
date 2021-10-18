@@ -132,6 +132,14 @@ export class RegisterPage implements OnInit {
     }
   } // end of register
 
+  emailGenerate(form: NgForm){
+    let email = form.value.email;
+    let newVal = email.trim();
+
+    console.log(newVal);
+    
+  }
+
   async toast(message, status){
     const toast = await this.toaster.create({
       message: message,
