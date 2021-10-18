@@ -84,7 +84,6 @@ export class OrgHomePage implements OnInit, OnDestroy {
       this.cUser =  firebase.auth().currentUser.uid;
     }
 
-
     this.orgSub = this.authService.user$.subscribe(async user => {
       try {
         this.user = user;

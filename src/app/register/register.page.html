@@ -10,107 +10,73 @@
 <ion-content class="ion-padding">
   <ion-card>
     <form #f="ngForm" (ngSubmit)="onSubmit(f)">
-      <ion-list lines="full">
+      <ion-grid>
+        <ion-row>
+          <ion-col size-lg="6" size-md="6" size-sm="6" size="12">
+            <ion-item>
+              <ion-label *ngIf="fUserCtrl.touched && !fUserCtrl.valid" color="danger" position="floating">NAME CANNOT BE EMPTY
+              </ion-label>
+              <ion-input name="fname" required type="text" placeholder="First Name" ngModel #fUserCtrl="ngModel">
+              </ion-input>
+            </ion-item>
+          </ion-col>
+          <ion-col size-lg="6" size-md="6" size-sm="6" size="12">
+            <ion-item>
+              <ion-label *ngIf="mUserCtrl.touched && !mUserCtrl.valid" color="danger" position="floating">NAME CANNOT BE EMPTY
+              </ion-label>
+              <ion-input name="mname" required type="text" placeholder="Middle Name" ngModel #mUserCtrl="ngModel">
+              </ion-input>
+            </ion-item>
+          </ion-col>
+          <ion-col size-lg="6" size-md="6" size-sm="6" size="12">
+            <ion-item>
+              <ion-label *ngIf="sUserCtrl.touched && !sUserCtrl.valid" color="danger" position="floating">NAME CANNOT BE EMPTY
+              </ion-label>
+              <ion-input name="sname" required type="text" placeholder="Surname" ngModel #sUserCtrl="ngModel">
+              </ion-input>
+            </ion-item>
+          </ion-col>
+        </ion-row>
         <ion-item>
-          <ion-label *ngIf="userCtrl.touched && !userCtrl.valid" color="danger" position="floating">NAME CANNOT BE EMPTY</ion-label>
-          <ion-input
-            name="fname"
-            required
-            type="text"
-            placeholder="Name"
-            ngModel
-            #userCtrl="ngModel"
-          ></ion-input>
-        </ion-item>
-        <ion-item>
-          <ion-label *ngIf="email.touched && !email.valid" color="danger" position="floating">EMAIL MUST BE VALID</ion-label>
-          <ion-input
-            name="email"
-            required
-            type="email"
-            placeholder="Email"
-            ngModel
-            #email="ngModel"
-            email
-          ></ion-input>
-        </ion-item>
-        <ion-item>
-          <ion-label *ngIf="studentId.touched && !studentId.valid" color="danger" position="floating">ID NO. CANNOT BE EMPTY</ion-label>
-          <ion-input
-            name="studentId"
-            required
-            type="number"
-            placeholder="School No."
-            ngModel
-            #studentId="ngModel"
-          ></ion-input>
-        </ion-item>
-        <ion-item>
-          <ion-label *ngIf="password.touched && !password.valid" color="danger" position="floating">PASS CANNOT BE EMPTY</ion-label>
-          <ion-input
-            name="password"
-            required
-            [type]="showPassword ? 'text' : 'password'"
-            placeholder="Password"
-            [(ngModel)]="newGeneratedPassword"
-            #password="ngModel"
-            minlength="6"
-          >
-          </ion-input>
-
-          <ion-icon
-            [name]="passwordToggleIcon"
-            class="icon-padding"
-            slot="end"
-            (click)="togglePassword()"
-          ></ion-icon>
-          <ion-icon
-            name="reload-outline"
-            class="icon-padding"
-            slot="end"
-            (click)="getPassword()"
-          ></ion-icon>
-        </ion-item>
-        <!-- <ion-item *ngIf="!password.valid && password.touched">
-          <ion-text>Provide Password</ion-text>
-        </ion-item> -->
-        <ion-item>
-          <ion-label *ngIf="newGeneratedPassword && !passwordMatch" color="danger" position="floating">UNMATCHED PASSWORDS</ion-label>
-          <ion-label *ngIf="newGeneratedPassword && passwordMatch && confirmpass.valid" color="success" position="floating">SUCCESS</ion-label>
-          <ion-input
-            name="confirmpass"
-            required
-            [type]="showPassword ? 'text' : 'password'"
-            placeholder="Confirm Password"
-            [(ngModel)]="confirmPassword"
-            (ionChange)="checkPassword()"
-            #confirmpass="ngModel"
-            minlength="6"
-          >
+          <ion-label *ngIf="email.touched && !email.valid" color="danger" position="floating">EMAIL MUST BE VALID
+          </ion-label>
+          <ion-input name="email" required type="email" placeholder="Email" ngModel #email="ngModel" email>
           </ion-input>
         </ion-item>
 
-        <!-- <div class="ion-padding">
-          <ion-text
-            *ngIf="newGeneratedPassword && !passwordMatch"
-            color="danger"
-            >Passwords do not match</ion-text
-          >
-          <ion-text
-            *ngIf="newGeneratedPassword && passwordMatch"
-            color="success"
-            >Password match</ion-text
-          >
-        </div> -->
-        <ion-button
-          class="ion-margin"
-          type="submit"
-          expand="block"
-          shape="round"
-          [disabled]="!f.valid || !passwordMatch"
-          >Add User</ion-button
-        >
-      </ion-list>
+        <ion-item>
+          <ion-label *ngIf="studentId.touched && !studentId.valid" color="danger" position="floating">ID NO. CANNOT BE
+            EMPTY</ion-label>
+          <ion-input name="studentId" required type="number" placeholder="School No." ngModel #studentId="ngModel">
+          </ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-label *ngIf="password.touched && !password.valid" color="danger" position="floating">PASS CANNOT BE EMPTY
+          </ion-label>
+          <ion-input name="password" required [type]="showPassword ? 'text' : 'password'" placeholder="Password"
+            [(ngModel)]="newGeneratedPassword" #password="ngModel" minlength="6">
+          </ion-input>
+          <ion-icon [name]="passwordToggleIcon" class="icon-padding" slot="end" (click)="togglePassword()"></ion-icon>
+          <ion-icon name="reload-outline" class="icon-padding" slot="end" (click)="getPassword()"></ion-icon>
+        </ion-item>
+
+        <ion-item>
+          <ion-label *ngIf="newGeneratedPassword && !passwordMatch" color="danger" position="floating">UNMATCHED
+            PASSWORDS</ion-label>
+          <ion-label *ngIf="newGeneratedPassword && passwordMatch && confirmpass.valid" color="success"
+            position="floating">SUCCESS</ion-label>
+          <ion-input name="confirmpass" required [type]="showPassword ? 'text' : 'password'"
+            placeholder="Confirm Password" [(ngModel)]="confirmPassword" (ionChange)="checkPassword()"
+            #confirmpass="ngModel" minlength="6">
+          </ion-input>
+        </ion-item>
+
+        <ion-button class="ion-margin" type="submit" expand="block" shape="round"
+          [disabled]="!f.valid || !passwordMatch">
+          Add User
+        </ion-button>
+    </ion-grid>
     </form>
   </ion-card>
 </ion-content>
