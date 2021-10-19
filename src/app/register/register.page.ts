@@ -135,8 +135,9 @@ export class RegisterPage implements OnInit {
   emailGenerate(form: NgForm){
     let email = form.value.email;
     let newVal = email.replace(/ /g, "");
+    let lowerCase = newVal.toLowerCase();
 
-    let newEmail = form.controls['email'].setValue(newVal);
+    let newEmail = form.controls['email'].setValue(lowerCase);
 
   }
 
