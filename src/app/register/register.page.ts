@@ -134,10 +134,10 @@ export class RegisterPage implements OnInit {
 
   emailGenerate(form: NgForm){
     let email = form.value.email;
-    let newVal = email.trim();
+    let newVal = email.replace(/ /g, "");
 
-    console.log(newVal);
-    
+    let newEmail = form.controls['email'].setValue(newVal);
+
   }
 
   async toast(message, status){

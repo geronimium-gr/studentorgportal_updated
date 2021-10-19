@@ -39,7 +39,7 @@
               <ion-label *ngIf="email.touched && !email.valid" color="danger" position="floating">Email is required.
               </ion-label>
               <ion-icon name="mail" slot="start"></ion-icon>
-              <ion-input name="email" required type="email" (ionFocus)="emailGenerate(f)" [value]="f.value.fname + f.value.mname + f.value.sname" placeholder="Email" ngModel #email="ngModel" email>
+              <ion-input name="email" required type="email" (ionFocus)="emailGenerate(f)" [value]="f.value.fname + f.value.sname" placeholder="Email" ngModel #email="ngModel" email>
               </ion-input>
             </ion-item>
           </ion-col>
