@@ -49,6 +49,7 @@
           <ion-col size-lg="6" size-md="6" size-sm="6" size="12">
             <ion-item>
               <ion-label *ngIf="studentId.touched && !studentId.valid" color="danger" position="floating">Student/ID No. is required.</ion-label>
+              <ion-icon name="today" slot="start"></ion-icon>
               <ion-input 
                 name="studentId" 
                 required type="text" 
@@ -63,9 +64,10 @@
           <ion-col size-lg="6" size-md="6" size-sm="6" size="12">
             <ion-item>
               <ion-label *ngIf="birthdate.touched && !birthdate.valid" color="danger" position="floating">Birthday is required.</ion-label>
-              <ion-datetime name="birthdate" displayFormat="MMM DD,YYYY" placeholder="Birthday" ngModel #birthdate="ngModel" required>
+              <ion-icon name="gift" slot="start"></ion-icon>
+              <ion-input placeholder="Birthday" [type]="viewCalendar" (ionFocus)="calendarMode()" name="birthdate" ngModel #birthdate="ngModel" required>
 
-              </ion-datetime>
+              </ion-input>      
             </ion-item>
           </ion-col>
         </ion-row>
@@ -75,6 +77,7 @@
             <ion-item>
               <ion-label *ngIf="password.touched && !password.valid" color="danger" position="floating">Password is required.
               </ion-label>
+              <ion-icon name="key" slot="start"></ion-icon>
               <ion-input name="password" required (ionChange)="getDate(f)" [value]="f.value.sname + f.value.birthdate" [type]="showPassword ? 'text' : 'password'" placeholder="Password"
                 [(ngModel)]="newGeneratedPassword" #password="ngModel" minlength="6">
               </ion-input>
@@ -88,6 +91,7 @@
               <ion-label *ngIf="newGeneratedPassword && !passwordMatch" color="danger" position="floating">Passwords don't matched.</ion-label>
               <ion-label *ngIf="newGeneratedPassword && passwordMatch && confirmpass.valid" color="success"
                 position="floating">Passwords match.</ion-label>
+              <ion-icon name="key" slot="start"></ion-icon>
               <ion-input name="confirmpass" required [type]="showPassword ? 'text' : 'password'"
                 placeholder="Confirm Password" [(ngModel)]="confirmPassword" (ionChange)="checkPassword()"
                 #confirmpass="ngModel" minlength="6">

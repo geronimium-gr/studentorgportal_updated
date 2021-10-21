@@ -19,6 +19,8 @@ export class RegisterPage implements OnInit {
   confirmPassword: string;
   passwordMatch: boolean;
 
+  viewCalendar = 'text';
+
   min: number = 1;
   max: number = 999;
 
@@ -169,19 +171,24 @@ export class RegisterPage implements OnInit {
  }
 
  getDate(form: NgForm) {
-  var oldDate = form.value.birthdate;
-  var lastName = form.value.sname;
+  let oldDate = form.value.birthdate;
+  let lastName = form.value.sname;
 
   //Date
-  var newDate = oldDate.split('T')[0];
-  var newVal = newDate.replace(/-/g, "");
+  let newDate = oldDate.split('T')[0];
+  let newVal = newDate.replace(/-/g, "");
  
   //Lastname
-  var newName = lastName.replace(/ /g, "").toLowerCase();
+  let newName = lastName.replace(/ /g, "")
+  let lowerCase = newName.toLowerCase();
 
 
-  let birthdate = form.controls['password'].setValue(newName + newVal);
+  // let birthdate = form.controls['password'].setValue(lowerCase);
 
+ }
+
+ calendarMode() {
+   this.viewCalendar = 'date';
  }
 
   async toast(message, status){
