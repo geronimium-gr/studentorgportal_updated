@@ -141,6 +141,22 @@ export class RegisterPage implements OnInit {
 
   }
 
+ addDashes(ev: any, form: NgForm) {
+   ev.preventDefault();
+
+   let input = ev.target.value.split("-").join("");
+
+   input = input.split('').map(function(cur, index){
+     if (index == 2) {
+      return "-" + cur;
+     } else {
+       return cur;
+     }
+   }).join('');
+
+   let studentId = form.controls['studentId'].setValue(input);
+ }
+
   async toast(message, status){
     const toast = await this.toaster.create({
       message: message,
