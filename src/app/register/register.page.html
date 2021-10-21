@@ -49,7 +49,14 @@
           <ion-col size-lg="6" size-md="6" size-sm="6" size="12">
             <ion-item>
               <ion-label *ngIf="studentId.touched && !studentId.valid" color="danger" position="floating">Student/ID No. is required.</ion-label>
-              <ion-input name="studentId" required type="text" (ionChange)="addDashes($event, f)" placeholder="Student/ID No." ngModel #studentId="ngModel" maxlength="7">
+              <ion-input 
+                name="studentId" 
+                required type="text" 
+                (ionChange)="addDashes($event, f)"
+                (keypress)="allowNumber($event)"
+                placeholder="Student/ID No." ngModel 
+                #studentId="ngModel" 
+                maxlength="7">
               </ion-input>
             </ion-item>
           </ion-col>

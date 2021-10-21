@@ -157,6 +157,18 @@ export class RegisterPage implements OnInit {
    let studentId = form.controls['studentId'].setValue(input);
  }
 
+ allowNumber(ev: any) {
+  var inp = String.fromCharCode(ev.keyCode);
+
+  if (/[0-9]/.test(inp)) {
+    return true;
+  } else {
+    ev.preventDefault();
+    return false;
+  }
+  //https://codezup.com/angular-78910-input-validation-allow-only-numbers-or-alphanumeric/
+ }
+
   async toast(message, status){
     const toast = await this.toaster.create({
       message: message,
