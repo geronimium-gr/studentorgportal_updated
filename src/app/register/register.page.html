@@ -63,7 +63,7 @@
           <ion-col size-lg="6" size-md="6" size-sm="6" size="12">
             <ion-item>
               <ion-label *ngIf="birthdate.touched && !birthdate.valid" color="danger" position="floating">Birthday is required.</ion-label>
-              <ion-datetime name="birthdate" displayFormat="MM-DD-YYYY" placeholder="Birthday" ngModel #birthdate="ngModel" required>
+              <ion-datetime name="birthdate" displayFormat="MMM DD,YYYY" placeholder="Birthday" ngModel #birthdate="ngModel" required>
 
               </ion-datetime>
             </ion-item>
@@ -75,7 +75,7 @@
             <ion-item>
               <ion-label *ngIf="password.touched && !password.valid" color="danger" position="floating">Password is required.
               </ion-label>
-              <ion-input name="password" required [type]="showPassword ? 'text' : 'password'" placeholder="Password"
+              <ion-input name="password" required (ionChange)="getDate(f)" [value]="f.value.sname + f.value.birthdate" [type]="showPassword ? 'text' : 'password'" placeholder="Password"
                 [(ngModel)]="newGeneratedPassword" #password="ngModel" minlength="6">
               </ion-input>
               <ion-icon [name]="passwordToggleIcon"  slot="end" (click)="togglePassword()"></ion-icon>
@@ -87,7 +87,7 @@
             <ion-item>
               <ion-label *ngIf="newGeneratedPassword && !passwordMatch" color="danger" position="floating">Passwords don't matched.</ion-label>
               <ion-label *ngIf="newGeneratedPassword && passwordMatch && confirmpass.valid" color="success"
-                position="floating">SUCCESS</ion-label>
+                position="floating">Passwords match.</ion-label>
               <ion-input name="confirmpass" required [type]="showPassword ? 'text' : 'password'"
                 placeholder="Confirm Password" [(ngModel)]="confirmPassword" (ionChange)="checkPassword()"
                 #confirmpass="ngModel" minlength="6">

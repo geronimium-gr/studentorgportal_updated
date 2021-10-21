@@ -138,7 +138,6 @@ export class RegisterPage implements OnInit {
     let lowerCase = newVal.toLowerCase();
 
     let newEmail = form.controls['email'].setValue(lowerCase);
-
   }
 
  addDashes(ev: any, form: NgForm) {
@@ -167,6 +166,22 @@ export class RegisterPage implements OnInit {
     return false;
   }
   //https://codezup.com/angular-78910-input-validation-allow-only-numbers-or-alphanumeric/
+ }
+
+ getDate(form: NgForm) {
+  var oldDate = form.value.birthdate;
+  var lastName = form.value.sname;
+
+  //Date
+  var newDate = oldDate.split('T')[0];
+  var newVal = newDate.replace(/-/g, "");
+ 
+  //Lastname
+  var newName = lastName.replace(/ /g, "").toLowerCase();
+
+
+  let birthdate = form.controls['password'].setValue(newName + newVal);
+
  }
 
   async toast(message, status){
