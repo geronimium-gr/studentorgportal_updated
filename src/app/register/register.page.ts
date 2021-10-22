@@ -21,6 +21,15 @@ export class RegisterPage implements OnInit {
 
   viewCalendar = 'text';
 
+  roleAdmin: boolean = false;
+  roleMod: boolean = false;
+  roleOfficer: boolean = false;
+  roleStudent: boolean = false;
+
+  roleHolder = "";
+
+  selectRole = "Student";
+
   min: number = 1;
   max: number = 999;
 
@@ -85,7 +94,7 @@ export class RegisterPage implements OnInit {
     this.newGeneratedPassword = this.generatePassword(8);
   } // end
 
-  async register(name: string, email: string, studentId: string, password: string){
+  async register(name: string, sname: string, email: string, studentId: string, bday: string, password: string){
     if (name && email && studentId && password) {
       const loading = await this.loadingCtrl.create({
         message: 'Processing...',
@@ -96,23 +105,43 @@ export class RegisterPage implements OnInit {
       loading.present();
 
       const randomNum = this.profileGenerator(this.min, this.max);
-      const profileUrl = "https://avatars.dicebear.com/api/identicon/";
+      const profileUrl = "https://avatars.dicebear.com/api/avataaars/";
       const profileExt = ".svg";
       const profilePicture = profileUrl + randomNum + profileExt;
+
+      if (this.selectRole === "Admin") {
+        this.roleAdmin = true;
+        this.roleHolder = "Admin";
+        console.log("Hello Admin");
+      } else if (this.selectRole === "Moderator") {
+        this.roleMod = true;
+        this.roleHolder = "Moderator";
+        console.log("Hello Mod");
+      } else if (this.selectRole === "Student Officer") {
+        this.roleOfficer = true;
+        this.roleHolder = "Student Officer";
+        console.log("Hello Officer");
+      } else if (this.selectRole === "Student") {
+        this.roleStudent = true;
+        this.roleHolder = "Student";
+        console.log("Hello Student");
+      }
 
       this.afAuth.createUserWithEmailAndPassword(email, password).then((data) => {
         this.afs.collection('user').doc(data.user.uid).set({
           'userId': data.user.uid,
           'userName': name,
+          'userSurname': sname,
           'userEmail': email,
+          'birthday': bday,
           'userSchoolId': studentId,
           'role' : {
-            'admin': false,
-            'moderator': false,
-            'officer': false,
-            'student': true
+            'admin': this.roleAdmin,
+            'moderator': this.roleMod,
+            'officer': this.roleOfficer,
+            'student': this.roleStudent
           },
-          'roleName': 'Student',
+          'roleName': this.roleHolder,
           'userPhoto': profilePicture,
           'createdAt' : Date.now()
         })
@@ -199,12 +228,14 @@ export class RegisterPage implements OnInit {
     if (!form.valid) {
       return;
     }
-    const user = form.value.fname;
+    const fname = form.value.fname;
+    const sname = form.value.sname;
     const email = form.value.email;
     const studentId = form.value.studentId;
+    const bday = form.value.birthdate;
     const pass = form.value.password;
 
-    this.register(user, email, studentId, pass);
+    this.register(fname, sname, email, studentId, bday, pass);
     form.reset();
   }// end of submit
 

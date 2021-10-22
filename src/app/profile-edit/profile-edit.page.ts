@@ -109,7 +109,7 @@ export class ProfileEditPage implements OnInit, OnDestroy {
     if (this.selectRole === "Admin") {
       this.afs.collection('user').doc(this.userId).update({
         'userName': name,
-        'userSchoolId': studentNo,
+        'userSchoolId': studentNo, 
         'role' : {
           'admin': true,
           'moderator': false,
