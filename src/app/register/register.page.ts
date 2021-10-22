@@ -171,19 +171,15 @@ export class RegisterPage implements OnInit {
  }
 
  getDate(form: NgForm) {
-  let oldDate = form.value.birthdate;
-  let lastName = form.value.sname;
+  let password = form.value.password;
 
   //Date
-  let newDate = oldDate.split('T')[0];
-  let newVal = newDate.replace(/-/g, "");
- 
+  let newVal = password.replace(/-/g, "");
+
   //Lastname
-  let newName = lastName.replace(/ /g, "")
-  let lowerCase = newName.toLowerCase();
+  let newName = newVal.replace(/ /g, "").toLowerCase();
 
-
-  // let birthdate = form.controls['password'].setValue(lowerCase);
+  let pass = form.controls['password'].setValue(newName);
 
  }
 
