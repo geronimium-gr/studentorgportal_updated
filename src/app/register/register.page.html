@@ -46,28 +46,39 @@
         </ion-row>
 
         <ion-row>
-          <ion-col size-lg="6" size-md="6" size-sm="6" size="12">
+          <ion-col size-lg="4" size-md="4" size-sm="4" size="12">
             <ion-item>
               <ion-label *ngIf="studentId.touched && !studentId.valid" color="danger" position="floating">Student/ID No. is required.</ion-label>
               <ion-icon name="today" slot="start"></ion-icon>
-              <ion-input 
-                name="studentId" 
-                required type="text" 
+              <ion-input
+                name="studentId"
+                required type="text"
                 (ionChange)="addDashes($event, f)"
                 (keypress)="allowNumber($event)"
-                placeholder="Student/ID No." ngModel 
-                #studentId="ngModel" 
+                placeholder="Student/ID No." ngModel
+                #studentId="ngModel"
                 maxlength="7">
               </ion-input>
             </ion-item>
           </ion-col>
-          <ion-col size-lg="6" size-md="6" size-sm="6" size="12">
+
+          <ion-col size-lg="4" size-md="4" size-sm="4" size="12">
             <ion-item>
               <ion-label *ngIf="birthdate.touched && !birthdate.valid" color="danger" position="floating">Birthday is required.</ion-label>
               <ion-icon name="gift" slot="start"></ion-icon>
-              <ion-input placeholder="Birthday" [type]="viewCalendar" (ionFocus)="calendarMode()" name="birthdate" ngModel #birthdate="ngModel" required>
+              <ion-input placeholder="Birthday" [type]="viewCalendar" (ionFocus)="calendarMode()" name="birthdate" ngModel #birthdate="ngModel" required></ion-input>
+            </ion-item>
+          </ion-col>
 
-              </ion-input>      
+          <ion-col size-lg="4" size-md="4" size-sm="4" size="12">
+            <ion-item>
+              <ion-label>Role</ion-label>
+              <ion-select interface="alert" value="Student"> 
+                <ion-select-option value="Admin">Admin</ion-select-option>
+                <ion-select-option value="Moderator">Moderator</ion-select-option>
+                <ion-select-option value="Officer">Student Officer</ion-select-option>
+                <ion-select-option value="Student">Student</ion-select-option>
+              </ion-select>
             </ion-item>
           </ion-col>
         </ion-row>

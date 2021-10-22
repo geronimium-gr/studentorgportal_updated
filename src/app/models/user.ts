@@ -8,7 +8,9 @@ export interface Roles {
 export interface User {
   userId: string;
   userName: string;
+  userSurname: string;
   userEmail: string;
+  birthday: string;
   bio: string;
   userSchoolId: string;
   userPhoto: string;
