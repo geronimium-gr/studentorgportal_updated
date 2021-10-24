@@ -22,8 +22,8 @@
             "assets": [
               {
                 "glob": "_redirects",
-                "input": "src",
-                "output": "/"
+                "input": "src/assets",
+                "output": "assets"
               },
               {
                 "glob": "**/*.svg",
