@@ -3,7 +3,6 @@ import { AngularFirestore } from '@angular/fire/firestore';
 import { Router } from '@angular/router';
 import { IonItemSliding, LoadingController, MenuController, ToastController } from '@ionic/angular';
 import { Subscription } from 'rxjs';
-
 import { User } from '../models/user';
 import { UserService } from '../services/user.service';
 
@@ -26,7 +25,8 @@ export class UserListPage implements OnInit, OnDestroy {
               private loadingCtrl: LoadingController,
               private toaster: ToastController,
               private afs: AngularFirestore,
-              private menu: MenuController) { }
+              private menu: MenuController
+              ) { }
 
   ngOnInit() {
     this.isLoading = true;
@@ -77,8 +77,11 @@ export class UserListPage implements OnInit, OnDestroy {
     this.menu.enable(true, 'm1');
   }
 
-  openAddUser() {
+  search(ev: any) {
+  }
 
+  fireQuery(start, end) {
+    return this.afs.collection('user', ref => ref.limit(4).orderBy('userName').startAt(start).endAt(end)).valueChanges();
   }
 
   ngOnDestroy(){
