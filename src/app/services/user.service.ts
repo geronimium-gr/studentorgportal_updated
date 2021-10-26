@@ -43,8 +43,8 @@ export class UserService {
     //this.userCol = this.afs.collection('user', ref => ref.orderBy('createdAt'));
     this.userCol = this.afs.collection('user', (ref) =>
       ref
-        .where('userId', '!=', this.cUser)
-        .orderBy('userId')
+        // .where('userId', '!=', this.cUser)
+        // .orderBy('userId')
         .orderBy('createdAt', 'desc')
     );
 

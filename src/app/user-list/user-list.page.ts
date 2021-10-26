@@ -6,10 +6,13 @@ import { Subscription } from 'rxjs';
 import { User } from '../models/user';
 import { UserService } from '../services/user.service';
 
+import firebase from 'firebase/app';
+import 'firebase/auth';
+
 @Component({
   selector: 'app-user-list',
   templateUrl: './user-list.page.html',
-  styleUrls: ['./user-list.page.scss'],
+  styleUrls: ['./user-list.page.scss']
 })
 export class UserListPage implements OnInit, OnDestroy {
 
@@ -17,6 +20,11 @@ export class UserListPage implements OnInit, OnDestroy {
   userSub: Subscription;
 
   userPhoto: any;
+
+  searchValue: string = "";
+  results: any;
+
+  cUser: any;
 
   isLoading = false;
 
@@ -26,7 +34,13 @@ export class UserListPage implements OnInit, OnDestroy {
               private toaster: ToastController,
               private afs: AngularFirestore,
               private menu: MenuController
-              ) { }
+              ) 
+  { 
+    if (firebase.auth().currentUser !== null) {
+      console.log('user id: ' + firebase.auth().currentUser.uid);
+      this.cUser = firebase.auth().currentUser.uid;
+    }
+  }
 
   ngOnInit() {
     this.isLoading = true;
@@ -77,11 +91,14 @@ export class UserListPage implements OnInit, OnDestroy {
     this.menu.enable(true, 'm1');
   }
 
-  search(ev: any) {
-  }
+  search() {
+    let self = this;
 
-  fireQuery(start, end) {
-    return this.afs.collection('user', ref => ref.limit(4).orderBy('userName').startAt(start).endAt(end)).valueChanges();
+    self.results = self.afs.collection('user', ref => ref
+      .orderBy('userName')
+      .startAt(self.searchValue)
+      .endAt(self.searchValue + "\uf8ff"))
+      .valueChanges();
   }
 
   ngOnDestroy(){
