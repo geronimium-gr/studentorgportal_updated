@@ -24,6 +24,10 @@ export class UserListPage implements OnInit, OnDestroy {
   searchValue: string = "";
   results: any;
 
+  showInfo = false;
+  infoToggleIcon = 'eye';
+  infoText: string = "View Info";
+
   cUser: any;
 
   isLoading = false;
@@ -100,6 +104,18 @@ export class UserListPage implements OnInit, OnDestroy {
       .endAt(self.searchValue + "\uf8ff"))
       .valueChanges();
   }
+
+  toggleInfo(){
+    this.showInfo = !this.showInfo;
+
+    if (this.infoToggleIcon == 'eye') {
+      this.infoToggleIcon = 'eye-off';
+      this.infoText = "Hide Info";
+    } else {
+      this.infoToggleIcon = 'eye';
+      this.infoText = "View Info";
+    }
+  }// end of TogglePassword
 
   ngOnDestroy(){
     if (this.userSub) {

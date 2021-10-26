@@ -59,6 +59,7 @@
   </ion-item-sliding>
 </ion-list>
 
+
   <!-- <ion-grid>
     <ion-row>
       <ion-col size-xl="6" offset-xl="3">
@@ -91,6 +92,13 @@
   <ion-grid>
     <ion-row>
       <ion-col size-xl="6" offset-xl="3">
+        <ion-item>
+          <ion-icon [name]="infoToggleIcon" slot="start"></ion-icon> 
+          <ion-label>
+            {{ infoText }}
+          </ion-label>
+          <ion-toggle slot="end" (ionChange)="toggleInfo()"></ion-toggle>
+        </ion-item>
         <ion-card class="coworker-card">
           <ion-card-content>
             <ion-list lines="none">
@@ -101,21 +109,21 @@
                 <ion-label>
                   <h1>John Parks</h1>
                   <p>Admin</p>
-                </ion-label>
+                </ion-label>             
               </ion-item>
-              <ion-item>
+              <ion-item *ngIf="showInfo">
                 <ion-icon name="id-card" slot="start"></ion-icon>
                 <ion-label>
                   <h2>18-1111</h2>
                 </ion-label>
               </ion-item>
-              <ion-item>
+              <ion-item *ngIf="showInfo">
                 <ion-icon name="mail" slot="start"></ion-icon>
                 <ion-label>
                   <h2>jparks@workmail.com</h2>
                 </ion-label>
               </ion-item>
-              <ion-item>
+              <ion-item *ngIf="showInfo">
                 <ion-icon name="calendar" slot="start"></ion-icon>
                 <ion-label>
                   <h2>Created at: Dec 18, 2020</h2>
