@@ -3,7 +3,8 @@ import { AngularFireAuth } from '@angular/fire/auth';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
-import { LoadingController, ToastController } from '@ionic/angular';
+import { LoadingController, ModalController, ToastController } from '@ionic/angular';
+import { CourseComponent } from '../courseList/course/course.component';
 import { AuthService } from '../services/auth.service';
 
 @Component({
@@ -38,7 +39,8 @@ export class RegisterPage implements OnInit {
               private router: Router,
               private loadingCtrl: LoadingController,
               private toaster: ToastController,
-              private authService: AuthService) { }
+              private authService: AuthService,
+              private modalCtrl: ModalController) { }
 
   ngOnInit() {
   }
@@ -162,6 +164,13 @@ export class RegisterPage implements OnInit {
       })
     }
   } // end of register
+
+  async openCourses() {
+    const modal = await this.modalCtrl.create({
+      component: CourseComponent
+    });
+    return await modal.present();
+  }
 
   emailGenerate(form: NgForm){
     let email = form.value.email;
