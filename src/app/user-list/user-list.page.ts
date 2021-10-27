@@ -38,8 +38,8 @@ export class UserListPage implements OnInit, OnDestroy {
               private toaster: ToastController,
               private afs: AngularFirestore,
               private menu: MenuController
-              ) 
-  { 
+              )
+  {
     if (firebase.auth().currentUser !== null) {
       console.log('user id: ' + firebase.auth().currentUser.uid);
       this.cUser = firebase.auth().currentUser.uid;
@@ -99,7 +99,7 @@ export class UserListPage implements OnInit, OnDestroy {
     let self = this;
 
     self.results = self.afs.collection('user', ref => ref
-      .orderBy('userName')
+      .orderBy('roleName')
       .startAt(self.searchValue)
       .endAt(self.searchValue + "\uf8ff"))
       .valueChanges();

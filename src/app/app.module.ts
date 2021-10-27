@@ -39,6 +39,7 @@ import { UpdateEventsComponent } from './eventz/update-events/update-events.comp
 //Shared Module
 import { PickerModule } from './picker/picker.module';
 import { CommentSectionComponent } from './comments/comment-section/comment-section.component';
+import { CourseComponent } from './courseList/course/course.component';
 
 
 @NgModule({
@@ -54,7 +55,8 @@ import { CommentSectionComponent } from './comments/comment-section/comment-sect
     UpdateEventsComponent,
     FilestorageComponent,
     OptionButtonComponent,
-    CommentSectionComponent
+    CommentSectionComponent,
+    CourseComponent
   ],
   entryComponents: [
     UpdatePasswordComponent,
@@ -67,7 +69,8 @@ import { CommentSectionComponent } from './comments/comment-section/comment-sect
     UpdateEventsComponent,
     FilestorageComponent,
     OptionButtonComponent,
-    CommentSectionComponent
+    CommentSectionComponent,
+    CourseComponent
   ],
   imports: [
     BrowserModule,
