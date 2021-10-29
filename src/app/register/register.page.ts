@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
-import { AngularFirestore } from '@angular/fire/firestore';
+import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/firestore';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
 import { LoadingController, ModalController, ToastController } from '@ionic/angular';
+import { Observable } from 'rxjs';
 import { CourseComponent } from '../courseList/course/course.component';
 import { AuthService } from '../services/auth.service';
 
@@ -30,9 +31,14 @@ export class RegisterPage implements OnInit {
   roleHolder = "";
 
   selectRole = "Student";
+  selectCourse: any;
 
   min: number = 1;
   max: number = 999;
+
+  courseCon = "";
+  courses: Observable<any[]>;
+  courseRef: AngularFirestoreCollection;
 
   constructor(private afs: AngularFirestore,
               private afAuth: AngularFireAuth,
@@ -40,7 +46,12 @@ export class RegisterPage implements OnInit {
               private loadingCtrl: LoadingController,
               private toaster: ToastController,
               private authService: AuthService,
-              private modalCtrl: ModalController) { }
+              private modalCtrl: ModalController) 
+              
+  { 
+    this.courseRef = afs.collection('course');
+    this.courses = this.courseRef.valueChanges();
+  }
 
   ngOnInit() {
   }
@@ -95,6 +106,10 @@ export class RegisterPage implements OnInit {
   getPassword(){
     this.newGeneratedPassword = this.generatePassword(8);
   } // end
+
+  updateRole(role) {
+    console.log(role + this.selectCourse);
+  }
 
   async register(name: string, sname: string, email: string, studentId: string, bday: string, password: string){
     if (name && email && studentId && password) {
