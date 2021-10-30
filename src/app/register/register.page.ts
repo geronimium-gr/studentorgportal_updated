@@ -46,9 +46,9 @@ export class RegisterPage implements OnInit {
               private loadingCtrl: LoadingController,
               private toaster: ToastController,
               private authService: AuthService,
-              private modalCtrl: ModalController) 
-              
-  { 
+              private modalCtrl: ModalController)
+
+  {
     this.courseRef = afs.collection('course');
     this.courses = this.courseRef.valueChanges();
   }
@@ -159,6 +159,7 @@ export class RegisterPage implements OnInit {
             'student': this.roleStudent
           },
           'roleName': this.roleHolder,
+          'course': this.selectCourse,
           'userPhoto': profilePicture,
           'createdAt' : Date.now()
         })
@@ -224,10 +225,10 @@ export class RegisterPage implements OnInit {
  }
 
  getDate(form: NgForm) {
-  let password = form?.value.password;
+  let password = form.value.password;
 
   //Lastname
-  let newName = password.replace(/-| /g, "").toLowerCase();
+  let newName = password?.replace(/-| /g, "").toLowerCase();
 
   let pass = form.controls['password'].setValue(newName);
 

@@ -11,6 +11,7 @@ export interface User {
   userSurname: string;
   userEmail: string;
   birthday: string;
+  course: string;
   bio: string;
   userSchoolId: string;
   userPhoto: string;
