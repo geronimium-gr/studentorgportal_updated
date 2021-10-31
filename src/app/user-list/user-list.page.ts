@@ -23,6 +23,9 @@ export class UserListPage implements OnInit, OnDestroy {
 
   searchValue: string = "";
   results: any;
+  hideList: boolean = false;
+
+  selectCategory = "userName";
 
   showInfo = false;
   infoToggleIcon = 'eye';
@@ -95,11 +98,20 @@ export class UserListPage implements OnInit, OnDestroy {
     this.menu.enable(true, 'm1');
   }
 
+  hideUserList() {
+    this.hideList = true;
+  }
+
+  unhideUserList() {
+    this.hideList = false;
+  }
+
   search() {
+    this.hideList = true;
     let self = this;
 
     self.results = self.afs.collection('user', ref => ref
-      .orderBy('roleName')
+      .orderBy(this.selectCategory)
       .startAt(self.searchValue)
       .endAt(self.searchValue + "\uf8ff"))
       .valueChanges();
