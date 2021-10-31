@@ -9,16 +9,14 @@
 
 <ion-content class="ion-padding">
 <ion-item>
-
-    <ion-select value="name" okText="Okay" cancelText="Dismiss" style="width: 100px;">
-      <ion-select-option value="name">Name</ion-select-option>
-      <ion-select-option value="sid">Student ID</ion-select-option>
+    <ion-select [(ngModel)]="selectCategory" okText="Okay" cancelText="Dismiss" slot="start">
+      <ion-select-option value="userName">First Name</ion-select-option>
+      <ion-select-option value="userSurname">Last Name</ion-select-option>
+      <ion-select-option value="userSchoolId">Student ID</ion-select-option>
       <ion-select-option value="action">Action</ion-select-option>
-      <ion-select-option value="email">Email Add</ion-select-option>
     </ion-select>
 
-
-  <ion-searchbar animated></ion-searchbar>
+    <ion-searchbar slot="end" animated color="medium" [(ngModel)]="searchValue"></ion-searchbar>
 </ion-item>
 
 <ion-row class="header-row">

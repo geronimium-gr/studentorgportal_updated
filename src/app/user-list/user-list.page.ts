@@ -98,10 +98,6 @@ export class UserListPage implements OnInit, OnDestroy {
     this.menu.enable(true, 'm1');
   }
 
-  hideUserList() {
-    this.hideList = true;
-  }
-
   unhideUserList() {
     this.hideList = false;
   }

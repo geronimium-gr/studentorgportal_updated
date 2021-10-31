@@ -8,6 +8,9 @@ import { MenuController } from '@ionic/angular';
 })
 export class AuditTrailPage implements OnInit {
 
+  selectCategory = "userName";
+  searchValue: string = "";
+
   constructor(private menu: MenuController) { }
 
   ngOnInit() {
