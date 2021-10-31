@@ -19,32 +19,18 @@
     <ion-searchbar slot="end" animated color="medium" [(ngModel)]="searchValue"></ion-searchbar>
 </ion-item>
 
-<ion-row class="header-row">
-  <ion-col size="2">ID</ion-col>
-  <ion-col size="4" size-md="3" size-lg="2">Name</ion-col>
-  <ion-col size="2" class="ion-hide-md-down">Student No.</ion-col>
-  <ion-col size="3">Action</ion-col>
-  <ion-col size="3" class="ion-hide-sm-down">Date</ion-col>
-</ion-row>
-<ion-row class="data-row">
-  <ion-col size="2">1</ion-col>
-  <ion-col size="4" size-md="4" size-lg="2">Mina Myoui</ion-col>
-  <ion-col size="2" class="ion-hide-md-down">123123</ion-col>
-  <ion-col size="3">Login</ion-col>
-  <ion-col size="3" class="ion-hide-sm-down">May 21, 2020</ion-col>
-</ion-row>
-<ion-row class="data-row">
-  <ion-col size="2">2</ion-col>
-  <ion-col size="4" size-md="4" size-lg="2">Lisa Manoban</ion-col>
-  <ion-col size="2" class="ion-hide-md-down">111111</ion-col>
-  <ion-col size="3">Logout</ion-col>
-  <ion-col size="3" class="ion-hide-sm-down">May 21, 2020</ion-col>
-</ion-row>
-<ion-row class="data-row">
-  <ion-col size="2">3</ion-col>
-  <ion-col size="4" size-md="4" size-lg="2">Kang Seulgi</ion-col>
-  <ion-col size="2" class="ion-hide-md-down">333333</ion-col>
-  <ion-col size="3">Logout</ion-col>
-  <ion-col size="3" class="ion-hide-sm-down">May 22, 2020</ion-col>
-</ion-row>
+<div class="ion-padding">
+  <ngx-datatable       
+  class="material"
+  [limit]="8" 
+  [rows]="rows" 
+  [rowHeight]="50" 
+  [columns]="columns"
+  [columnMode]="'force'" 
+  [sortType]="'multi'" 
+  [headerHeight]="50" 
+  [footerHeight]="50"> 
+  </ngx-datatable>
+</div>
+
 </ion-content>
