@@ -17,6 +17,7 @@ export class UpdateProfileComponent implements OnInit, OnDestroy {
   userId: string;
   fname: string;
   bio: string;
+  user: any;
 
   profileEditSub: Subscription;
 
@@ -33,12 +34,14 @@ export class UpdateProfileComponent implements OnInit, OnDestroy {
               private storage: AngularFireStorage,
               private userService: UserService,
               private popOverCtrl: PopoverController,
-              private loadingCtrl: LoadingController) { }
+              private loadingCtrl: LoadingController,
+              public authService: AuthService) { }
 
   ngOnInit() {
 
     this.profileEditSub = this.auth.user$.subscribe(async user => {
 
+      this.user = user;
       this.userId = user.userId;
       this.fname = user.userName;
       this.bio = user.bio;

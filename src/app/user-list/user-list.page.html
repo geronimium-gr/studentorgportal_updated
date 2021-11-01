@@ -57,9 +57,9 @@
         <ion-note slot="end">{{ user.createdAt | date }}</ion-note>
       </ion-item>
     <ion-item-options *ngIf="cUser != user.userId">
-      <ion-item-option color="warning" (click)="editUser(user.userId, slidingMember)">
+      <!-- <ion-item-option color="warning" (click)="editUser(user.userId, slidingMember)">
         <ion-icon name="person" slot="icon-only"></ion-icon>
-      </ion-item-option>
+      </ion-item-option> -->
       <ion-item-option color="secondary" (click)="editUser(user.userId, slidingMember)">
         <ion-icon name="create" slot="icon-only"></ion-icon>
       </ion-item-option>
@@ -123,9 +123,9 @@
         <ion-note slot="end">{{ user.createdAt | date }}</ion-note>
       </ion-item>
       <ion-item-options *ngIf="cUser != user.userId">
-        <ion-item-option color="warning" (click)="editUser(user.userId, slidingMember)">
+        <!-- <ion-item-option color="warning" (click)="editUser(user.userId, slidingMember)">
           <ion-icon name="person" slot="icon-only"></ion-icon>
-        </ion-item-option>
+        </ion-item-option> -->
         <ion-item-option color="secondary" (click)="editUser(user.userId, slidingMember)">
           <ion-icon name="create" slot="icon-only"></ion-icon>
         </ion-item-option>
