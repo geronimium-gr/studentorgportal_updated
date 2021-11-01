@@ -20,11 +20,9 @@ export class AuditTrailService {
     private loadingCtrl: LoadingController,
     private popOverCtrl: PopoverController,
     private toaster: ToastController
-  ) { }
-
-  filterData() {
-    this.auditCol = this.afs.collection("audit", ref => ref.orderBy("createdAt", "desc"));
-    //console.log("Post ID " + this.commentId);
+  ) 
+  { 
+    this.auditCol = this.afs.collection('audit', ref => ref.orderBy("createdAt", "desc"));
 
     this.audits = this.auditCol.snapshotChanges().pipe(
       map(action => {
@@ -35,6 +33,22 @@ export class AuditTrailService {
         })
       })
     );
+
+  }
+
+  filterData() {
+    // this.auditCol = this.afs.collection("auditing", ref => ref.orderBy("createdAt", "desc"));
+    // //console.log("Post ID " + this.commentId);
+
+    // this.audits = this.auditCol.snapshotChanges().pipe(
+    //   map(action => {
+    //     return action.map(a => {
+    //       const data = a.payload.doc.data() as AuditTrail;
+    //       data.auditId = a.payload.doc.id;
+    //       return data;
+    //     })
+    //   })
+    // );
   }//
 
   getAudits() {
@@ -42,7 +56,7 @@ export class AuditTrailService {
   }
 
 
-  async addAuditRecord(auditId, userId, userName, userSurname, userEmail, action) {
+  async addAuditRecord(userId, userName, userSurname, userEmail, userSchoolId, action) {
     const loading = await this.loadingCtrl.create({
       spinner: 'crescent',
       showBackdrop: true
@@ -50,12 +64,15 @@ export class AuditTrailService {
 
     loading.present();
 
+    const auditId = this.afs.createId();
+
     this.afs.collection('audit').doc(auditId).set({
       'auditId': auditId,
       'userId': userId,
       'userName': userName,
       'userSurname': userSurname,
       'userEmail': userEmail,
+      'userSchoolId': userSchoolId,
       'action': action,
       'createdAt': Date.now()
     }).then(() => {
@@ -64,5 +81,7 @@ export class AuditTrailService {
       loading.dismiss();
       console.log(error.message);
     });
+
+    loading.dismiss();
    }
 }

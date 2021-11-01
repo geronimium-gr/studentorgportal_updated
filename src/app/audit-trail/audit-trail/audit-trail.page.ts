@@ -1,30 +1,64 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { AngularFirestore } from '@angular/fire/firestore';
 import { MenuController } from '@ionic/angular';
+import { Subscription } from 'rxjs';
+import { AuditTrailService } from '../../services/audit-trail.service';
+import { AuditTrail } from '../../models/audit-trail';
 
 @Component({
   selector: 'app-audit-trail',
   templateUrl: './audit-trail.page.html',
   styleUrls: ['./audit-trail.page.scss'],
 })
-export class AuditTrailPage implements OnInit {
+export class AuditTrailPage implements OnInit, OnDestroy {
 
   selectCategory = "userName";
   searchValue: string = "";
 
-  rows = [
-    { name: 'Austin', gender: 'Male', company: 'Swimlane' },
-    { name: 'Dany', gender: 'Male', company: 'KFC' },
-    { name: 'Molly', gender: 'Female', company: 'Burger King' }
-  ];
-  columns = [{ prop: 'name' }, { name: 'Gender' }, { name: 'Company' }];
+  auditList: AuditTrail[];
+  auditSub: Subscription;
 
-  constructor(private menu: MenuController) { }
+  rows;
+  columns;
+
+  isLoading = false;
+
+  // rows = [
+  //   { name: 'Austin', gender: 'Male', company: 'Swimlane' },
+  //   { name: 'Dany', gender: 'Male', company: 'KFC' },
+  //   { name: 'Molly', gender: 'Female', company: 'Burger King' }
+  // ];
+  // columns = [{ prop: 'name' }, { name: 'Gender' }, { name: 'Company' }];
+
+  constructor(private menu: MenuController,
+              private afs: AngularFirestore,
+              private auditService: AuditTrailService
+    ) 
+    { 
+    }
 
   ngOnInit() {
+    this.isLoading = true;
+    this.auditSub = this.auditService.getAudits().subscribe(audits => {
+      this.auditList = audits;
+      this.isLoading = false;
+    });
   }
+
+  // getData() {
+  //   this.afs.collection('audit').valueChanges().subscribe((records) => {
+  //     this.rows = records;
+  //   }); 
+  // }
 
   openFirst(){
     this.menu.enable(true, 'm1');
+  }
+
+  ngOnDestroy() {
+    if (this.auditSub) {
+      this.auditSub.unsubscribe(); 
+    }
   }
 
 }

@@ -19,7 +19,7 @@
     <ion-searchbar animated color="medium" [(ngModel)]="searchValue"></ion-searchbar>
 </ion-item>
 
-<div class="ion-padding">
+<!-- <div class="ion-padding">
   <ngx-datatable
   class="material"
   [limit]="8"
@@ -31,7 +31,50 @@
   [footerHeight]="50"
   [scrollbarV]="true"
   [scrollbarH]="true">
+
+    <ngx-datatable-column name="Surname">
+      <ng-template ngx-datatable-cell-template let-value="value">{{ value }}</ng-template>
+    </ngx-datatable-column>
+
+    <ngx-datatable-column name="First Name">
+      <ng-template ngx-datatable-cell-template let-value="value">{{ value }}</ng-template>
+    </ngx-datatable-column>
+
+    <ngx-datatable-column name="Student ID">
+      <ng-template ngx-datatable-cell-template let-value="value">{{ value }}</ng-template>
+    </ngx-datatable-column>
+
+    <ngx-datatable-column name="Action">
+      <ng-template ngx-datatable-cell-template let-value="value">{{ value }}</ng-template>
+    </ngx-datatable-column>
+
+    <ngx-datatable-column name="Timestamp">
+      <ng-template ngx-datatable-cell-template let-value="value">{{ value }}</ng-template>
+    </ngx-datatable-column>
   </ngx-datatable>
-</div>
+</div> -->
+
+<table>
+  <thead>
+      <tr>
+          <th>Surname</th>
+          <th>First Name</th>
+          <th>Student ID</th>
+          <th>Action</th>
+          <th>Timestamp</th>
+      </tr>
+  </thead>
+  <tbody>
+          <tr *ngFor="let audit of auditList">
+              <td>{{ audit.userSurname }}</td>
+              <td>{{ audit.userName }}</td>
+              <td>{{ audit.userSchoolId }}</td>
+              <td>{{ audit.action }}</td>
+              <td> {{ audit.createdAt }} </td>
+          </tr>
+  </tbody>
+</table>
+
+
 
 </ion-content>

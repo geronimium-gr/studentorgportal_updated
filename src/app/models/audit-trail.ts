@@ -4,6 +4,7 @@ export interface AuditTrail {
   userName: string;
   userSurname: string;
   userEmail: string;
+  userSchoolId: string
   action: string;
   createdAt: number;
 }

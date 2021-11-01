@@ -3,6 +3,7 @@ import { AngularFireStorage } from '@angular/fire/storage';
 import { Router } from '@angular/router';
 import { MenuController } from '@ionic/angular';
 import { Subscription } from 'rxjs';
+import { AuditTrailService } from './services/audit-trail.service';
 import { AuthService } from './services/auth.service';
 
 const themes = {
@@ -44,7 +45,8 @@ export class AppComponent implements OnInit, OnDestroy{
   constructor(public authService: AuthService,
               private router: Router,
               private menu: MenuController,
-              private storage: AngularFireStorage) {
+              private storage: AngularFireStorage,
+              private auditService: AuditTrailService) {
 
     this.appSub = this.authService.user$.subscribe(async user => {
       this.user = user;
@@ -55,6 +57,8 @@ export class AppComponent implements OnInit, OnDestroy{
         console.log('No User Photo');
       }
     });
+
+    //this.auditService.filterData();
 
   }
 
@@ -91,8 +95,11 @@ export class AppComponent implements OnInit, OnDestroy{
   }
 
   onLogout(){
+    this.auditService.addAuditRecord(this.user.userId, this.user.userName, this.user.userSurname, this.user.userEmail, this.user.userSchoolId, "Logout");
+
     this.authService.signOut();
   }
+
 
   ngOnDestroy(){
     if (this.appSub) {

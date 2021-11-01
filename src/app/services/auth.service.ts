@@ -8,6 +8,7 @@ import { Router } from "@angular/router";
 import { LoadingController, ToastController } from "@ionic/angular";
 import { Observable, of } from "rxjs";
 import { switchMap } from "rxjs/operators";
+import { AuditTrailService } from './audit-trail.service';
 
 @Injectable({
   providedIn: 'root'
@@ -22,7 +23,8 @@ export class AuthService {
     private afAuth: AngularFireAuth,
     private router: Router,
     private loadingCtrl: LoadingController,
-    private toaster: ToastController
+    private toaster: ToastController,
+    private auditService: AuditTrailService
   ) {
     this.user$ = this.afAuth.authState
       .pipe(
