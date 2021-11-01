@@ -7,7 +7,7 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content class="ion-padding">
+<ion-content class="ion-padding" lines="none">
 <ion-item>
     <ion-select [(ngModel)]="selectCategory" okText="Okay" cancelText="Dismiss" slot="start">
       <ion-select-option value="userName">First Name</ion-select-option>
@@ -16,7 +16,7 @@
       <ion-select-option value="action">Action</ion-select-option>
     </ion-select>
 
-    <ion-searchbar slot="end" animated color="medium" [(ngModel)]="searchValue"></ion-searchbar>
+    <ion-searchbar animated color="medium" [(ngModel)]="searchValue"></ion-searchbar>
 </ion-item>
 
 <div class="ion-padding">
@@ -28,7 +28,9 @@
   [columns]="columns"
   [columnMode]="'force'"
   [headerHeight]="50"
-  [footerHeight]="50">
+  [footerHeight]="50"
+  [scrollbarV]="true"
+  [scrollbarH]="true">
   </ngx-datatable>
 </div>
 
