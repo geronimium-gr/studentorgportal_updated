@@ -17,6 +17,15 @@ export class ProfileEditPage implements OnInit, OnDestroy {
   userId: string;
   fname: string;
   studentId: string;
+  sname: string;
+  birthday: any;
+
+  roleAdmin: boolean = false;
+  roleMod: boolean = false;
+  roleOfficer: boolean = false;
+  roleStudent: boolean = false;
+
+  roleHolder = "";
 
   userRole: any;
   selectRole: any;
@@ -35,7 +44,7 @@ export class ProfileEditPage implements OnInit, OnDestroy {
               private alertCtrl: AlertController) { }
 
   ngOnInit() {
-    this.userId = this.activateRoute.snapshot.params['userID']; 
+    this.userId = this.activateRoute.snapshot.params['userID'];
   }
 
   ionViewWillEnter(){
@@ -57,6 +66,8 @@ export class ProfileEditPage implements OnInit, OnDestroy {
         this.userRole = user.roleName;
         this.fname = user.userName;
         this.studentId = user.userSchoolId;
+        this.sname = user.userSurname;
+        this.birthday = user.birthday;
         loading.dismiss();
       } catch (error) {
         this.router.navigate(['/page-not-found']);
@@ -93,11 +104,13 @@ export class ProfileEditPage implements OnInit, OnDestroy {
 
     const user = form.value.fname;
     const studentId = form.value.studentId;
+    const surname = form.value.sname;
+    const bday = form.value.birthdate;
 
-    this.onUpdateUser(user, studentId);
+    this.onUpdateUser(user, studentId, surname, bday);
   }//
 
-  async onUpdateUser(name: string, studentNo: string){
+  async onUpdateUser(name: string, studentNo: string, surname: string, bday: any){
     const loading = await this.loadingCtrl.create({
       message: 'Updating...',
       spinner: 'crescent',
@@ -107,94 +120,48 @@ export class ProfileEditPage implements OnInit, OnDestroy {
     loading.present(); //profile or edit
 
     if (this.selectRole === "Admin") {
-      this.afs.collection('user').doc(this.userId).update({
-        'userName': name,
-        'userSchoolId': studentNo, 
-        'role' : {
-          'admin': true,
-          'moderator': false,
-          'officer': false,
-          'student': false
-        },
-        'roleName': this.selectRole,
-        'editedAt': Date.now()
-      })
-      .then(() => {
-        loading.dismiss();
-        this.toast('Update Success', 'success');
-        this.router.navigate(['/users']);
-      })
-      .catch(error => {
-        loading.dismiss();
-        this.toast(error.message, 'danger');
-      })
+      this.roleAdmin = true;
+      this.roleHolder = "Admin";
+      console.log("Hello Admin");
     } else if (this.selectRole === "Moderator") {
-      this.afs.collection('user').doc(this.userId).update({
-        'userName': name,
-        'userSchoolId': studentNo,
-        'role' : {
-          'admin': false,
-          'moderator': true,
-          'officer': false,
-          'student': false
-        },
-        'roleName': this.selectRole,
-        'editedAt': Date.now()
-      })
-      .then(() => {
-        loading.dismiss();
-        this.toast('Update Success', 'success');
-        this.router.navigate(['/users']);
-      })
-      .catch(error => {
-        loading.dismiss();
-        this.toast(error.message, 'danger');
-      })
+      this.roleMod = true;
+      this.roleHolder = "Moderator";
+      console.log("Hello Mod");
     } else if (this.selectRole === "Student Officer") {
-      this.afs.collection('user').doc(this.userId).update({
-        'userName': name,
-        'userSchoolId': studentNo,
-        'role' : {
-          'admin': false,
-          'moderator': false,
-          'officer': true,
-          'student': false
-        },
-        'roleName': this.selectRole,
-        'editedAt': Date.now()
-      })
-      .then(() => {
-        loading.dismiss();
-        this.toast('Update Success', 'success');
-        this.router.navigate(['/users']);
-      })
-      .catch(error => {
-        loading.dismiss();
-        this.toast(error.message, 'danger');
-      })
+      this.roleOfficer = true;
+      this.roleHolder = "Student Officer";
+      console.log("Hello Officer");
     } else if (this.selectRole === "Student") {
-      this.afs.collection('user').doc(this.userId).update({
-        'userName': name,
-        'userSchoolId': studentNo,
-        'role' : {
-          'admin': false,
-          'moderator': false,
-          'officer': false,
-          'student': true
-        },
-        'roleName': this.selectRole,
-        'editedAt': Date.now()
-      })
-      .then(() => {
-        loading.dismiss();
-        this.toast('Update Success', 'success');
-        this.router.navigate(['/users']);
-      })
-      .catch(error => {
-        loading.dismiss();
-        this.toast(error.message, 'danger');
-      })
+      this.roleStudent = true;
+      this.roleHolder = "Student";
+      console.log("Hello Student");
     }
+
+    this.afs.collection('user').doc(this.userId).update({
+      'userName': name,
+      'userSchoolId': studentNo,
+      'userSurname': surname,
+      'birthday': bday,
+      'role' : {
+        'admin': this.roleAdmin,
+        'moderator': this.roleMod,
+        'officer': this.roleOfficer,
+        'student': this.roleStudent
+      },
+      'roleName': this.roleHolder,
+      'editedAt': Date.now()
+    })
+    .then(() => {
+      loading.dismiss();
+      this.toast('Update Success', 'success');
+      this.router.navigate(['/users']);
+    })
+    .catch(error => {
+      loading.dismiss();
+      this.toast(error.message, 'danger');
+    })
+
+
   }//
 
 

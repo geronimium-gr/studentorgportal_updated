@@ -13,21 +13,25 @@
     <form #f="ngForm" (ngSubmit)="onSubmit(f)">
       <ion-list lines="none">
         <ion-item>
-          <ion-label *ngIf="userCtrl.touched && !userCtrl.valid" color="danger" position="floating">NAME CANNOT BE EMPTY</ion-label>
-          <ion-input name="fname" required type="text" placeholder="Name" [(ngModel)]="fname" #userCtrl="ngModel"></ion-input>
+          <ion-label *ngIf="userCtrl.touched && !userCtrl.valid" color="danger" position="floating">Name is required.</ion-label>
+          <ion-input name="fname" required type="text" placeholder="First Name" [(ngModel)]="fname" #userCtrl="ngModel"></ion-input>
         </ion-item>
-        <!-- <ion-item>
-          <ion-label position="fixed">Email:</ion-label>
-          <ion-input name="email" required type="email" ngModel #email="ngModel" email></ion-input>
-        </ion-item> -->
         <ion-item>
-          <ion-label *ngIf="studentIds.touched && !studentIds.valid" color="danger" position="floating">ID NO. CANNOT BE EMPTY</ion-label>
-          <ion-input name="studentId" required type="number" placeholder="Student ID" [(ngModel)]="studentId" #studentIds="ngModel"></ion-input>
+          <ion-label *ngIf="userSurname.touched && !userSurname.valid" color="danger" position="floating">Name is required.</ion-label>
+          <ion-input name="sname" required type="text" placeholder="Surname" [(ngModel)]="sname" #userSurname="ngModel"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label *ngIf="studentIds.touched && !studentIds.valid" color="danger" position="floating">ID is required.</ion-label>
+          <ion-input name="studentId" required type="text" placeholder="Student ID" [(ngModel)]="studentId" #studentIds="ngModel"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label *ngIf="birthdate.touched && !birthdate.valid" color="danger" position="floating">Birthday is required.</ion-label>
+          <ion-input placeholder="Birthday" type="date" name="birthdate" [(ngModel)]="birthday" #birthdate="ngModel" required></ion-input>
         </ion-item>
 
         <ion-item>
           <ion-label>Role</ion-label>
-          <ion-select interface="alert" [value]="userRole" [(ngModel)]="selectRole" (ionChange)="updateRole(selectRole)" [ngModelOptions]="{standalone: true}">
+          <ion-select interface="alert" [value]="userRole" [(ngModel)]="selectRole" [ngModelOptions]="{standalone: true}">
             <ion-select-option value="Admin">Admin</ion-select-option>
             <ion-select-option value="Moderator">Moderator</ion-select-option>
             <ion-select-option value="Officer">Student Officer</ion-select-option>
