@@ -5,7 +5,7 @@
       <div class="header-content">
         <img [src]="userPhoto" *ngIf="userPhoto" alt="name">
         <ion-label>
-          <h2>{{ user?.userName }}</h2>
+          <h2>{{ user?.userName }} {{ user?.userSurname }}</h2>
           <p>{{ user?.roleName }}</p>
         </ion-label>
       </div>
@@ -42,7 +42,7 @@
           </ion-item>
         </ion-menu-toggle> -->
         <ion-menu-toggle>
-          <ion-item button (click)="onLogout()" class="ion-button" detail> 
+          <ion-item button (click)="onLogout()" class="ion-button" detail>
             <ion-icon name="log-out-outline" slot="start"></ion-icon>
             <ion-label>Logout</ion-label>
           </ion-item>

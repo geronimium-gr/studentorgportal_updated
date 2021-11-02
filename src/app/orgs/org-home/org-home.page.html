@@ -122,7 +122,7 @@
                   <img [src]="p.postedByPhoto" alt="" />
                 </ion-avatar>
                 <ion-label>
-                  <h2 class="userpost-name">{{ p.postedBy }}</h2>
+                  <h2 class="userpost-name">{{ p.postedBy }} {{ p.postedBySurname }}</h2>
                   <p>{{ p.createdAt | date }}</p>
                 </ion-label>
                 <ion-button color="secondary" fill="clear" slot="end" (click)="editPost($event, p.postId)" *ngIf="p.postedById === cUser">
@@ -178,7 +178,7 @@
                   <img [src]="eventz.eventPostedByPhoto" alt="" />
                 </ion-avatar>
                 <ion-label>
-                  <h2 class="userpost-name">{{ eventz.eventPostedBy }}</h2>
+                  <h2 class="userpost-name">{{ eventz.eventPostedBy }} {{ eventz.eventPostedBySurname }}</h2>
                   <p>{{ eventz.createdAt | date }}</p>
                 </ion-label>
                 <ion-button color="secondary" fill="clear" slot="end" (click)="editPost($event, eventz.eventId)" *ngIf="eventz.eventPostedById === cUser">

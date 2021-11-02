@@ -15,7 +15,7 @@
           <img [src]="userPhoto" *ngIf="userPhoto">
       </div>
       <div class="profile-nav-info">
-        <h3 class="user-name">{{ user?.userName }}</h3>
+        <h3 class="user-name">{{ user?.userName }} {{ user?.userSurname }}</h3>
         <div class="address">
           <p class="state">{{ user?.roleName }}</p>
         </div>

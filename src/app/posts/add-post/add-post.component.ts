@@ -28,6 +28,7 @@ export class AddPostComponent implements OnInit, OnDestroy {
   user: any;
   userName: any;
   userPhoto: any;
+  userSurname: any;
 
   postSub: Subscription;
 
@@ -41,7 +42,8 @@ export class AddPostComponent implements OnInit, OnDestroy {
 
     this.postSub = this.authService.user$.subscribe(async user => {
       this.user = user;
-      this.userName = user.userName
+      this.userName = user.userName;
+      this.userSurname = user.userSurname;
       this.userId = user.userId;
       try {
         this.userPhoto = user.userPhoto;
@@ -81,7 +83,7 @@ export class AddPostComponent implements OnInit, OnDestroy {
     if (!this.selectedImage) {
       const image = '';
 
-      this.postService.addPosts(postId, title, content, image, this.userId, this.userName, this.userPhoto, this.loadedOrg.orgId);
+      this.postService.addPosts(postId, title, content, image, this.userId, this.userName, this.userSurname,this.userPhoto, this.loadedOrg.orgId);
       this.formGroup.reset();
     } else {
       const file = this.selectedImage;
@@ -93,7 +95,7 @@ export class AddPostComponent implements OnInit, OnDestroy {
       .getDownloadURL()
       .toPromise();
 
-      this.postService.addPosts(postId, title, content, downloadUrl, this.userId, this.userName, this.userPhoto, this.loadedOrg.orgId);
+      this.postService.addPosts(postId, title, content, downloadUrl, this.userId, this.userName, this.userSurname, this.userPhoto, this.loadedOrg.orgId);
       this.formGroup.reset();
     }
 

@@ -4,6 +4,8 @@ import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/fire
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
 import { LoadingController, ModalController, ToastController } from '@ionic/angular';
+import firebase from "firebase/app";
+import "firebase/firestore";
 import { Observable } from 'rxjs';
 import { CourseComponent } from '../courseList/course/course.component';
 import { AuthService } from '../services/auth.service';
@@ -112,6 +114,14 @@ export class RegisterPage implements OnInit {
   }
 
   async register(name: string, sname: string, email: string, studentId: string, bday: string, password: string){
+
+    var config = {
+      apiKey: "AIzaSyCLTuqIpjbHTQhS1URxvfKN9E2KR0rozAA",
+      authDomain: "db-stuportal.firebaseapp.com"
+    };
+
+    var secondaryApp = firebase.initializeApp(config, "Secondary");
+
     if (name && email && studentId && password) {
       const loading = await this.loadingCtrl.create({
         message: 'Processing...',
@@ -144,7 +154,7 @@ export class RegisterPage implements OnInit {
         console.log("Hello Student");
       }
 
-      this.afAuth.createUserWithEmailAndPassword(email, password).then((data) => {
+      secondaryApp.auth().createUserWithEmailAndPassword(email, password).then((data) => {
         this.afs.collection('user').doc(data.user.uid).set({
           'userId': data.user.uid,
           'userName': name,
@@ -166,8 +176,10 @@ export class RegisterPage implements OnInit {
         .then(() => {
           loading.dismiss();
           this.toast('New User added.', 'success');
-          this.authService.signOut();
-          this.authService.signIn("geronimoadalia@gmail.com", "123123");
+          // this.authService.signOut();
+          // this.authService.signIn("geronimoadalia@gmail.com", "123123");
+
+          this.router.navigate(['/users']);
         })
         .catch(error => {
           loading.dismiss();

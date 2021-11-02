@@ -5,6 +5,7 @@ export interface Post {
   postImageUrl: string;
   postedById: string;
   postedBy: string;
+  postedBySurname: string;
   postedByPhoto: string;
   postOrgId: string;
   createdAt: number;

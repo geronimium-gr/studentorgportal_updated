@@ -37,7 +37,7 @@ export class EventzService {
     //this.eventCol = this.afs.collection("eventz", ref => ref.where("eventOrgId", "==", this.eventId));
 
     console.log("Event ID " + this.eventId);
-    
+
     this.events = this.eventCol.snapshotChanges().pipe(
       map(action => {
         return action.map(a => {
@@ -58,7 +58,7 @@ export class EventzService {
     return this.event = this.eventDoc.valueChanges();
   }
 
-  async addEvents(eventId, title, content, image, userId, userName, userPhoto, orgId, startDate, endDate, time) {
+  async addEvents(eventId, title, content, image, userId, userName, surname, userPhoto, orgId, startDate, endDate, time) {
     const loading = await this.loadingCtrl.create({
       message: 'Creating Event',
       spinner: 'crescent',
@@ -74,6 +74,7 @@ export class EventzService {
       'eventImageUrl': image,
       'eventPostedById': userId,
       'eventPostedBy': userName,
+      'eventPostedBySurname': surname,
       'eventPostedByPhoto': userPhoto,
       'eventOrgId': orgId,
       'eventStartDate': startDate,

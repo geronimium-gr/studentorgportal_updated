@@ -5,10 +5,11 @@ export interface Eventz {
   eventImageUrl: string;
   eventPostedById: string;
   eventPostedBy: string;
+  eventPostedBySurname: string;
   eventPostedByPhoto: string;
   eventOrgId: string;
   eventStartDate: number;
   eventEndDate: number;
   eventTime: number;
-  createdAt: number; 
+  createdAt: number;
 }

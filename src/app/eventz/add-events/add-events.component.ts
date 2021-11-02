@@ -27,6 +27,7 @@ export class AddEventsComponent implements OnInit, OnDestroy {
   userId: any;
   user: any;
   userName: any;
+  userSurname: any;
   userPhoto: any;
 
   eventSub: Subscription;
@@ -42,7 +43,8 @@ export class AddEventsComponent implements OnInit, OnDestroy {
     {
       this.eventSub = this.authService.user$.subscribe(async user => {
         this.user = user;
-        this.userName = user.userName
+        this.userName = user.userName;
+        this.userSurname = user.userSurname;
         this.userId = user.userId;
         try {
           this.userPhoto = user.userPhoto;
@@ -95,7 +97,7 @@ export class AddEventsComponent implements OnInit, OnDestroy {
 
     if (!this.selectedImage) {
       const image = '';
-      this.eventService.addEvents(eventId, title, content, image, this.userId, this.userName, this.userPhoto, this.loadedOrg.orgId, startDate, endDate, startTime);
+      this.eventService.addEvents(eventId, title, content, image, this.userId, this.userName, this.userSurname, this.userPhoto, this.loadedOrg.orgId, startDate, endDate, startTime);
       this.formGroup.reset();
     } else if (this.selectedImage) {
       const file = this.selectedImage;
@@ -107,7 +109,7 @@ export class AddEventsComponent implements OnInit, OnDestroy {
       .getDownloadURL()
       .toPromise();
 
-      this.eventService.addEvents(eventId, title, content, downloadUrl, this.userId, this.userName, this.userPhoto, this.loadedOrg.orgId, startDate, endDate, startTime);
+      this.eventService.addEvents(eventId, title, content, downloadUrl, this.userId, this.userName, this.userSurname, this.userPhoto, this.loadedOrg.orgId, startDate, endDate, startTime);
       this.formGroup.reset();
 
     } else {

@@ -62,7 +62,7 @@ export class PostService {
     return this.post = this.postDoc.valueChanges();
   }
 
-   async addPosts(postId, title, content, image, userId, userName, userPhoto, orgId) {
+   async addPosts(postId, title, content, image, userId, userName, surname, userPhoto, orgId) {
     const loading = await this.loadingCtrl.create({
       message: 'Creating Post',
       spinner: 'crescent',
@@ -78,6 +78,7 @@ export class PostService {
       'postImageUrl': image,
       'postedById': userId,
       'postedBy': userName,
+      'postedBySurname': surname,
       'postedByPhoto': userPhoto,
       'postOrgId': orgId,
       'createdAt': Date.now()
