@@ -1,13 +1,13 @@
-<ion-header>
+<!-- <ion-header>
   <ion-toolbar color="primary">
     <ion-buttons slot="start">
       <ion-back-button defaultHref="/home"></ion-back-button>
     </ion-buttons>
     <ion-title>Profile Information</ion-title>
   </ion-toolbar>
-</ion-header>
+</ion-header> -->
 
-<ion-content class="ion-padding">
+<!--ion-content class="ion-padding">
   <div class="container">
     <div class="profile-header">
       <div class="profile-img">
@@ -32,7 +32,6 @@
             <ion-icon name="at-circle" slot="start"></ion-icon>
             <ion-text class="user-mail">{{ user?.userEmail }}</ion-text>
           </ion-item>
-          <!-- <p class="user-mail">{{ user?.userEmail }}</p> -->
           <div class="user-bio">
             <p class="bio">{{ user?.bio }}</p>
           </div>
@@ -59,20 +58,112 @@
           </ul>
         </div>
         <div class="profile-body">
-          <div class="profile-posts tab">
-            <h1>Your Posts</h1>
-            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatem perspiciatis saepe molestiae nesciunt. Recusandae deleniti, aspernatur nobis ratione magnam minus rem. Officiis, velit. Voluptas, minima libero commodi sit eius esse.</p>
-          </div>
-          <div class="profile-posts tab">
-            <h1>Your Posts</h1>
-            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatem perspiciatis saepe molestiae nesciunt. Recusandae deleniti, aspernatur nobis ratione magnam minus rem. Officiis, velit. Voluptas, minima libero commodi sit eius esse.</p>
-          </div>
-          <div class="profile-posts tab">
-            <h1>Your Posts</h1>
-            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatem perspiciatis saepe molestiae nesciunt. Recusandae deleniti, aspernatur nobis ratione magnam minus rem. Officiis, velit. Voluptas, minima libero commodi sit eius esse.</p>
-          </div>
+
         </div>
       </div>
     </div>
   </div>
+</ion-content-->
+
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/home"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Profile Information</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-grid>
+    <ion-row>
+      <ion-col
+        size-lg="3"
+        size-md="4"
+        size-sm="6"
+        size="12"
+        offsetLg="2"
+        offsetMd="2"
+        class="about"
+      >
+        <ion-card>
+          <ion-avatar>
+            <ion-spinner *ngIf="!userPhoto"></ion-spinner>
+            <img id="profile-image" [src]="userPhoto" *ngIf="userPhoto">
+          </ion-avatar>
+          <ion-card-header>
+            <ion-chip>
+              <ion-icon name="person" color="secondary"></ion-icon>
+              <ion-label>{{ user?.roleName }}</ion-label>
+            </ion-chip>
+            <ion-card-title class="org-title">{{ user?.userName }} {{ user?.userSurname }}</ion-card-title>
+          </ion-card-header>
+          <ion-card-content> {{ user?.bio }} </ion-card-content>
+          <!-- <ion-item>
+            <ion-icon name="person" slot="start"></ion-icon>
+            <ion-text>Members</ion-text>
+            <ion-badge slot="end">00</ion-badge>
+          </ion-item> -->
+          <ion-button
+            color="primary"
+            class="ion-margin"
+            expand="full"
+            (click)="updateProfile(null)">
+            <ion-icon name="person" slot="start"></ion-icon>
+            <ion-text>Edit Profile</ion-text>
+          </ion-button>
+          <ion-button
+            color="primary"
+            class="ion-margin"
+            expand="full"
+            (click)="updatePassword(null)">
+            <ion-icon name="lock-closed" slot="start"></ion-icon>
+            <ion-text>Edit Password</ion-text>
+          </ion-button>
+        </ion-card>
+      </ion-col>
+      <ion-col size-lg="5" size-md="4" size-sm="6" size="12">
+        <ion-segment
+          value="post"
+          color="secondary">
+          <ion-segment-button value="post">
+            <ion-label>Posts</ion-label>
+          </ion-segment-button>
+        </ion-segment>
+
+
+        <!-- Post Section -->
+      <!-- <div>
+        <div class="ion-text-center ion-padding" *ngIf="!isLoading && posts?.length <= 0">
+          <ion-icon name="shapes" class="label-icon"></ion-icon>
+          <p><strong>No Post is added.</strong></p>
+        </div>
+        <div *ngIf="!isLoading && posts?.length > 0">
+          <div *ngFor="let p of posts">
+            <ion-card>
+              <ion-item lines="none">
+                <ion-avatar slot="start">
+                  <img [src]="p.postedByPhoto" alt="" />
+                </ion-avatar>
+                <ion-label>
+                  <h2 class="userpost-name">{{ p.postedBy }} {{ p.postedBySurname }}</h2>
+                  <p>{{ p.createdAt | date }}</p>
+                </ion-label>
+              </ion-item>
+              <img [src]="p.postImageUrl" />
+              <ion-card-header>
+                <ion-card-title>{{ p.postTitle }}</ion-card-title>
+              </ion-card-header>
+              <ion-card-content>
+                <p class="content-font">{{ p.postContent }}</p>
+              </ion-card-content>
+            </ion-card>
+          </div>
+        </div>
+      </div> -->
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
 </ion-content>
+

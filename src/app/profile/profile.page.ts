@@ -2,6 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { AngularFireStorage } from '@angular/fire/storage';
 import { PopoverController } from '@ionic/angular';
 import { Subscription } from 'rxjs';
+import { Post } from '../models/post.model';
 
 import { AuthService } from '../services/auth.service';
 import { UpdatePasswordComponent } from '../update-password/update-password.component';
@@ -18,11 +19,17 @@ export class ProfilePage implements OnInit, OnDestroy {
   userPhoto: any;
   profileSub: Subscription;
 
+  posts: Post[];
+  isLoading = false;
+
   constructor(private authService: AuthService,
               private popoverCtrl: PopoverController,
-              private storage: AngularFireStorage) { }
+              private storage: AngularFireStorage)        
+  { 
+  }
 
   ngOnInit() {
+    this.isLoading = true;
     this.profileSub = this.authService.user$.subscribe(async user => {
       this.user = user;
 
@@ -31,7 +38,6 @@ export class ProfilePage implements OnInit, OnDestroy {
       } catch (error) {
         console.log('No User Photo');
       }
-
     });
   }
 
