@@ -64,34 +64,30 @@ export class UpdateProfileComponent implements OnInit, OnDestroy {
 
     const user = form.value.fname;
     const bio = form.value.bio;
+    const surname = form.value.sname;
 
-    this.onUpdateUser(user, bio);
+    this.onUpdateUser(user, bio, surname);
 
   }//
 
-  async onUpdateUser(name: string, bio: string){
+  async onUpdateUser(name: string, bio: string, surname: string){
 
-    try {
-        const file = this.selectedImage;
+    if (!this.selectedImage) {
+      this.userService.updateUserText(this.userId, name, surname, bio);
+    } else if (this.selectedImage) {
+      const file = this.selectedImage;
 
-        const fullPathInStorage = await this.uploadImage(this.userId, file);
+      const fullPathInStorage = await this.uploadImage(this.userId, file);
 
-        const downloadUrl = await this.storage
-        .ref(fullPathInStorage)
-        .getDownloadURL()
-        .toPromise();
+      const downloadUrl = await this.storage
+      .ref(fullPathInStorage)
+      .getDownloadURL()
+      .toPromise();
 
-        this.userService.updateUser(this.userId, name, bio, downloadUrl);
-
-        // this.currentImageUrl = await this.storage
-        // .ref(fullPathInStorage)
-        // .getDownloadURL()
-        // .toPromise();
-
-    } catch (error) {
-      this.userService.updateUserText(this.userId, name, bio);
+      this.userService.updateUser(this.userId, name, surname, bio, downloadUrl);
+    } else {
+      console.log("Error happens");
     }
-
   }//
 
   async uploadImage(uid, file): Promise<string> {

@@ -68,7 +68,7 @@ export class UserService {
     return (this.user = this.userDoc.valueChanges());
   } //
 
-  async updateUser(userid, name, bio, image) {
+  async updateUser(userid, name, surname, bio, image) {
     const loading = await this.loadingCtrl.create({
       message: 'Updating...',
       spinner: 'crescent',
@@ -82,6 +82,7 @@ export class UserService {
       .doc(userid)
       .update({
         userName: name,
+        userSurname: surname,
         bio: bio,
         userPhoto: image,
         editedAt: Date.now(),
@@ -89,7 +90,7 @@ export class UserService {
       .then(() => {
         loading.dismiss();
         //this.updateAll(name);
-        this.updatePhoto(image, name);
+        this.updatePhoto(userid, image, name, surname);
         this.toast('Update Success', 'success');
         this.closePopOver();
       })
@@ -99,7 +100,7 @@ export class UserService {
       });
   }
 
-  async updateUserText(userid, name, bio) {
+  async updateUserText(userid, name, surname, bio) {
     const loading = await this.loadingCtrl.create({
       message: 'Updating...',
       spinner: 'crescent',
@@ -113,12 +114,13 @@ export class UserService {
       .doc(userid)
       .update({
         userName: name,
+        userSurname: surname,
         bio: bio,
         editedAt: Date.now(),
       })
       .then(() => {
         loading.dismiss();
-        this.updateAll(name);
+        this.updateAll(userid, name, surname);
         this.toast('Update Success', 'success');
         this.closePopOver();
       })
@@ -128,29 +130,31 @@ export class UserService {
       });
   } //
 
-  async updateAll(username) {
+  async updateAll(userid, username, surname) {
 
     try {
       const batch = this.afs.firestore.batch();
 
       const userRef = firebase.firestore()
         .collection('post')
-        .where('postedById', '==', this.cUser).get();
+        .where('postedById', '==', userid).get();
         (await userRef).forEach((element) => {
           if (element.exists) {
             batch.update(element.ref, {
-              postedBy: username
+              postedBy: username,
+              postedBySurname: surname
           });
           }
         });
 
       const userRefEvent = firebase.firestore()
       .collection('eventz')
-      .where('eventPostedById', '==', this.cUser).get();
+      .where('eventPostedById', '==', userid).get();
       (await userRefEvent).forEach((element) => {
         if (element.exists) {
           batch.update(element.ref, {
-            eventPostedBy: username
+            eventPostedBy: username,
+            eventPostedBySurname: surname
         });
         }
       });
@@ -161,17 +165,18 @@ export class UserService {
     }
   }
 
-  async updatePhoto(image, username) {
+  async updatePhoto(userid, image, username, surname) {
     try {
       const batch = this.afs.firestore.batch();
 
       const userRef = firebase.firestore()
         .collection('post')
-        .where('postedById', '==', this.cUser).get();
+        .where('postedById', '==', userid).get();
         (await userRef).forEach((element) => {
           if (element.exists) {
             batch.update(element.ref, {
               postedBy: username,
+              postedBySurname: surname,
               postedByPhoto: image
           });
           }
@@ -184,6 +189,7 @@ export class UserService {
         if (element.exists) {
           batch.update(element.ref, {
             eventPostedBy: username,
+            eventPostedBySurname: surname,
             eventPostedByPhoto: image
         });
         }
