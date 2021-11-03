@@ -31,23 +31,33 @@
   <form #f="ngForm" (ngSubmit)="onSubmit(f)">
     <ion-list lines="none">
       <ion-item>
-        <ion-label *ngIf="userCtrl.touched && !userCtrl.valid" color="danger" position="floating">NAME CANNOT BE EMPTY</ion-label>
+        <ion-label *ngIf="userCtrl.touched && !userCtrl.valid" color="danger" position="floating">First Name is required.</ion-label>
         <ion-icon [color]="userCtrl.touched && !userCtrl.valid ? 'danger' : 'secondary'" name="person" slot="start"></ion-icon>
         <ion-input
           name="fname"
           required
-          placeholder="Name"
+          placeholder="First Name"
           type="text"
           [(ngModel)]="fname"
           #userCtrl="ngModel"
         ></ion-input>
       </ion-item>
-      <!-- <ion-item>
-        <ion-label position="fixed">Email:</ion-label>
-        <ion-input name="email" required type="email" ngModel #email="ngModel" email></ion-input>
-      </ion-item> -->
+
       <ion-item>
-        <ion-label *ngIf="stuBio.touched && !stuBio.valid" color="danger" position="floating">BIO CANNOT BE EMPTY</ion-label>
+        <ion-label *ngIf="userCtrlSurname.touched && !userCtrlSurname.valid" color="danger" position="floating">Surname is required.</ion-label>
+        <ion-icon [color]="userCtrlSurname.touched && !userCtrlSurname.valid ? 'danger' : 'secondary'" name="person" slot="start"></ion-icon>
+        <ion-input
+          name="sname"
+          required
+          placeholder="Surname"
+          type="text"
+          [(ngModel)]="sname"
+          #userCtrlSurname="ngModel"
+        ></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label *ngIf="stuBio.touched && !stuBio.valid" color="danger" position="floating">Bio is required.</ion-label>
         <ion-icon [color]="stuBio.touched && !stuBio.valid ? 'danger' : 'secondary'" name="id-card" slot="start"></ion-icon>
         <ion-textarea
           row="3"

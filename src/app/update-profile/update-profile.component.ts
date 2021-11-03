@@ -16,6 +16,7 @@ export class UpdateProfileComponent implements OnInit, OnDestroy {
 
   userId: string;
   fname: string;
+  sname: string;
   bio: string;
   user: any;
 
@@ -44,6 +45,7 @@ export class UpdateProfileComponent implements OnInit, OnDestroy {
       this.user = user;
       this.userId = user.userId;
       this.fname = user.userName;
+      this.sname = user.userSurname;
       this.bio = user.bio;
 
       try {
