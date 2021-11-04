@@ -86,41 +86,50 @@
         offsetMd="2"
         class="about"
       >
-        <ion-card>
-          <ion-avatar>
-            <ion-spinner *ngIf="!userPhoto"></ion-spinner>
-            <img id="profile-image" [src]="userPhoto" *ngIf="userPhoto">
-          </ion-avatar>
-          <ion-card-header>
-            <ion-chip>
-              <ion-icon name="person" color="secondary"></ion-icon>
-              <ion-label>{{ user?.roleName }}</ion-label>
-            </ion-chip>
-            <ion-card-title class="org-title">{{ user?.userName }} {{ user?.userSurname }}</ion-card-title>
-          </ion-card-header>
-          <ion-card-content> {{ user?.bio }} </ion-card-content>
-          <!-- <ion-item>
+      <ion-card class="music-card">
+        <ion-card-header>
+          <img [src]="userPhoto" *ngIf="userPhoto">
+        </ion-card-header>
+        <ion-card-content text-center>
+          <h1>{{ user?.userName }} {{ user?.userSurname }}</h1>
+          <ion-chip outline color="tertiary">
+            <ion-icon name="person"></ion-icon>
+            <ion-label>{{ user?.roleName }}</ion-label>
+          </ion-chip>
+
+          <p>{{ user?.bio }}</p>
+
+          <ion-list lines="none" class="list-content">
+            <ion-item class="item-content">
+              <ion-icon slot="start" name="id-card"></ion-icon>
+              <p>{{ user?.userSchoolId }}</p>
+            </ion-item>
+            <ion-item class="item-content">
+              <ion-icon slot="start" name="mail"></ion-icon>
+              <p>{{ user?.userEmail }}</p>
+            </ion-item>
+            <ion-item class="item-content">
+              <ion-icon slot="start" name="school"></ion-icon>
+              <p>{{ user?.course }}</p>
+            </ion-item>
+            <ion-item class="item-content">
+              <ion-icon slot="start" name="information-circle"></ion-icon>
+              <p>{{ user?.createdAt | date}}</p>
+            </ion-item>
+          </ion-list>
+
+
+          <ion-button expand="full" color="primary" class="chatbtn" (click)="updateProfile(null)">
             <ion-icon name="person" slot="start"></ion-icon>
-            <ion-text>Members</ion-text>
-            <ion-badge slot="end">00</ion-badge>
-          </ion-item> -->
-          <ion-button
-            color="primary"
-            class="ion-margin"
-            expand="full"
-            (click)="updateProfile(null)">
-            <ion-icon name="person" slot="start"></ion-icon>
-            <ion-text>Edit Profile</ion-text>
+            Edit Profile
           </ion-button>
-          <ion-button
-            color="primary"
-            class="ion-margin"
-            expand="full"
-            (click)="updatePassword(null)">
+          <ion-button expand="full" color="primary" class="createbtn" (click)="updatePassword(null)">
             <ion-icon name="lock-closed" slot="start"></ion-icon>
-            <ion-text>Edit Password</ion-text>
+            Edit Password
           </ion-button>
-        </ion-card>
+
+        </ion-card-content>
+      </ion-card>
       </ion-col>
       <ion-col size-lg="5" size-md="4" size-sm="6" size="12">
         <ion-segment
@@ -133,13 +142,13 @@
 
 
         <!-- Post Section -->
-      <!-- <div>
-        <div class="ion-text-center ion-padding" *ngIf="!isLoading && posts?.length <= 0">
+      <div>
+        <!-- <div class="ion-text-center ion-padding">
           <ion-icon name="shapes" class="label-icon"></ion-icon>
           <p><strong>No Post is added.</strong></p>
-        </div>
-        <div *ngIf="!isLoading && posts?.length > 0">
-          <div *ngFor="let p of posts">
+        </div> -->
+        <div>
+          <div *ngFor="let p of posts | async">
             <ion-card>
               <ion-item lines="none">
                 <ion-avatar slot="start">
@@ -160,7 +169,7 @@
             </ion-card>
           </div>
         </div>
-      </div> -->
+      </div>
       </ion-col>
     </ion-row>
   </ion-grid>
