@@ -116,7 +116,7 @@
         </div>
         <div *ngIf="!isLoading && posts?.length > 0">
           <div *ngFor="let p of posts">
-            <ion-card>
+            <ion-card [id]="p.postId">
               <ion-item lines="none">
                 <ion-avatar slot="start">
                   <img [src]="p.postedByPhoto" alt="" />

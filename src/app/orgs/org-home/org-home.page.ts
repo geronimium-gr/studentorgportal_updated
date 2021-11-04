@@ -100,6 +100,12 @@ export class OrgHomePage implements OnInit, OnDestroy {
 
     this.postService.getOrgId(this.orgId);
     this.eventService.getOrgId(this.orgId);
+
+    const fragment: string = this.activateRoute.snapshot.fragment;
+
+    console.log("fragment " + fragment);
+
+    this.router.navigate([], { fragment: fragment });
   }//
 
   ngOnInit() {
@@ -119,8 +125,6 @@ export class OrgHomePage implements OnInit, OnDestroy {
     // this.sub = this.postReference.valueChanges().subscribe(val => {
     //   this.heartType = val.likes.includes(this.userId) ? 'heart' : 'heart-outline';
     // });
-
-
   }
 
   ionViewWillEnter() {

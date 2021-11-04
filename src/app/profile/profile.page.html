@@ -88,6 +88,7 @@
       >
       <ion-card class="music-card">
         <ion-card-header>
+          <ion-spinner *ngIf="!userPhoto"></ion-spinner>
           <img [src]="userPhoto" *ngIf="userPhoto">
         </ion-card-header>
         <ion-card-content text-center>
@@ -114,7 +115,7 @@
             </ion-item>
             <ion-item class="item-content">
               <ion-icon slot="start" name="information-circle"></ion-icon>
-              <p>{{ user?.createdAt | date}}</p>
+              <p>Date Created: {{ user?.createdAt | date}}</p>
             </ion-item>
           </ion-list>
 
@@ -150,7 +151,7 @@
         <div>
           <div *ngFor="let p of posts | async">
             <ion-card>
-              <ion-item lines="none">
+              <ion-item class="name-content" lines="none">
                 <ion-avatar slot="start">
                   <img [src]="p.postedByPhoto" alt="" />
                 </ion-avatar>
@@ -159,6 +160,10 @@
                   <p>{{ p.createdAt | date }}</p>
                 </ion-label>
               </ion-item>
+              <ion-chip outline color="tertiary" [routerLink]="['/home', p.postOrgId]" [fragment]="p.postId" >
+                <ion-icon name="link"></ion-icon>
+                <ion-label>View Org</ion-label>
+              </ion-chip>
               <img [src]="p.postImageUrl" />
               <ion-card-header>
                 <ion-card-title>{{ p.postTitle }}</ion-card-title>

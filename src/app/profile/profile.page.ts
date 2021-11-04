@@ -3,7 +3,8 @@ import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/fire
 import { AngularFireStorage } from '@angular/fire/storage';
 import { PopoverController } from '@ionic/angular';
 import { Observable, Subscription } from 'rxjs';
-import { Post } from '../models/post.model';
+import firebase from 'firebase/app';
+import 'firebase/auth';
 
 import { AuthService } from '../services/auth.service';
 import { UpdatePasswordComponent } from '../update-password/update-password.component';
@@ -19,6 +20,7 @@ export class ProfilePage implements OnInit, OnDestroy {
   user: any;
   userPhoto: any;
   profileSub: Subscription;
+  cUser: any;
 
   //posts: Post[];
   isLoading = false;
@@ -31,8 +33,14 @@ export class ProfilePage implements OnInit, OnDestroy {
               private storage: AngularFireStorage,
               private afs: AngularFirestore)
   {
-    this.postsRef = afs.collection('post');
+    if (firebase.auth().currentUser !== null) {
+      console.log('user id: ' + firebase.auth().currentUser.uid);
+      this.cUser = firebase.auth().currentUser.uid;
+    }
+
+    this.postsRef = this.afs.collection('post', ref => ref.orderBy("createdAt", "desc").where("postedById", "==", this.cUser));
     this.posts = this.postsRef.valueChanges();
+
   }
 
   ngOnInit() {
