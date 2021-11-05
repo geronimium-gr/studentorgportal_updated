@@ -18,6 +18,9 @@ export class FilestorageComponent implements OnInit, OnDestroy {
   loadedOrgName: any;
   loadedUserId: any;
 
+  fileSize: any;
+  fileType;
+
   files: Observable<any[]>;
   filesRef: AngularFirestoreCollection;
   fileName = "";
@@ -64,6 +67,8 @@ export class FilestorageComponent implements OnInit, OnDestroy {
       'orgId': this.loadedOrgId,
       'userId': this.loadedUserId,
       'fileName': this.fileName,
+      'fileSize': this.fileSize, 
+      'fileType': this.fileType,
       'createdAt': Date.now()
     }).then(() => {
       this.toast('Uploaded Successfully', 'success');
@@ -77,6 +82,13 @@ export class FilestorageComponent implements OnInit, OnDestroy {
   onFileChosen(event: any) {
     this.selectedFile = event.target.files;
 
+    var size = event.target.files[0].size;
+    this.fileSize = Math.round(size/1024);
+
+    var name = event.target.files[0].name;
+
+    this.fileType = name.split('.').pop();
+    console.log(this.fileSize + "\n" + this.fileType);
   }
 
   async uploadFile(fileList): Promise<any> {
