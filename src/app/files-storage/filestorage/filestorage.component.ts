@@ -57,7 +57,7 @@ export class FilestorageComponent implements OnInit, OnDestroy {
     const uploadTask: UploadTaskSnapshot = await this.uploadFile(this.selectedFile);
     const fileUrl = await uploadTask.ref.getDownloadURL();
 
-    this.filesRef.add({
+    this.filesRef.doc(id).set({
       'id': id,
       'downloadUrl': fileUrl,
       'title': this.newFile,
@@ -67,14 +67,16 @@ export class FilestorageComponent implements OnInit, OnDestroy {
       'createdAt': Date.now()
     }).then(() => {
       this.toast('Uploaded Successfully', 'success');
+      form.resetForm();
     }).catch(error => {
       this.toast(error.message, 'danger');
     });
-
   }
+
 
   onFileChosen(event: any) {
     this.selectedFile = event.target.files;
+
   }
 
   async uploadFile(fileList): Promise<any> {
@@ -125,14 +127,26 @@ export class FilestorageComponent implements OnInit, OnDestroy {
     slidingMember.close();
   }
 
-  deleteFile(slidingMember: IonItemSliding, file: any, id: any) {
+  async deleteFile(slidingMember: IonItemSliding, file: any, id: any) {
+
+    const loading = await this.loadingCtrl.create({
+      message: `Deleting Event. Please Wait`,
+      spinner: 'crescent',
+      showBackdrop: true
+    });
+
+    loading.present();
 
     this.storage.ref(`files/${file}`).delete();
+
     this.filesRef.doc(id).delete().then(() => {
+      loading.dismiss();
       this.toast('Deleted Successfully', 'success');
     }).catch(error => {
+      loading.dismiss();
       this.toast(error.message, 'danger');
     });
+
     slidingMember.close();
   }
 

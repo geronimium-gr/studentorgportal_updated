@@ -115,7 +115,7 @@
             </ion-item>
             <ion-item class="item-content">
               <ion-icon slot="start" name="information-circle"></ion-icon>
-              <p>Date Created: {{ user?.createdAt | date}}</p>
+              <p>Created at: {{ user?.createdAt | date}}</p>
             </ion-item>
           </ion-list>
 
@@ -144,11 +144,11 @@
 
         <!-- Post Section -->
       <div>
-        <!-- <div class="ion-text-center ion-padding">
+        <div class="ion-text-center ion-padding" *ngIf="(posts | async)?.length <= 0">
           <ion-icon name="shapes" class="label-icon"></ion-icon>
           <p><strong>No Post is added.</strong></p>
-        </div> -->
-        <div>
+        </div>
+        <div *ngIf="(posts | async)?.length > 0">
           <div *ngFor="let p of posts | async">
             <ion-card>
               <ion-item class="name-content" lines="none">
@@ -160,16 +160,26 @@
                   <p>{{ p.createdAt | date }}</p>
                 </ion-label>
               </ion-item>
-              <ion-chip outline color="tertiary" [routerLink]="['/home', p.postOrgId]" [fragment]="p.postId" >
-                <ion-icon name="link"></ion-icon>
-                <ion-label>View Org</ion-label>
-              </ion-chip>
               <img [src]="p.postImageUrl" />
               <ion-card-header>
                 <ion-card-title>{{ p.postTitle }}</ion-card-title>
               </ion-card-header>
               <ion-card-content>
                 <p class="content-font">{{ p.postContent }}</p>
+              </ion-card-content>
+              <ion-card-content>
+                <ion-chip outline color="tertiary" [routerLink]="['/home', p.postOrgId]" [fragment]="p.postId">
+                  <ion-icon name="link"></ion-icon>
+                  <ion-label>View Org</ion-label>
+                </ion-chip>
+                <ion-chip outline color="tertiary" (click)="editPostForm(null, p.postId)">
+                  <ion-icon name="create"></ion-icon>
+                  <ion-label>Edit</ion-label>
+                </ion-chip>
+                <ion-chip outline color="danger" (click)="deletePostForm(p.postId)">
+                  <ion-icon name="trash"></ion-icon>
+                  <ion-label>Delete</ion-label>
+                </ion-chip>
               </ion-card-content>
             </ion-card>
           </div>

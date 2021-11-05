@@ -20,7 +20,7 @@
           <ion-input name="fileNameInput" [(ngModel)]="newFile" required></ion-input>
         </ion-item>
         <ion-item>
-          <input type="file" name="inputFile" accept=".docx,.pdf,.txt,.doc" (change)="onFileChosen($event)" required/>
+          <input #myFile type="file" name="inputFile" accept=".docx,.pdf,.txt,.doc,.xlsx" (change)="onFileChosen($event)" required/>
         </ion-item>
         <ion-button color="secondary" expand="full" class="ion-margin-vertical" type="submit" [disabled]="!f.valid || !selectedFile || !selectedFile?.length">
           <ion-icon name="cloud-upload-outline" slot="start"></ion-icon>
@@ -31,6 +31,10 @@
   </ion-card>
 
   <!-- File List -->
+  <div class="ion-text-center ion-padding" *ngIf="(files | async)?.length <= 0">
+    <ion-icon name="shapes" class="label-icon"></ion-icon>
+    <p><strong>No File is added.</strong></p>
+  </div>
   <ion-list>
     <ion-item-sliding *ngFor="let file of files | async" #slidingMember>
       <ion-item detail>
