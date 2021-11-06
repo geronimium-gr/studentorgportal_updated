@@ -20,6 +20,7 @@ export class FilestorageComponent implements OnInit, OnDestroy {
 
   fileSize: any;
   fileType;
+  name: any
 
   files: Observable<any[]>;
   filesRef: AngularFirestoreCollection;
@@ -43,7 +44,7 @@ export class FilestorageComponent implements OnInit, OnDestroy {
     this.loadedUserId = this.navParams.get('userId');
     console.log(this.loadedOrgId + "-" + this.loadedUserId);
 
-    this.filesRef = afs.collection('files');
+    this.filesRef = afs.collection('files', ref => ref.orderBy("createdAt", "desc").where("orgId", "==", this.loadedOrgId));
     this.files = this.filesRef.valueChanges();
 
   }
@@ -67,7 +68,7 @@ export class FilestorageComponent implements OnInit, OnDestroy {
       'orgId': this.loadedOrgId,
       'userId': this.loadedUserId,
       'fileName': this.fileName,
-      'fileSize': this.fileSize, 
+      'fileSize': this.fileSize,
       'fileType': this.fileType,
       'createdAt': Date.now()
     }).then(() => {
@@ -80,15 +81,17 @@ export class FilestorageComponent implements OnInit, OnDestroy {
 
 
   onFileChosen(event: any) {
+
     this.selectedFile = event.target.files;
 
     var size = event.target.files[0].size;
     this.fileSize = Math.round(size/1024);
 
-    var name = event.target.files[0].name;
+    this.name = event.target.files[0].name;
 
-    this.fileType = name.split('.').pop();
+    this.fileType = this.name.split('.').pop();
     console.log(this.fileSize + "\n" + this.fileType);
+
   }
 
   async uploadFile(fileList): Promise<any> {
@@ -142,7 +145,7 @@ export class FilestorageComponent implements OnInit, OnDestroy {
   async deleteFile(slidingMember: IonItemSliding, file: any, id: any) {
 
     const loading = await this.loadingCtrl.create({
-      message: `Deleting Event. Please Wait`,
+      message: 'Deleting File. Please Wait',
       spinner: 'crescent',
       showBackdrop: true
     });
