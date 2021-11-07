@@ -3,7 +3,7 @@ import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/fire
 import { AngularFireStorage } from '@angular/fire/storage';
 import { UploadTaskSnapshot } from '@angular/fire/storage/interfaces';
 import { NgForm } from '@angular/forms';
-import { IonItemSliding, LoadingController, ModalController, NavParams, ToastController } from '@ionic/angular';
+import { AlertController, IonItemSliding, LoadingController, ModalController, NavParams, ToastController } from '@ionic/angular';
 import { Observable } from 'rxjs';
 import { finalize } from 'rxjs/operators';
 
@@ -37,7 +37,8 @@ export class FilestorageComponent implements OnInit, OnDestroy {
               private afs: AngularFirestore,
               private storage: AngularFireStorage,
               private loadingCtrl: LoadingController,
-              private toaster: ToastController) {
+              private toaster: ToastController,
+              private alertCtrl: AlertController) {
 
     this.loadedOrgId = this.navParams.get('fileByOrgs');
     this.loadedOrgName = this.navParams.get('orgName');
@@ -141,6 +142,31 @@ export class FilestorageComponent implements OnInit, OnDestroy {
 
     slidingMember.close();
   }
+
+  async deleteFilePrompt(slidingMember: IonItemSliding, file: any, id: any) {
+    const alert = await this.alertCtrl.create({
+      header: 'Confirm!',
+      message: 'Delete this file?',
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          cssClass: 'secondary',
+          handler: () => {
+            console.log('Confirm Cancel');
+          }
+        }, {
+          text: 'Confirm',
+          handler: () => {
+            console.log('Confirm Okay');
+            this.deleteFile(slidingMember, file, id);
+          }
+        }
+      ]
+    });
+
+    await alert.present();
+  }//
 
   async deleteFile(slidingMember: IonItemSliding, file: any, id: any) {
 

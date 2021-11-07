@@ -14,6 +14,8 @@ export class CommentsService {
   comments: Observable<Comments[]>;
   comment: Observable<Comments>;
 
+  size = 0;
+
   commentId = "";
 
   constructor(
@@ -30,8 +32,18 @@ export class CommentsService {
   }
 
   filterData() {
-    this.commentCol = this.afs.collection("comment", ref => ref.orderBy("createdAt", "desc").where("postId", "==", this.commentId));
+    this.commentCol = this.afs
+    .collection("comment", ref => ref.orderBy("createdAt", "desc").where("postId", "==", this.commentId));
+
+    this.commentCol.get().toPromise().then(snap => { //fix counting comments
+      console.log(snap.size);
+      this.size = snap.size;
+      console.log("size: " + this.size);
+
+    });
     console.log("Post ID " + this.commentId);
+
+
 
     this.comments = this.commentCol.snapshotChanges().pipe(
       map(action => {
@@ -46,6 +58,10 @@ export class CommentsService {
 
   getComments() {
     return this.comments;
+  }
+
+  getCommentCounter() {
+    return this.size;
   }
 
 

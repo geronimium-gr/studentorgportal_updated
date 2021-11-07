@@ -47,12 +47,36 @@ export class CourseComponent implements OnInit {
       });
       loading.dismiss();
     }).catch(error => {
-      console.log(error.message); 
+      console.log(error.message);
       loading.dismiss();
     });
 
     this.courseCon = "";
   }
+
+  async deleteCoursePrompt(slidingMember: IonItemSliding, id: string) {
+    const alert = await this.alertCtrl.create({
+      header: 'Confirm!',
+      message: 'Delete this course?',
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          cssClass: 'secondary',
+          handler: () => {
+            console.log('Confirm Cancel');
+          }
+        }, {
+          text: 'Confirm',
+          handler: () => {
+            this.deleteCourse(slidingMember, id);
+          }
+        }
+      ]
+    });
+
+    await alert.present();
+  }//
 
   async deleteCourse(slidingMember: IonItemSliding, id: string) {
     const loading = await this.loadingCtrl.create({

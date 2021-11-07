@@ -21,6 +21,7 @@ import { Eventz } from '../../models/eventz.model';
 import { EventzService } from '../../services/eventz.service';
 import { OptionButtonComponent } from '../../posts/option-button/option-button.component';
 import { CommentSectionComponent } from 'src/app/comments/comment-section/comment-section.component';
+import { CommentsService } from 'src/app/services/comments.service';
 
 @Component({
   selector: 'app-org-home',
@@ -36,6 +37,8 @@ export class OrgHomePage implements OnInit, OnDestroy {
   user: any;
   userName: any;
   userPhoto: any;
+
+  commentCounter: any;
 
   cUser: string;
 
@@ -77,7 +80,8 @@ export class OrgHomePage implements OnInit, OnDestroy {
     private popoverCtrl: PopoverController,
     private postService: PostService,
     private modalCtrl: ModalController,
-    private eventService: EventzService) {
+    private eventService: EventzService,
+    private commentService: CommentsService) {
 
     if (firebase.auth().currentUser !== null) {
       console.log("user id: " + firebase.auth().currentUser.uid);
@@ -120,6 +124,10 @@ export class OrgHomePage implements OnInit, OnDestroy {
       this.isLoading = false;
       this.eventsList = events;
     });
+
+    // this.commentCounter = this.commentService.getCommentCounter();
+    // console.log(this.commentCounter);
+
 
     // this.postReference = this.afs.doc(`post/${this.postIds}`);
     // this.sub = this.postReference.valueChanges().subscribe(val => {

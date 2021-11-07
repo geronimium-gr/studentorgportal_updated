@@ -18,7 +18,7 @@
     <ion-card-content>
       <form class="ion-padding" #f="ngForm" (ngSubmit)="addFile(f)">
         <ion-item>
-          <ion-label *ngIf="fileCtrl.touched && !fileCtrl.valid" color="danger" position="floating">File name is required.</ion-label>          
+          <ion-label *ngIf="fileCtrl.touched && !fileCtrl.valid" color="danger" position="floating">File name is required.</ion-label>
           <ion-input name="fileNameInput" [(ngModel)]="newFile" [value]="name" placeholder="Enter file name" #fileCtrl="ngModel" required></ion-input>
         </ion-item>
         <ion-item>
@@ -51,7 +51,7 @@
         <ion-item-option color="success" (click)="openLink(slidingMember, file.downloadUrl)">
           <ion-icon name="archive" slot="icon-only"></ion-icon>
         </ion-item-option>
-        <ion-item-option color="danger" (click)="deleteFile(slidingMember, file.fileName, file.id)">
+        <ion-item-option color="danger" *ngIf="file.userId === loadedUserId" (click)="deleteFilePrompt(slidingMember, file.fileName, file.id); slidingMember.close()">
           <ion-icon name="trash-bin" slot="icon-only"></ion-icon>
         </ion-item-option>
       </ion-item-options>

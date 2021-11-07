@@ -21,6 +21,7 @@ export class CommentSectionComponent implements OnInit, OnDestroy {
   loadedComment: any;
   loadedCommentDetails: any;
   commentCon: any;
+  commentCounter: any;
 
   userId: any;
   user: any;
@@ -69,6 +70,7 @@ export class CommentSectionComponent implements OnInit, OnDestroy {
 
     this.commentSub = this.commentService.getComments().subscribe(comment => {
       this.isLoading = false;
+      this.commentCounter = this.commentService.getCommentCounter();
       this.comments = comment;
     });
 
@@ -115,11 +117,51 @@ export class CommentSectionComponent implements OnInit, OnDestroy {
     });
   }//
 
-  addComment() {
+  async addComment() {
+    const loading = await this.loadingCtrl.create({
+      message: 'Creating Comment',
+      spinner: 'crescent',
+      showBackdrop: true
+    });
+
+    loading.present();
     const commentId = this.afs.createId();
     this.commentService.addComment(commentId, this.userId, this.userName, this.userPhoto, this.loadedCommentDetails.postId, this.commentCon);
+    loading.dismiss();
     this.commentCon = "";
   }
+
+  async updateComment() {
+    const alert = await this.alertCtrl.create({
+      header: 'Edit Comment',
+      inputs: [
+        {
+          name: 'paragraph',
+          id: 'paragraph',
+          type: 'textarea',
+          placeholder: 'Comment Content'
+        }
+      ],
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          cssClass: 'secondary',
+          handler: () => {
+            console.log('Confirm Cancel');
+          }
+        }, {
+          text: 'Confirm',
+          handler: () => {
+            console.log('Confirm Ok');
+          }
+        }
+      ]
+    });
+
+    await alert.present();
+  }
+
 
   async deleteComment(commentId: string, slidingComment: IonItemSliding) {
     const alert = await this.alertCtrl.create({
