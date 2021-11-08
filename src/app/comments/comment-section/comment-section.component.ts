@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/firestore';
-import { AlertController, IonItemSliding, LoadingController, ModalController, NavParams, PopoverController } from '@ionic/angular';
+import { AlertController, IonItemSliding, LoadingController, ModalController, NavParams } from '@ionic/angular';
 import { Observable, Subscription } from 'rxjs';
 import firebase from 'firebase/app';
 import 'firebase/auth';
@@ -43,8 +43,7 @@ export class CommentSectionComponent implements OnInit, OnDestroy {
               private loadingCtrl: LoadingController,
               private alertCtrl: AlertController,
               private commentService: CommentsService,
-              private afs: AngularFirestore,
-              private popoverCtrl: PopoverController) {
+              private afs: AngularFirestore) {
 
       if (firebase.auth().currentUser !== null) {
         console.log("user id: " + firebase.auth().currentUser.uid);
@@ -159,7 +158,12 @@ export class CommentSectionComponent implements OnInit, OnDestroy {
         }, {
           text: 'Confirm',
           handler: contentCom => {
-           this.commentService.updateComment(id, contentCom.commentInput);
+            if (contentCom.commentInput) {
+              this.commentService.updateComment(id, contentCom.commentInput);
+            } else {
+              this.alertController("Input Required", "Enter Comment Content", "Try Again");
+              return false;
+            }
           }
         }
       ]
@@ -168,6 +172,14 @@ export class CommentSectionComponent implements OnInit, OnDestroy {
     await alert.present();
   }
 
+  async alertController(header, message, button){
+    let alert = await this.alertCtrl.create({
+      header: header,
+      message: message,
+      buttons: [ button ]
+    });
+    alert.present();
+  }//
 
   async deleteComment(commentId: string, slidingComment: IonItemSliding) {
     const alert = await this.alertCtrl.create({
