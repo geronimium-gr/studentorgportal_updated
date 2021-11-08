@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { AngularFirestore } from '@angular/fire/firestore';
+import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/firestore';
 import { AlertController, IonItemSliding, LoadingController, ModalController, NavParams, PopoverController } from '@ionic/angular';
-import { Subscription } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import firebase from 'firebase/app';
 import 'firebase/auth';
 
@@ -32,6 +32,9 @@ export class CommentSectionComponent implements OnInit, OnDestroy {
 
   comments: Comments[];
   isLoading = false;
+
+  commentRef: AngularFirestoreCollection;
+  commentsList: Observable<any[]>;
 
   constructor(public modalContoller: ModalController,
               private authService: AuthService,
@@ -74,6 +77,7 @@ export class CommentSectionComponent implements OnInit, OnDestroy {
       this.comments = comment;
     });
 
+
   }
 
   ionViewWillEnter() {
@@ -115,6 +119,7 @@ export class CommentSectionComponent implements OnInit, OnDestroy {
       alert.present();
       // loading.dismiss();
     });
+
   }//
 
   async addComment() {
@@ -131,14 +136,15 @@ export class CommentSectionComponent implements OnInit, OnDestroy {
     this.commentCon = "";
   }
 
-  async updateComment() {
+  async updateComment(id, content) {
     const alert = await this.alertCtrl.create({
       header: 'Edit Comment',
       inputs: [
         {
-          name: 'paragraph',
+          name: 'commentInput',
           id: 'paragraph',
           type: 'textarea',
+          value: content,
           placeholder: 'Comment Content'
         }
       ],
@@ -152,8 +158,8 @@ export class CommentSectionComponent implements OnInit, OnDestroy {
           }
         }, {
           text: 'Confirm',
-          handler: () => {
-            console.log('Confirm Ok');
+          handler: contentCom => {
+           this.commentService.updateComment(id, contentCom.commentInput);
           }
         }
       ]

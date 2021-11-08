@@ -60,7 +60,7 @@
       </ion-item>
       <ion-item-options *ngIf="c.userId === cUser">
         <ion-item-option color="secondary">
-          <ion-icon name="create" slot="icon-only" (click)="updateComment();slidingComments.close()"></ion-icon>
+          <ion-icon name="create" slot="icon-only" (click)="updateComment(c.commentId, c.commentContent);slidingComments.close()"></ion-icon>
         </ion-item-option>
         <ion-item-option color="danger">
           <ion-icon name="trash" slot="icon-only" (click)="deleteComment(c.commentId, slidingComments)"></ion-icon>

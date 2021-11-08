@@ -60,6 +60,11 @@ export class CommentsService {
     return this.comments;
   }
 
+  getComment(commentId) {
+    this.commentDoc = this.afs.doc<Comments>(`comment/${commentId}`);
+    return this.comment = this.commentDoc.valueChanges();
+  }
+
   getCommentCounter() {
     return this.size;
   }
@@ -94,6 +99,27 @@ export class CommentsService {
    closePopOver(){
     this.popOverCtrl.dismiss();
   }//
+
+  async updateComment(commentId, content) {
+    const loading = await this.loadingCtrl.create({
+      message: 'Updating comment',
+      spinner: 'crescent',
+      showBackdrop: true
+    });
+
+    loading.present();
+
+    this.afs.collection('comment').doc(commentId).update({
+      'commentContent': content,
+      'editedAt': Date.now()
+    }).then(() => {
+      loading.dismiss();
+      this.toast('Comment successfully updated', 'success');
+    }).catch(error => {
+      loading.dismiss();
+      this.toast(error.message, 'danger');
+    });
+   }
 
   async deleteComment(commentId) {
     const loading = await this.loadingCtrl.create({
