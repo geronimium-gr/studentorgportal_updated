@@ -55,8 +55,6 @@ export class OrgHomePage implements OnInit, OnDestroy {
 
   //reaction
   heartType: string = "heart-outline";
-  postReference: AngularFirestoreDocument;
-  sub: any;
 
   //check this
   postTitle: any;
