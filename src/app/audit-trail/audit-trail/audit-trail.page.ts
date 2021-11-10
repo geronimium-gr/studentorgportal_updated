@@ -11,7 +11,7 @@ import { AuditTrail } from '../../models/audit-trail';
   styleUrls: ['./audit-trail.page.scss'],
 })
 export class AuditTrailPage implements OnInit, OnDestroy {
-
+  
   selectCategory = "userName";
   searchValue: string = "";
 
@@ -33,8 +33,9 @@ export class AuditTrailPage implements OnInit, OnDestroy {
   constructor(private menu: MenuController,
               private afs: AngularFirestore,
               private auditService: AuditTrailService
-    ) 
-    { 
+    )
+    {
+      this.getData();
     }
 
   ngOnInit() {
@@ -45,11 +46,18 @@ export class AuditTrailPage implements OnInit, OnDestroy {
     });
   }
 
-  // getData() {
-  //   this.afs.collection('audit').valueChanges().subscribe((records) => {
-  //     this.rows = records;
-  //   }); 
-  // }
+  getData() {
+    this.afs.collection('audit', ref => ref.orderBy("createdAt", "desc")).valueChanges().subscribe((records) => {
+      this.rows = records;
+      // this.columns = [
+      //   { prop: 'userSurname', name: 'Surname'},
+      //   { prop: 'userName', name: 'First Name'},
+      //   { prop: 'userSchoolId', name: 'School ID'}, 
+      //   { prop: 'action', name: 'Action'},
+      //   { prop: 'createdAt', name: 'Timestamp'}
+      // ];
+    });
+  }
 
   openFirst(){
     this.menu.enable(true, 'm1');
@@ -57,7 +65,7 @@ export class AuditTrailPage implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     if (this.auditSub) {
-      this.auditSub.unsubscribe(); 
+      this.auditSub.unsubscribe();
     }
   }
 

@@ -19,42 +19,43 @@
     <ion-searchbar animated color="medium" [(ngModel)]="searchValue"></ion-searchbar>
 </ion-item>
 
-<!-- <div class="ion-padding">
+<div class="ion-padding">
   <ngx-datatable
   class="material"
   [limit]="8"
   [rows]="rows"
-  [rowHeight]="50"
+  [rowHeight]="'auto'"
   [columns]="columns"
   [columnMode]="'force'"
   [headerHeight]="50"
   [footerHeight]="50"
-  [scrollbarV]="true"
   [scrollbarH]="true">
 
-    <ngx-datatable-column name="Surname">
+
+    <ngx-datatable-column name="Surname" prop="userSurname">
       <ng-template ngx-datatable-cell-template let-value="value">{{ value }}</ng-template>
     </ngx-datatable-column>
 
-    <ngx-datatable-column name="First Name">
+    <ngx-datatable-column name="First Name" prop="userName">
       <ng-template ngx-datatable-cell-template let-value="value">{{ value }}</ng-template>
     </ngx-datatable-column>
 
-    <ngx-datatable-column name="Student ID">
+
+    <ngx-datatable-column name="School/Student ID" prop="userSchoolId">
       <ng-template ngx-datatable-cell-template let-value="value">{{ value }}</ng-template>
     </ngx-datatable-column>
 
-    <ngx-datatable-column name="Action">
+    <ngx-datatable-column name="Action" prop="action">
       <ng-template ngx-datatable-cell-template let-value="value">{{ value }}</ng-template>
     </ngx-datatable-column>
 
-    <ngx-datatable-column name="Timestamp">
-      <ng-template ngx-datatable-cell-template let-value="value">{{ value }}</ng-template>
+    <ngx-datatable-column name="Timestamp" prop="createdAt">
+      <ng-template ngx-datatable-cell-template let-value="value">{{ value | date:'medium' }}</ng-template>
     </ngx-datatable-column>
   </ngx-datatable>
-</div> -->
+</div>
 
-<table>
+<!-- <table>
   <thead>
       <tr>
           <th>Surname</th>
@@ -73,7 +74,7 @@
               <td> {{ audit.createdAt | date:'medium' }} </td>
           </tr>
   </tbody>
-</table>
+</table> -->
 
 
 
