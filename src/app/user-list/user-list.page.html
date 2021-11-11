@@ -30,80 +30,20 @@
       <ion-select-option value="userSurname">Last Name</ion-select-option>
       <ion-select-option value="userSchoolId">Student ID</ion-select-option>
       <ion-select-option value="roleName">Role</ion-select-option>
+      <ion-select-option value="userEmail">Email</ion-select-option>
+      <ion-select-option value="course">Course</ion-select-option>
     </ion-select>
 
-    <ion-searchbar animated color="medium" (ionChange)="search()" (ionBlur)="unhideUserList()" [(ngModel)]="searchValue"></ion-searchbar>
+    <ion-searchbar animated color="medium" (ionInput)="filterList($event)"></ion-searchbar>
   </ion-item>
 
-  <!-- Results -->
-  <ion-list inset *ngIf="searchValue?.length > 1">
-    <ion-item-sliding *ngFor="let user of results | async" #slidingMember>
-      <ion-item detail *ngIf="cUser != user.userId">
-        <ion-avatar slot="start">
-          <img [src]="user.userPhoto">
-        </ion-avatar>
-        <ion-label>
-          <h2>{{ user.userName }} {{ user.userSurname }}</h2>
-          <h3>{{ user.roleName }}</h3>
-          <p>
-            <ion-icon name="school" slot="start"></ion-icon>
-            {{ user.course }}
-          </p>
-          <p>
-            <ion-icon name="mail" slot="start"></ion-icon>
-            {{ user.userEmail }}
-          </p>
-        </ion-label>
-        <ion-note slot="end">{{ user.createdAt | date }}</ion-note>
-      </ion-item>
-    <ion-item-options *ngIf="cUser != user.userId">
-      <!-- <ion-item-option color="warning" (click)="editUser(user.userId, slidingMember)">
-        <ion-icon name="person" slot="icon-only"></ion-icon>
-      </ion-item-option> -->
-      <ion-item-option color="secondary" (click)="editUser(user.userId, slidingMember)">
-        <ion-icon name="create" slot="icon-only"></ion-icon>
-      </ion-item-option>
-    </ion-item-options>
-  </ion-item-sliding>
-</ion-list>
-
-
-  <!-- <ion-grid>
-    <ion-row>
-      <ion-col size-xl="6" offset-xl="3">
-        <ion-list inset>
-            <ion-item-sliding *ngFor="let user of userList" #slidingMember>
-            <ion-item detail *ngIf="cUser != user.userId">
-              <ion-avatar slot="start">
-                <ion-img [src]="user.userPhoto"></ion-img>
-              </ion-avatar>
-              <ion-label>
-                <h2>{{ user.userName }}</h2>
-                <p></p>
-              </ion-label>
-              <ion-note slot="end">{{ user.createdAt | date }}</ion-note>
-            </ion-item>
-            <ion-item-options *ngIf="cUser != user.userId">
-              <ion-item-option color="warning" (click)="editUser(user.userId, slidingMember)">
-                <ion-icon name="person" slot="icon-only"></ion-icon>
-              </ion-item-option>
-              <ion-item-option color="secondary" (click)="editUser(user.userId, slidingMember)">
-                <ion-icon name="create" slot="icon-only"></ion-icon>
-              </ion-item-option>
-            </ion-item-options>
-          </ion-item-sliding>
-        </ion-list>
-      </ion-col>
-    </ion-row>
-  </ion-grid> -->
-
-<ion-grid *ngIf="!hideList || searchValue?.length < 1">
+<ion-grid>
   <ion-list inset="true">
     <ion-list-header>
      Users
     </ion-list-header>
 
-    <ion-item-sliding *ngFor="let user of userList" #slidingMember>
+    <ion-item-sliding *ngFor="let user of resultList" #slidingMember>
       <ion-item detail *ngIf="cUser != user.userId">
         <ion-avatar slot="start">
           <img [src]="user.userPhoto">
@@ -123,9 +63,6 @@
         <ion-note slot="end">{{ user.createdAt | date }}</ion-note>
       </ion-item>
       <ion-item-options *ngIf="cUser != user.userId">
-        <!-- <ion-item-option color="warning" (click)="editUser(user.userId, slidingMember)">
-          <ion-icon name="person" slot="icon-only"></ion-icon>
-        </ion-item-option> -->
         <ion-item-option color="secondary" (click)="editUser(user.userId, slidingMember)">
           <ion-icon name="create" slot="icon-only"></ion-icon>
         </ion-item-option>

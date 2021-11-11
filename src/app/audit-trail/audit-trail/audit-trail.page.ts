@@ -11,24 +11,19 @@ import { AuditTrail } from '../../models/audit-trail';
   styleUrls: ['./audit-trail.page.scss'],
 })
 export class AuditTrailPage implements OnInit, OnDestroy {
-  
+
   selectCategory = "userName";
   searchValue: string = "";
 
   auditList: AuditTrail[];
   auditSub: Subscription;
 
-  rows;
+  rows = [];
+  loadingRows = [];
   columns;
 
   isLoading = false;
 
-  // rows = [
-  //   { name: 'Austin', gender: 'Male', company: 'Swimlane' },
-  //   { name: 'Dany', gender: 'Male', company: 'KFC' },
-  //   { name: 'Molly', gender: 'Female', company: 'Burger King' }
-  // ];
-  // columns = [{ prop: 'name' }, { name: 'Gender' }, { name: 'Company' }];
 
   constructor(private menu: MenuController,
               private afs: AngularFirestore,
@@ -49,14 +44,55 @@ export class AuditTrailPage implements OnInit, OnDestroy {
   getData() {
     this.afs.collection('audit', ref => ref.orderBy("createdAt", "desc")).valueChanges().subscribe((records) => {
       this.rows = records;
-      // this.columns = [
-      //   { prop: 'userSurname', name: 'Surname'},
-      //   { prop: 'userName', name: 'First Name'},
-      //   { prop: 'userSchoolId', name: 'School ID'}, 
-      //   { prop: 'action', name: 'Action'},
-      //   { prop: 'createdAt', name: 'Timestamp'}
-      // ];
+      this.loadingRows = records;
     });
+  }
+
+  initializeItems() {
+    this.rows = this.loadingRows;
+  }
+
+  filterList(evt) {
+    this.initializeItems();
+
+    const searchTerm = evt.srcElement.value;
+
+    if (!searchTerm) {
+      return;
+    }
+
+    this.rows = this.rows.filter(results => {
+      if (this.selectCategory === "userName") {
+        if (results.userName && searchTerm) {
+          if (results.userName.toLowerCase().indexOf(searchTerm.toLowerCase()) > -1) {
+            return true;
+          }
+          return false;
+        }//
+      } else if (this.selectCategory === "userSurname") {
+        if (results.userSurname && searchTerm) {
+          if (results.userSurname.toLowerCase().indexOf(searchTerm.toLowerCase()) > -1) {
+            return true;
+          }
+          return false;
+        }//
+      } else if (this.selectCategory === "userSchoolId") {
+        if (results.userSchoolId && searchTerm) {
+          if (results.userSchoolId.toLowerCase().indexOf(searchTerm.toLowerCase()) > -1) {
+            return true;
+          }
+          return false;
+        }//
+      } else if (this.selectCategory === "action") {
+        if (results.action && searchTerm) {
+          if (results.action.toLowerCase().indexOf(searchTerm.toLowerCase()) > -1) {
+            return true;
+          }
+          return false;
+        }//
+      }
+    });
+
   }
 
   openFirst(){

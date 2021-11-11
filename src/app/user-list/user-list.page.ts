@@ -27,13 +27,12 @@ export class UserListPage implements OnInit, OnDestroy {
 
   selectCategory = "userName";
 
-  showInfo = false;
-  infoToggleIcon = 'eye';
-  infoText: string = "View Info";
-
   cUser: any;
 
   isLoading = false;
+
+  public resultList: any[];
+  public loadedResultList: any[];
 
   constructor(private userService: UserService,
               private router: Router,
@@ -51,10 +50,16 @@ export class UserListPage implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.isLoading = true;
-    this.userSub = this.userService.getUsers().subscribe(users => {
-      this.userList = users;
+    this.afs.collection('user', ref => ref.orderBy('createdAt', 'desc')).valueChanges().subscribe(results => {
+      this.resultList = results;
+      this.loadedResultList = results;
+
       this.isLoading = false;
     });
+  }
+
+  initializeItems() {
+    this.resultList = this.loadedResultList;
   }
 
   editUser(memberid: string, sliding: IonItemSliding){
@@ -98,32 +103,72 @@ export class UserListPage implements OnInit, OnDestroy {
     this.menu.enable(true, 'm1');
   }
 
-  unhideUserList() {
-    this.hideList = false;
-  }
+  // search() {
+  //   let self = this;
 
-  search() {
-    this.hideList = true;
-    let self = this;
+  //   self.results = self.afs.collection('user', ref => ref
+  //     .orderBy(this.selectCategory)
+  //     .startAt(self.searchValue)
+  //     .endAt(self.searchValue + "\uf8ff"))
+  //     .valueChanges();
+  // }
 
-    self.results = self.afs.collection('user', ref => ref
-      .orderBy(this.selectCategory)
-      .startAt(self.searchValue)
-      .endAt(self.searchValue + "\uf8ff"))
-      .valueChanges();
-  }
+  //Source: https://youtu.be/VyGymr3WWEQ
+  filterList(evt) {
+    this.initializeItems();
 
-  toggleInfo(){
-    this.showInfo = !this.showInfo;
+    const searchTerm = evt.srcElement.value;
 
-    if (this.infoToggleIcon == 'eye') {
-      this.infoToggleIcon = 'eye-off';
-      this.infoText = "Hide Info";
-    } else {
-      this.infoToggleIcon = 'eye';
-      this.infoText = "View Info";
+    if (!searchTerm) {
+      return;
     }
-  }// end of TogglePassword
+
+    this.resultList = this.resultList.filter(currentItem => {
+      if (this.selectCategory === "userName") {
+        if (currentItem.userName && searchTerm) {
+          if (currentItem.userName.toLowerCase().indexOf(searchTerm.toLowerCase()) > -1) {
+            return true;
+          }
+          return false;
+        }//
+      } else if (this.selectCategory === "userSurname") {
+        if (currentItem.userSurname && searchTerm) {
+          if (currentItem.userSurname.toLowerCase().indexOf(searchTerm.toLowerCase()) > -1) {
+            return true;
+          }
+          return false;
+        }//
+      } else if (this.selectCategory === "userSchoolId") {
+        if (currentItem.userSchoolId && searchTerm) {
+          if (currentItem.userSchoolId.toLowerCase().indexOf(searchTerm.toLowerCase()) > -1) {
+            return true;
+          }
+          return false;
+        }//
+      } else if (this.selectCategory === "roleName") {
+        if (currentItem.roleName && searchTerm) {
+          if (currentItem.roleName.toLowerCase().indexOf(searchTerm.toLowerCase()) > -1) {
+            return true;
+          }
+          return false;
+        }//
+      } else if (this.selectCategory === "userEmail") {
+        if (currentItem.userEmail && searchTerm) {
+          if (currentItem.userEmail.toLowerCase().indexOf(searchTerm.toLowerCase()) > -1) {
+            return true;
+          }
+          return false;
+        }//
+      } else if (this.selectCategory === "course") {
+        if (currentItem.course && searchTerm) {
+          if (currentItem.course.toLowerCase().indexOf(searchTerm.toLowerCase()) > -1) {
+            return true;
+          }
+          return false;
+        }//
+      }
+    });
+  }
 
   ngOnDestroy(){
     if (this.userSub) {
