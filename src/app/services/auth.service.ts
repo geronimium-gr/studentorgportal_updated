@@ -78,6 +78,7 @@ export class AuthService {
     this.afAuth.signOut()
       .then(() => {
         loading.dismiss();
+        
         this.router.navigate(['/login']);
       }).catch(error => {
         console.log("Catch");

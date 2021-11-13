@@ -95,9 +95,13 @@ export class AppComponent implements OnInit, OnDestroy{
   }
 
   onLogout(){
-    this.auditService.addAuditRecord(this.user.userId, this.user.userName, this.user.userSurname, this.user.userEmail, this.user.userSchoolId, "Logout");
+    this.auditService.addAuditRecord(this.user.userId, this.user.userName, this.user.userSurname, this.user.userEmail, this.user.userSchoolId, "Logout")
+      .then(() => {
+        console.log(this.user.userId + this.user.userName + this.user.userSurname + this.user.userEmail + this.user.userSchoolId);
 
-    this.authService.signOut();
+      this.authService.signOut();
+      });
+
   }
 
 

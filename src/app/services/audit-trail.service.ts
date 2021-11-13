@@ -20,8 +20,8 @@ export class AuditTrailService {
     private loadingCtrl: LoadingController,
     private popOverCtrl: PopoverController,
     private toaster: ToastController
-  ) 
-  { 
+  )
+  {
     this.auditCol = this.afs.collection('audit', ref => ref.orderBy("createdAt", "desc"));
 
     this.audits = this.auditCol.snapshotChanges().pipe(
