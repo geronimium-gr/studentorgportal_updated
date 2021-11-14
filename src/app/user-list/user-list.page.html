@@ -70,4 +70,9 @@
     </ion-item-sliding>
   </ion-list>
 </ion-grid>
+
+<div class="ion-text-center ion-padding" *ngIf="resultList?.length <= 0">
+  <ion-icon name="shapes" class="label-icon"></ion-icon>
+  <p><strong>No User Found.</strong></p>
+</div>
 </ion-content>

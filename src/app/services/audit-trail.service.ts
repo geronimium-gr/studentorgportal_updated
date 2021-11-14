@@ -4,6 +4,7 @@ import { LoadingController, PopoverController, ToastController } from '@ionic/an
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { AuditTrail } from '../models/audit-trail';
+import { AuthService } from './auth.service';
 
 @Injectable({
   providedIn: 'root'
@@ -19,7 +20,8 @@ export class AuditTrailService {
     private afs: AngularFirestore,
     private loadingCtrl: LoadingController,
     private popOverCtrl: PopoverController,
-    private toaster: ToastController
+    private toaster: ToastController,
+    private authService: AuthService
   )
   {
     this.auditCol = this.afs.collection('audit', ref => ref.orderBy("createdAt", "desc"));
@@ -77,6 +79,7 @@ export class AuditTrailService {
       'createdAt': Date.now()
     }).then(() => {
       loading.dismiss();
+      this.authService.signOut();
     }).catch(error => {
       loading.dismiss();
       console.log(error.message);

@@ -1,4 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { AngularFirestore } from '@angular/fire/firestore';
 import { AngularFireStorage } from '@angular/fire/storage';
 import { Router } from '@angular/router';
 import { MenuController } from '@ionic/angular';
@@ -46,7 +47,8 @@ export class AppComponent implements OnInit, OnDestroy{
               private router: Router,
               private menu: MenuController,
               private storage: AngularFireStorage,
-              private auditService: AuditTrailService) {
+              private auditService: AuditTrailService,
+              private afs: AngularFirestore) {
 
     this.appSub = this.authService.user$.subscribe(async user => {
       this.user = user;
@@ -95,13 +97,7 @@ export class AppComponent implements OnInit, OnDestroy{
   }
 
   onLogout(){
-    this.auditService.addAuditRecord(this.user.userId, this.user.userName, this.user.userSurname, this.user.userEmail, this.user.userSchoolId, "Logout")
-      .then(() => {
-        console.log(this.user.userId + this.user.userName + this.user.userSurname + this.user.userEmail + this.user.userSchoolId);
-
-      this.authService.signOut();
-      });
-
+    this.auditService.addAuditRecord(this.user.userId, this.user.userName, this.user.userSurname, this.user.userEmail, this.user.userSchoolId, "Logout");
   }
 
 

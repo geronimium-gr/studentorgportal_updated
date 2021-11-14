@@ -6,9 +6,8 @@ import firebase from 'firebase/app';
 import 'firebase/auth';
 import { Router } from "@angular/router";
 import { LoadingController, ToastController } from "@ionic/angular";
-import { Observable, of } from "rxjs";
+import { Observable, of, Subscription } from "rxjs";
 import { switchMap } from "rxjs/operators";
-import { AuditTrailService } from './audit-trail.service';
 
 @Injectable({
   providedIn: 'root'
@@ -18,15 +17,16 @@ export class AuthService {
   user$: Observable<User>;
   user: User;
 
+  authSub: Subscription;
+
   constructor(
     private afs: AngularFirestore,
     private afAuth: AngularFireAuth,
     private router: Router,
     private loadingCtrl: LoadingController,
-    private toaster: ToastController,
-    private auditService: AuditTrailService
+    private toaster: ToastController
   ) {
-    this.user$ = this.afAuth.authState
+   this.user$ = this.afAuth.authState
       .pipe(
         switchMap( user => {
           if (user) {
@@ -78,7 +78,7 @@ export class AuthService {
     this.afAuth.signOut()
       .then(() => {
         loading.dismiss();
-        
+
         this.router.navigate(['/login']);
       }).catch(error => {
         console.log("Catch");
