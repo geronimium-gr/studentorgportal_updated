@@ -53,6 +53,7 @@ export class AppComponent implements OnInit, OnDestroy{
     this.appSub = this.authService.user$.subscribe(async user => {
       this.user = user;
       //this.userId = user.userId;
+
       try {
         this.userPhoto = user.userPhoto;
       } catch (error) {
@@ -67,6 +68,7 @@ export class AppComponent implements OnInit, OnDestroy{
   ngOnInit(){
     // this.afs.collection('user').doc(this.userId);
     // this.user$ = this.userRef.valueChanges();
+
   }
 
   enterUserList(){

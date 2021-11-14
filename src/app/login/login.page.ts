@@ -43,20 +43,7 @@ export class LoginPage implements OnInit, OnDestroy {
   }// end of TogglePassword
 
   login(email: string, password: string){
-    this.authService.signIn(email, password).then(() => {
-
-      // this.loginSub = this.authService.user$.subscribe(async user => {
-      //   try {
-      //     this.userId = user.userId;
-      //     this.userName = user.userName;
-      //     this.userSurname = user.userSurname;
-      //     this.userEmail = user.userEmail;
-      //     this.userSchoolId = user.userSchoolId;
-      //   } catch (error) {
-      //     console.log('No User Photo');
-      //   }
-      // });
-      // console.log(this.userName);
+    this.authService.signIn(email, password).then((data) => {
 
       // this.auditService.addAuditRecord(this.userId, this.userName, this.userSurname, this.userEmail, this.userSchoolId, "Login");
     });
