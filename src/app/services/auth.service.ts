@@ -51,6 +51,12 @@ export class AuthService {
 
     this.afAuth.setPersistence(firebase.auth.Auth.Persistence.SESSION)
       .then(() => {
+
+        // this.afs.collection('user', ref => ref.where("userEmail", "==", email))
+        //   .get().subscribe(user => {
+        //     console.log(user);
+        //   });
+
         this.afAuth.signInWithEmailAndPassword(email, password)
           .then((data) => {
             loading.dismiss();
