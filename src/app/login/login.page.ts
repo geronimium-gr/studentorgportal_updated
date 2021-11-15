@@ -1,4 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { AngularFirestore } from '@angular/fire/firestore';
 import { NgForm } from '@angular/forms';
 import { ToastController } from '@ionic/angular';
 import { Subscription } from 'rxjs';
@@ -21,11 +22,15 @@ export class LoginPage implements OnInit, OnDestroy {
   userEmail: any;
   userSchoolId: any;
 
+  emailAdd = "";
+  userInfo: any;
+
   loginSub: Subscription;
 
   constructor(private toaster: ToastController,
               private authService: AuthService,
-              private auditService: AuditTrailService)
+              private auditService: AuditTrailService,
+              private afs: AngularFirestore)
   { }
 
   ngOnInit() {
@@ -43,10 +48,18 @@ export class LoginPage implements OnInit, OnDestroy {
   }// end of TogglePassword
 
   login(email: string, password: string){
-    this.authService.signIn(email, password).then((data) => {
 
-      // this.auditService.addAuditRecord(this.userId, this.userName, this.userSurname, this.userEmail, this.userSchoolId, "Login");
-    });
+    if (window.navigator.onLine) {
+
+      console.log(this.emailAdd);
+
+      this.authService.signIn(email, password).then((data) => {
+        // this.auditService.addAuditRecord(this.userId, this.userName, this.userSurname, this.userEmail, this.userSchoolId, "Login");
+      });
+    } else {
+      this.toast("Network error, check Internet connection", "danger");
+    }
+
   } //end of login
 
   async toast(message, status){

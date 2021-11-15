@@ -48,7 +48,7 @@
               <ion-list lines="full">
                 <ion-item>
                   <ion-icon name="at-circle" slot="start" [color]="email.touched && !email.valid ? 'danger' : 'secondary'"></ion-icon>
-                  <ion-input name="email" placeholder="Email" required type="email" ngModel #email="ngModel" email></ion-input>
+                  <ion-input name="email" placeholder="Email" [(ngModel)]="emailAdd" required type="email" ngModel #email="ngModel" email></ion-input>
                 </ion-item>
                 <ion-item>
                   <ion-icon name="lock-closed" slot="start" [color]="password.touched && !password.valid ? 'danger' : 'secondary'"></ion-icon>
