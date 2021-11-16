@@ -216,7 +216,8 @@ export class OrgHomePage implements OnInit, OnDestroy {
       cssClass: 'option-popover',
       componentProps: {
         editPostId: postId,
-        postInd: this.segmentModel
+        postInd: this.segmentModel,
+        orgIds: this.orgId
       }
     });
     return await popover.present();

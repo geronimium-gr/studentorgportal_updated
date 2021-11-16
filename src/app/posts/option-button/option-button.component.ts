@@ -14,6 +14,7 @@ export class OptionButtonComponent implements OnInit, OnDestroy {
 
   loadedPost: any;
   indicatorEvent: any;
+  loadedOrg: any;
 
   constructor(private navParams: NavParams,
               private popoverCtrl: PopoverController,
@@ -25,8 +26,9 @@ export class OptionButtonComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.loadedPost = this.navParams.get('editPostId');
     this.indicatorEvent = this.navParams.get('postInd');
+    this.loadedOrg = this.navParams.get('orgIds');
     console.log(this.loadedPost);
-    console.log(this.indicatorEvent);
+    console.log(this.indicatorEvent + this.loadedOrg);
   }
 
   async editPostForm(ev: any) {
@@ -40,7 +42,8 @@ export class OptionButtonComponent implements OnInit, OnDestroy {
       mode: 'md',
       cssClass: 'contact-popover',
       componentProps: {
-        editPostId: this.loadedPost
+        editPostId: this.loadedPost,
+        editOrgIds: this.loadedOrg
       }
     });
     return await popover.present();

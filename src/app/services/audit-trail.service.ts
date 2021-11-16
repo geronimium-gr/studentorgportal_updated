@@ -59,12 +59,7 @@ export class AuditTrailService {
 
 
   async addAuditRecord(userId, userName, userSurname, userEmail, userSchoolId, action) {
-    const loading = await this.loadingCtrl.create({
-      spinner: 'crescent',
-      showBackdrop: true
-    });
 
-    loading.present();
 
     const auditId = this.afs.createId();
 
@@ -78,13 +73,31 @@ export class AuditTrailService {
       'action': action,
       'createdAt': Date.now()
     }).then(() => {
-      loading.dismiss();
+      console.log("Added in Audit (Logout)");
       this.authService.signOut();
     }).catch(error => {
-      loading.dismiss();
       console.log(error.message);
     });
 
-    loading.dismiss();
+   }
+
+   async addRecordForEdit(userId, userName, userSurname, userEmail, userSchoolId, action) {
+
+    const auditId = this.afs.createId();
+
+    this.afs.collection('audit').doc(auditId).set({
+      'auditId': auditId,
+      'userId': userId,
+      'userName': userName,
+      'userSurname': userSurname,
+      'userEmail': userEmail,
+      'userSchoolId': userSchoolId,
+      'action': action,
+      'createdAt': Date.now()
+    }).then(() => {
+      console.log("Added in Audit");
+    }).catch(error => {
+      console.log(error.message);
+    });
    }
 }

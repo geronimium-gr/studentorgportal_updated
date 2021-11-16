@@ -65,12 +65,10 @@ export class LoginPage implements OnInit, OnDestroy {
   async login(email: string, password: string){
 
     if (this.connectionMsg == true) {
-      console.log(this.emailAdd);
 
-      this.authService.signIn(email, password).then((data) => {
-        // this.auditService.addAuditRecord(this.userId, this.userName, this.userSurname, this.userEmail, this.userSchoolId, "Login");
-      });
-    } else {
+      this.authService.signIn(email, password);
+
+    } else if (this.connectionMsg == false) {
       this.toast("Network error, check Internet connection", "danger");
     }
 

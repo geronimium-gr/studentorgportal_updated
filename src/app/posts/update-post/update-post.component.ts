@@ -3,6 +3,9 @@ import { AngularFireStorage } from '@angular/fire/storage';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { NavParams, LoadingController, PopoverController, AlertController } from '@ionic/angular';
 import { Subscription } from 'rxjs';
+import { OrganizationService } from 'src/app/services/organization.service';
+import { AuditTrailService } from '../../services/audit-trail.service';
+import { AuthService } from '../../services/auth.service';
 import { PostService } from '../../services/post.service';
 
 @Component({
@@ -22,6 +25,13 @@ export class UpdatePostComponent implements OnInit, OnDestroy {
   selectedImageUri: any;
   usePicker = true;
 
+  //User Info
+  userInfo: any;
+
+  //Org Info
+  orgName: any;
+  loadedOrg: any;
+
   postSub: Subscription;
 
   constructor(private navParams: NavParams,
@@ -29,7 +39,15 @@ export class UpdatePostComponent implements OnInit, OnDestroy {
               private storage: AngularFireStorage,
               private loadingCtrl: LoadingController,
               private popOverCtrl: PopoverController,
-              private alertCtrl: AlertController) { }
+              private alertCtrl: AlertController,
+              private authService: AuthService,
+              private auditService: AuditTrailService,
+              private orgService: OrganizationService)
+  {
+    this.postSub = this.authService.user$.subscribe(async user => {
+      this.userInfo = user;
+    });
+  }
 
   ngOnInit() {
     this.formGroup = new FormGroup({
@@ -44,10 +62,12 @@ export class UpdatePostComponent implements OnInit, OnDestroy {
     });
 
     this.loadedPost = this.navParams.get('editPostId');
+    this.loadedOrg = this.navParams.get('editOrgIds');
   }
 
   ionViewWillEnter() {
     this.loadPostDetails();
+    this.loadOrgDetails();
   }
 
   async loadPostDetails() {
@@ -87,6 +107,14 @@ export class UpdatePostComponent implements OnInit, OnDestroy {
     });
   }//
 
+  loadOrgDetails() {
+    this.postSub = this.orgService.getOrganization(this.loadedOrg).subscribe(async org => {
+      this.orgName = org.orgName;
+      console.log(this.orgName);
+
+    });
+  }
+
   async updatePost() {
     if (!this.formGroup.valid) {
       console.log("Fill up.");
@@ -99,7 +127,15 @@ export class UpdatePostComponent implements OnInit, OnDestroy {
 
     if (!this.selectedImage) {
 
-      this.postService.updatePostsText(postId, title, content);
+      this.postService.updatePostsText(postId, title, content).then(() => {
+        this.auditService.addRecordForEdit(
+          this.userInfo.userId,
+          this.userInfo.userName,
+          this.userInfo.userSurname,
+          this.userInfo.userEmail,
+          this.userInfo.userSchoolId,
+          "Update Post in " + this.orgName);
+      });
       this.formGroup.reset();
 
     } else if (this.selectedImage){
@@ -112,7 +148,15 @@ export class UpdatePostComponent implements OnInit, OnDestroy {
       .getDownloadURL()
       .toPromise();
 
-      this.postService.updatePosts(postId, title, content, downloadUrl);
+      this.postService.updatePosts(postId, title, content, downloadUrl).then(() => {
+        this.auditService.addRecordForEdit(
+          this.userInfo.userId,
+          this.userInfo.userName,
+          this.userInfo.userSurname,
+          this.userInfo.userEmail,
+          this.userInfo.userSchoolId,
+          "Update Post in " + this.orgName);
+      });
       this.formGroup.reset();
     } else {
       console.log("Error happens");

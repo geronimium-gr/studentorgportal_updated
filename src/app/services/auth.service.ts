@@ -52,15 +52,31 @@ export class AuthService {
     this.afAuth.setPersistence(firebase.auth.Auth.Persistence.SESSION)
       .then(() => {
 
-        // this.afs.collection('user', ref => ref.where("userEmail", "==", email))
-        //   .get().subscribe(user => {
-        //     console.log(user);
-        //   });
 
         this.afAuth.signInWithEmailAndPassword(email, password)
           .then((data) => {
-            loading.dismiss();
-            this.router.navigate(['/home']);
+
+            this.user$.subscribe(async user =>  {
+              console.log(user.userName);
+
+              const auditId = this.afs.createId();
+
+              this.afs.collection('audit').doc(auditId).set({
+                'auditId': auditId,
+                'userId': user.userId,
+                'userName': user.userName,
+                'userSurname': user.userSurname,
+                'userEmail': user.userEmail,
+                'userSchoolId': user.userSchoolId,
+                'action': "Login",
+                'createdAt': Date.now()
+              }).then(() => {
+                loading.dismiss();
+                this.router.navigate(['/home']);
+              }).catch(error => {
+                console.log(error.message);
+              });
+            });
           })
           .catch(error => {
            loading.dismiss();
@@ -84,8 +100,8 @@ export class AuthService {
     this.afAuth.signOut()
       .then(() => {
         loading.dismiss();
-
         this.router.navigate(['/login']);
+        window.location.reload();
       }).catch(error => {
         console.log("Catch");
         console.log(error.message);
