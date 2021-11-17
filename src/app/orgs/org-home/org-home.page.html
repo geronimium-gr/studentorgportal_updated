@@ -132,7 +132,10 @@
                 <ion-label>
                   <h2 class="userpost-name">{{ p.postedBy }} {{ p.postedBySurname }}</h2>
                   <p>{{ p.createdAt | date }}</p>
-                  <p *ngIf="p.editedBy">{{ p.editedBy }}</p>
+                  <p *ngIf="p.editedBy">
+                    <ion-icon name="create" slot="start"></ion-icon>
+                    <span>{{ p.editedBy }}</span>
+                  </p>
                 </ion-label>
                 <ion-button color="secondary" fill="clear" slot="end" (click)="editPost($event, p.postId)" *ngIf="(p.postedById === cUser) || auth.canDelete(user)">
                   <ion-icon name="ellipsis-vertical" slot="icon-only"></ion-icon>
