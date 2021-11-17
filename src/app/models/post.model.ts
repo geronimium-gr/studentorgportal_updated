@@ -9,4 +9,5 @@ export interface Post {
   postedByPhoto: string;
   postOrgId: string;
   createdAt: number;
+  editedBy: string;
 }

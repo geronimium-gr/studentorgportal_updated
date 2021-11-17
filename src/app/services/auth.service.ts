@@ -144,4 +144,14 @@ export class AuthService {
     const allowed = ['admin'];
     return this.checkAuthorization(user, allowed);
   }
+
+  canAccessByOfficer(user: User): boolean {
+    const allowed = ['officer'];
+    return this.checkAuthorization(user, allowed);
+  }
+
+  canAccessByMod(user: User): boolean {
+    const allowed = ['moderator'];
+    return this.checkAuthorization(user, allowed);
+  }
 }

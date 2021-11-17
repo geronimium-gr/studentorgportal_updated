@@ -128,13 +128,8 @@ export class UpdatePostComponent implements OnInit, OnDestroy {
     if (!this.selectedImage) {
 
       this.postService.updatePostsText(postId, title, content).then(() => {
-        this.auditService.addRecordForEdit(
-          this.userInfo.userId,
-          this.userInfo.userName,
-          this.userInfo.userSurname,
-          this.userInfo.userEmail,
-          this.userInfo.userSchoolId,
-          "Update Post in " + this.orgName);
+        this.addedRecordAudit();
+        this.canEditByUser();
       });
       this.formGroup.reset();
 
@@ -149,17 +144,30 @@ export class UpdatePostComponent implements OnInit, OnDestroy {
       .toPromise();
 
       this.postService.updatePosts(postId, title, content, downloadUrl).then(() => {
-        this.auditService.addRecordForEdit(
-          this.userInfo.userId,
-          this.userInfo.userName,
-          this.userInfo.userSurname,
-          this.userInfo.userEmail,
-          this.userInfo.userSchoolId,
-          "Update Post in " + this.orgName);
+        this.addedRecordAudit();
+        this.canEditByUser();
       });
       this.formGroup.reset();
     } else {
       console.log("Error happens");
+    }
+  }
+
+  addedRecordAudit() {
+    this.auditService.addRecordForEdit(
+      this.userInfo.userId,
+      this.userInfo.userName,
+      this.userInfo.userSurname,
+      this.userInfo.userEmail,
+      this.userInfo.userSchoolId,
+      "Update Post in " + this.orgName);
+  }
+
+  canEditByUser() {
+    if (this.authService.canEdit(this.userInfo) && (this.loadedPostDetails.postedById != this.userInfo.userId)) {
+      this.postService.editedBy(this.loadedPost, this.userInfo.userName + " " + this.userInfo.userSurname);
+    } else {
+      console.log("Permission Denied");
     }
   }
 

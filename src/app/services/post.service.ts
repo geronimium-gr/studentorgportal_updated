@@ -116,6 +116,7 @@ export class PostService {
     });
    }
 
+   //Update Post w/o Image
    async updatePostsText(postId, title, content) {
     const loading = await this.loadingCtrl.create({
       message: 'Updating Post',
@@ -135,6 +136,17 @@ export class PostService {
       this.closePopOver();
     }).catch(error => {
       loading.dismiss();
+      this.toast(error.message, 'danger');
+    });
+   }
+
+   async editedBy(postId, editedBy) {
+    this.afs.collection('post').doc(postId).update({
+      'editedBy': "Edited by: " + editedBy,
+      'editedAt': Date.now()
+    }).then(() => {
+      this.closePopOver();
+    }).catch(error => {
       this.toast(error.message, 'danger');
     });
    }
