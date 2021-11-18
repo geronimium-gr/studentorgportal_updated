@@ -146,7 +146,8 @@ export class OrgHomePage implements OnInit, OnDestroy {
     const modal = await this.modalCtrl.create({
       component: CommentSectionComponent,
       componentProps: {
-        postIdComment: postId
+        postIdComment: postId,
+        orgNameProp: this.orgName
       }
     });
     return await modal.present();

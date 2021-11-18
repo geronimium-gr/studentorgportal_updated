@@ -101,6 +101,8 @@
       }
 
     }
+
+
 }
 @media (prefers-color-scheme: dark) {
   /*
@@ -134,7 +136,13 @@
       margin-right: -20px;
       text-align: center;
     }
+  }
 
+  .flag-alert {
+    .alert-radio-label.sc-ion-alert-md,
+    .alert-radio-label.sc-ion-alert-ios {
+        white-space: normal;
+    }
   }
 
   body {

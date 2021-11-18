@@ -23,9 +23,12 @@ export class CommentSectionComponent implements OnInit, OnDestroy {
   commentCon: any;
   commentCounter: any;
 
+  loadedOrgName: any;
+
   userId: any;
   user: any;
   userName: any;
+  userSurname: any;
   userPhoto: any;
 
   cUser: string;
@@ -54,6 +57,7 @@ export class CommentSectionComponent implements OnInit, OnDestroy {
         try {
           this.user = user;
           this.userName = user.userName;
+          this.userSurname = user.userSurname;
           this.userId = user.userId;
           this.userPhoto = user.userPhoto;
         } catch (error) {
@@ -62,7 +66,8 @@ export class CommentSectionComponent implements OnInit, OnDestroy {
       });//
 
       this.loadedComment = this.navParams.get('postIdComment');
-      console.log(this.loadedComment);
+      this.loadedOrgName = this.navParams.get('orgNameProp');
+      console.log(this.loadedComment + " " + this.loadedOrgName);
 
       this.commentService.getCommentId(this.loadedComment);
     }
@@ -130,7 +135,7 @@ export class CommentSectionComponent implements OnInit, OnDestroy {
 
     loading.present();
     const commentId = this.afs.createId();
-    this.commentService.addComment(commentId, this.userId, this.userName, this.userPhoto, this.loadedCommentDetails.postId, this.commentCon);
+    this.commentService.addComment(commentId, this.userId, this.userName, this.userSurname, this.userPhoto, this.loadedCommentDetails.postId, this.commentCon);
     loading.dismiss();
     this.commentCon = "";
   }
@@ -172,6 +177,64 @@ export class CommentSectionComponent implements OnInit, OnDestroy {
     await alert.present();
   }
 
+  async flagComment(id) {
+    const alert = await this.alertCtrl.create({
+      cssClass: 'flag-alert',
+      header: 'Report Comment',
+      message: 'Why are you <strong>reporting</strong> this comment?',
+      inputs: [
+        {
+          name: 'radio1',
+          type: 'radio',
+          label: 'It contains harassment or abuse.',
+          value: 'abuse',
+          handler: () => {
+            console.log("Radio 1 selected");
+          }
+        },
+        {
+          name: 'radio2',
+          type: 'radio',
+          label: 'It\'s unfriendly or unkind.',
+          value: 'unkind',
+          handler: () => {
+            console.log('Radio 2 selected');
+          }
+        },
+        {
+          name: 'radio3',
+          type: 'radio',
+          label: 'This comment is not relevant to this post.',
+          value: 'notRelevant',
+          handler: () => {
+            console.log('Radio 3 selected');
+          }
+        }
+      ],
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          cssClass: 'secondary',
+          handler: () => {
+            console.log('Confirm Cancel');
+          }
+        }, {
+          text: 'Ok',
+          handler: (result) => {
+            if (result == 'abuse') {
+              console.log("It contains harassment or abuse.");
+            } else {
+              
+            }
+          }
+        }
+      ]
+    });
+
+    await alert.present();
+  }
+
   async alertController(header, message, button){
     let alert = await this.alertCtrl.create({
       header: header,
@@ -181,7 +244,7 @@ export class CommentSectionComponent implements OnInit, OnDestroy {
     alert.present();
   }//
 
-  async deleteComment(commentId: string, slidingComment: IonItemSliding) {
+  async deleteComment(commentId: string) {
     const alert = await this.alertCtrl.create({
       header: 'Confirm!',
       message: 'Delete this comment?',
@@ -192,13 +255,11 @@ export class CommentSectionComponent implements OnInit, OnDestroy {
           cssClass: 'secondary',
           handler: () => {
             console.log('Confirm Cancel');
-            slidingComment.close();
           }
         }, {
           text: 'Confirm',
           handler: () => {
             this.commentService.deleteComment(commentId);
-            slidingComment.close();
           }
         }
       ]

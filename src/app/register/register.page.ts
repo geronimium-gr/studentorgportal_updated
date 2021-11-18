@@ -23,6 +23,8 @@ export class RegisterPage implements OnInit {
   confirmPassword: string;
   passwordMatch: boolean;
 
+  fname: any;
+
   viewCalendar = 'text';
 
   roleAdmin: boolean = false;
@@ -131,10 +133,9 @@ export class RegisterPage implements OnInit {
 
       loading.present();
 
-      const randomNum = this.profileGenerator(this.min, this.max);
       const profileUrl = "https://avatars.dicebear.com/api/avataaars/";
       const profileExt = ".svg";
-      const profilePicture = profileUrl + randomNum + profileExt;
+      const profilePicture = profileUrl + this.fname + profileExt;
 
       if (this.selectRole === "Admin") {
         this.roleAdmin = true;
@@ -265,19 +266,16 @@ export class RegisterPage implements OnInit {
     if (!form.valid) {
       return;
     }
-    const fname = form.value.fname;
+    this.fname = form.value.fname;
     const sname = form.value.sname;
     const email = form.value.email;
     const studentId = form.value.studentId;
     const bday = form.value.birthdate;
     const pass = form.value.password;
 
-    this.register(fname, sname, email, studentId, bday, pass);
+    this.register(this.fname, sname, email, studentId, bday, pass);
     form.reset();
   }// end of submit
 
-  profileGenerator(min, max) {
-    return Math.random() * (max - min) + min;
-  }
 
 }

@@ -70,7 +70,7 @@ export class CommentsService {
   }
 
 
-  async addComment(commentId, userId, userName, userPhoto, postId, commentContent) {
+  async addComment(commentId, userId, userName, userSurname, userPhoto, postId, commentContent) {
     const loading = await this.loadingCtrl.create({
       message: 'Creating Comment',
       spinner: 'crescent',
@@ -83,6 +83,7 @@ export class CommentsService {
       'commentId': commentId,
       'userId': userId,
       'userName': userName,
+      'userSurname': userSurname,
       'userPhoto': userPhoto,
       'postId': postId,
       'commentContent': commentContent,
@@ -112,6 +113,29 @@ export class CommentsService {
     this.afs.collection('comment').doc(commentId).update({
       'commentContent': content,
       'editedAt': Date.now()
+    }).then(() => {
+      loading.dismiss();
+      this.toast('Comment successfully updated', 'success');
+    }).catch(error => {
+      loading.dismiss();
+      this.toast(error.message, 'danger');
+    });
+   }
+
+   async flagComment(commentId, status, report, orgName, reportedBy) {
+    const loading = await this.loadingCtrl.create({
+      message: 'Reporting comment',
+      spinner: 'crescent',
+      showBackdrop: true
+    });
+
+    loading.present();
+
+    this.afs.collection('comment').doc(commentId).update({
+      'status': status,
+      'report': report,
+      'orgName': orgName,
+      'rportedBy': reportedBy
     }).then(() => {
       loading.dismiss();
       this.toast('Comment successfully updated', 'success');
