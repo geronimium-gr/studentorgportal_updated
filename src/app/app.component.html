@@ -35,12 +35,12 @@
             <ion-label>Audit Trail</ion-label>
           </ion-item>
         </ion-menu-toggle>
-        <!-- <ion-menu-toggle>
-          <ion-item button class="ion-button" detail>
-            <ion-icon name="file-tray-full-outline" slot="start"></ion-icon>
-            <ion-label>File System</ion-label>
+        <ion-menu-toggle>
+          <ion-item (click)="openFlags()" *ngIf="authService.canEdit(user)" detail>
+            <ion-icon name="flag-outline" slot="start"></ion-icon>
+            <ion-label>Flags</ion-label>
           </ion-item>
-        </ion-menu-toggle> -->
+        </ion-menu-toggle>
         <ion-menu-toggle>
           <ion-item button (click)="onLogout()" class="ion-button" detail>
             <ion-icon name="log-out-outline" slot="start"></ion-icon>

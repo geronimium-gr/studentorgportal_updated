@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ModalController } from '@ionic/angular';
 
 @Component({
   selector: 'app-flags-module',
@@ -7,8 +8,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class FlagsModuleComponent implements OnInit {
 
-  constructor() { }
+  constructor(private modalCtrl: ModalController) { }
 
   ngOnInit() {}
+
+  closeModal() {
+    this.modalCtrl.dismiss();
+  }
 
 }

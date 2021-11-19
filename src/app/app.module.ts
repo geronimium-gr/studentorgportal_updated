@@ -35,6 +35,7 @@ import { FilestorageComponent } from './files-storage/filestorage/filestorage.co
 import { UpdatePostComponent } from './posts/update-post/update-post.component';
 import { OptionButtonComponent } from './posts/option-button/option-button.component';
 import { UpdateEventsComponent } from './eventz/update-events/update-events.component';
+import { FlagsModuleComponent } from './flags/flags-module/flags-module.component';
 
 //Shared Module
 import { PickerModule } from './picker/picker.module';
@@ -56,7 +57,8 @@ import { CourseComponent } from './courseList/course/course.component';
     FilestorageComponent,
     OptionButtonComponent,
     CommentSectionComponent,
-    CourseComponent
+    CourseComponent,
+    FlagsModuleComponent
   ],
   entryComponents: [
     UpdatePasswordComponent,
@@ -70,7 +72,8 @@ import { CourseComponent } from './courseList/course/course.component';
     FilestorageComponent,
     OptionButtonComponent,
     CommentSectionComponent,
-    CourseComponent
+    CourseComponent,
+    FlagsModuleComponent
   ],
   imports: [
     BrowserModule,

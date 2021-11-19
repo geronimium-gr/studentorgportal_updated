@@ -2,8 +2,9 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { AngularFireStorage } from '@angular/fire/storage';
 import { Router } from '@angular/router';
-import { MenuController } from '@ionic/angular';
+import { MenuController, ModalController } from '@ionic/angular';
 import { Subscription } from 'rxjs';
+import { FlagsModuleComponent } from './flags/flags-module/flags-module.component';
 import { AuditTrailService } from './services/audit-trail.service';
 import { AuthService } from './services/auth.service';
 
@@ -48,7 +49,8 @@ export class AppComponent implements OnInit, OnDestroy{
               private menu: MenuController,
               private storage: AngularFireStorage,
               private auditService: AuditTrailService,
-              private afs: AngularFirestore) {
+              private afs: AngularFirestore,
+              private modalCtrl: ModalController) {
 
     this.appSub = this.authService.user$.subscribe(async user => {
       this.user = user;
@@ -89,13 +91,16 @@ export class AppComponent implements OnInit, OnDestroy{
 
   }
 
-  changeTheme(){
-
-  }
-
   viewProfile() {
     this.router.navigateByUrl('/profile');
     this.menu.close();
+  }
+
+  async openFlags() {
+    const modal = await this.modalCtrl.create({
+      component: FlagsModuleComponent
+    });
+    return await modal.present();
   }
 
   onLogout(){

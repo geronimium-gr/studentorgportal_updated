@@ -210,6 +210,16 @@ export class CommentSectionComponent implements OnInit, OnDestroy {
             console.log('Radio 3 selected');
           }
         }
+        ,
+        {
+          name: 'radio4',
+          type: 'radio',
+          label: 'Something else.',
+          value: 'smthg',
+          handler: () => {
+            console.log('Radio 4 selected');
+          }
+        }
       ],
       buttons: [
         {
@@ -224,8 +234,50 @@ export class CommentSectionComponent implements OnInit, OnDestroy {
           handler: (result) => {
             if (result == 'abuse') {
               console.log("It contains harassment or abuse.");
+            } else if (result == 'unkind') {
+              console.log('It\'s unfriendly or unkind.');
+            } else if (result == 'notRelevant') {
+              console.log('This comment is not relevant to this post.');
+            } else if (result == 'smthg') {
+              console.log('Something else.');
+              this.somethingElseInput();
+            }
+          }
+        }
+      ]
+    });
+
+    await alert.present();
+  }
+
+  async somethingElseInput() {
+    const alert = await this.alertCtrl.create({
+      header: 'Something else.',
+      message: 'Try to be specific as possible.',
+      inputs: [
+        {
+          name: 'reportInput',
+          id: 'paragraph',
+          type: 'textarea',
+          placeholder: 'Type here...'
+        }
+      ],
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          cssClass: 'secondary',
+          handler: () => {
+            console.log('Confirm Cancel');
+          }
+        }, {
+          text: 'Confirm',
+          handler: contentCom => {
+            if (contentCom.reportInput) {
+              console.log(contentCom.reportInput);
             } else {
-              
+              this.alertController("Input Required", "Enter Content", "Try Again");
+              return false;
             }
           }
         }
