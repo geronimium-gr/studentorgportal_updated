@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { ModalController } from '@ionic/angular';
+import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/firestore';
+import { AlertController, ModalController } from '@ionic/angular';
+import { Observable } from 'rxjs';
+import { CommentsService } from 'src/app/services/comments.service';
 
 @Component({
   selector: 'app-flags-module',
@@ -8,9 +11,49 @@ import { ModalController } from '@ionic/angular';
 })
 export class FlagsModuleComponent implements OnInit {
 
-  constructor(private modalCtrl: ModalController) { }
+  flags: Observable<any[]>;
+  flagsRef: AngularFirestoreCollection;
+
+  constructor(private modalCtrl: ModalController,
+              private afs: AngularFirestore,
+              private alertCtrl: AlertController,
+              private commentService: CommentsService)
+
+  {
+    this.flagsRef = this.afs.collection('comment', ref => ref.orderBy("createdAt", "desc").where("status", "==", "danger"));
+    this.flags = this.flagsRef.valueChanges();
+  }
 
   ngOnInit() {}
+
+  async acceptComment(commentId) {
+
+  }//
+
+  async deleteComment(postid) {
+    const alert = await this.alertCtrl.create({
+      header: 'Confirm!',
+      message: 'Delete this comment?',
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          cssClass: 'secondary',
+          handler: () => {
+            console.log('Confirm Cancel');
+          }
+        }, {
+          text: 'Confirm',
+          handler: () => {
+            this.commentService.deleteComment(postid);
+            console.log('Confirm Okay');
+          }
+        }
+      ]
+    });
+
+    await alert.present();
+  }//
 
   closeModal() {
     this.modalCtrl.dismiss();

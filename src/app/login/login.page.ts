@@ -63,16 +63,7 @@ export class LoginPage implements OnInit, OnDestroy {
   }// end of TogglePassword
 
   async login(email: string, password: string){
-
-    if (this.connectionMsg == true) {
-
-      this.authService.signIn(email, password);
-
-    } else if (this.connectionMsg == false) {
-      this.toast("Network error, check Internet connection", "danger");
-    }
-
-
+    this.authService.signIn(email, password);
   } //end of login
 
   createOnline$() {

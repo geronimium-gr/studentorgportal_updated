@@ -135,10 +135,10 @@ export class CommentsService {
       'status': status,
       'report': report,
       'orgName': orgName,
-      'rportedBy': reportedBy
+      'reportedBy': reportedBy
     }).then(() => {
       loading.dismiss();
-      this.toast('Comment successfully updated', 'success');
+      this.toast('Comment successfully reported', 'success');
     }).catch(error => {
       loading.dismiss();
       this.toast(error.message, 'danger');

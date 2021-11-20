@@ -187,38 +187,25 @@ export class CommentSectionComponent implements OnInit, OnDestroy {
           name: 'radio1',
           type: 'radio',
           label: 'It contains harassment or abuse.',
-          value: 'abuse',
-          handler: () => {
-            console.log("Radio 1 selected");
-          }
+          value: 'It contains harassment or abuse.'
         },
         {
           name: 'radio2',
           type: 'radio',
           label: 'It\'s unfriendly or unkind.',
-          value: 'unkind',
-          handler: () => {
-            console.log('Radio 2 selected');
-          }
+          value: 'It\'s unfriendly or unkind.'
         },
         {
           name: 'radio3',
           type: 'radio',
           label: 'This comment is not relevant to this post.',
-          value: 'notRelevant',
-          handler: () => {
-            console.log('Radio 3 selected');
-          }
-        }
-        ,
+          value: 'This comment is not relevant to this post.'
+        },
         {
           name: 'radio4',
           type: 'radio',
           label: 'Something else.',
-          value: 'smthg',
-          handler: () => {
-            console.log('Radio 4 selected');
-          }
+          value: 'smthg'
         }
       ],
       buttons: [
@@ -232,15 +219,13 @@ export class CommentSectionComponent implements OnInit, OnDestroy {
         }, {
           text: 'Ok',
           handler: (result) => {
-            if (result == 'abuse') {
-              console.log("It contains harassment or abuse.");
-            } else if (result == 'unkind') {
-              console.log('It\'s unfriendly or unkind.');
-            } else if (result == 'notRelevant') {
-              console.log('This comment is not relevant to this post.');
-            } else if (result == 'smthg') {
+            if (result == 'smthg') {
               console.log('Something else.');
-              this.somethingElseInput();
+              this.somethingElseInput(id, "danger", this.loadedOrgName, this.userName + " " + this.userSurname);
+            } else {
+              console.log(result);
+
+              this.commentService.flagComment(id, "danger", result, this.loadedOrgName, this.userName + " " + this.userSurname);
             }
           }
         }
@@ -250,7 +235,7 @@ export class CommentSectionComponent implements OnInit, OnDestroy {
     await alert.present();
   }
 
-  async somethingElseInput() {
+  async somethingElseInput(id, report, orgName, user) {
     const alert = await this.alertCtrl.create({
       header: 'Something else.',
       message: 'Try to be specific as possible.',
@@ -275,6 +260,7 @@ export class CommentSectionComponent implements OnInit, OnDestroy {
           handler: contentCom => {
             if (contentCom.reportInput) {
               console.log(contentCom.reportInput);
+              this.commentService.flagComment(id, "danger", contentCom.reportInput, this.loadedOrgName, this.userName + " " + this.userSurname);
             } else {
               this.alertController("Input Required", "Enter Content", "Try Again");
               return false;
