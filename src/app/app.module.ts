@@ -36,6 +36,7 @@ import { UpdatePostComponent } from './posts/update-post/update-post.component';
 import { OptionButtonComponent } from './posts/option-button/option-button.component';
 import { UpdateEventsComponent } from './eventz/update-events/update-events.component';
 import { FlagsModuleComponent } from './flags/flags-module/flags-module.component';
+import { EventPendingComponent } from './event-pending/event-pending/event-pending.component';
 
 //Shared Module
 import { PickerModule } from './picker/picker.module';
@@ -58,7 +59,8 @@ import { CourseComponent } from './courseList/course/course.component';
     OptionButtonComponent,
     CommentSectionComponent,
     CourseComponent,
-    FlagsModuleComponent
+    FlagsModuleComponent,
+    EventPendingComponent
   ],
   entryComponents: [
     UpdatePasswordComponent,
@@ -73,7 +75,8 @@ import { CourseComponent } from './courseList/course/course.component';
     OptionButtonComponent,
     CommentSectionComponent,
     CourseComponent,
-    FlagsModuleComponent
+    FlagsModuleComponent,
+    EventPendingComponent
   ],
   imports: [
     BrowserModule,

@@ -10,8 +10,19 @@
 </ion-header>
 
 <ion-content>
-          <!-- Post Section -->
-    <div>
+
+  <ion-segment value="comment" color="secondary" [(ngModel)]="segmentModel">
+    <ion-segment-button value="comment" layout="icon-start">
+      <ion-icon name="chatbox"></ion-icon>
+      <ion-label>Comments</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="chat" layout="icon-start">
+      <ion-icon name="chatbubbles"></ion-icon>
+      <ion-label>Chats</ion-label>
+    </ion-segment-button>
+  </ion-segment>
+    <!-- Comment Section -->
+    <div *ngIf="segmentModel === 'comment'">
       <div class="ion-text-center ion-padding" *ngIf="(flags | async)?.length <= 0">
         <ion-icon name="shapes" class="label-icon"></ion-icon>
         <p><strong>No Report is added.</strong></p>

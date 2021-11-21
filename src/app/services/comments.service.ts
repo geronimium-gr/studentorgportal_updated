@@ -145,6 +145,26 @@ export class CommentsService {
     });
    }
 
+  async rejectReport(commentId) {
+    const loading = await this.loadingCtrl.create({
+      message: 'Wait',
+      spinner: 'crescent',
+      showBackdrop: true
+    });
+
+    loading.present();
+
+    this.afs.collection('comment').doc(commentId).update({
+      'status': "safe"
+    }).then(() => {
+      loading.dismiss();
+      this.toast('Done', 'success');
+    }).catch(error => {
+      loading.dismiss();
+      this.toast(error.message, 'danger');
+    });
+  }
+
   async deleteComment(commentId) {
     const loading = await this.loadingCtrl.create({
       message: `Deleting comment. Please Wait`,

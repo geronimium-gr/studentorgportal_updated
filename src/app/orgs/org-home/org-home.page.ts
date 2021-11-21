@@ -22,6 +22,7 @@ import { EventzService } from '../../services/eventz.service';
 import { OptionButtonComponent } from '../../posts/option-button/option-button.component';
 import { CommentSectionComponent } from 'src/app/comments/comment-section/comment-section.component';
 import { CommentsService } from 'src/app/services/comments.service';
+import { EventPendingComponent } from 'src/app/event-pending/event-pending/event-pending.component';
 
 @Component({
   selector: 'app-org-home',
@@ -149,6 +150,13 @@ export class OrgHomePage implements OnInit, OnDestroy {
         postIdComment: postId,
         orgNameProp: this.orgName
       }
+    });
+    return await modal.present();
+  }
+
+  async openPendingEvents() {
+    const modal = await this.modalCtrl.create({
+      component: EventPendingComponent
     });
     return await modal.present();
   }

@@ -5,6 +5,7 @@ import { Subscription } from 'rxjs';
 
 import { Organization } from '../models/organization.model';
 import { NewOrgComponent } from '../orgs/new-org/new-org.component';
+import { AuthService } from '../services/auth.service';
 import { OrganizationService } from '../services/organization.service';
 
 @Component({
@@ -18,6 +19,8 @@ export class HomePage implements OnInit, OnDestroy{
   orgSub: Subscription;
   isLoading = false;
 
+  user: any
+
   slideOpts = {
     speed: 1000,
     autoplay: true,
@@ -27,7 +30,14 @@ export class HomePage implements OnInit, OnDestroy{
   constructor(private menu: MenuController,
               private popOverCtrl: PopoverController,
               private orgService: OrganizationService,
-              private aStorage: AngularFireStorage) {}
+              private authService: AuthService,
+              public auth: AuthService) 
+  
+  {
+    this.orgSub = this.authService.user$.subscribe(async users => {
+      this.user = users;
+    })
+  }
 
   ngOnInit() {
     this.isLoading = true;

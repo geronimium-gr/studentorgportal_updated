@@ -41,6 +41,7 @@ export class CommentSectionComponent implements OnInit, OnDestroy {
 
   constructor(public modalContoller: ModalController,
               private authService: AuthService,
+              public auth: AuthService,
               private navParams: NavParams,
               private postService: PostService,
               private loadingCtrl: LoadingController,

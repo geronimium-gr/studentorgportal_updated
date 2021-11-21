@@ -140,6 +140,11 @@ export class AuthService {
     return this.checkAuthorization(user, allowed);
   }
 
+  canAccess(user: User): boolean {
+    const allowed = ['admin', 'moderator', 'officer'];
+    return this.checkAuthorization(user, allowed);
+  }
+
   canDelete(user: User): boolean {
     const allowed = ['admin'];
     return this.checkAuthorization(user, allowed);

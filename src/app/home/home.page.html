@@ -11,7 +11,7 @@
 
 <ion-content>
 
-  <ion-fab vertical="top" horizontal="end" slot="fixed" edge style="margin-right: 10px;">
+  <ion-fab vertical="top" horizontal="end" slot="fixed" edge style="margin-right: 10px;" *ngIf="auth.canDelete(user)">
     <ion-fab-button color="tertiary">
       <ion-icon name="add"></ion-icon>
     </ion-fab-button>

@@ -14,6 +14,8 @@ export class FlagsModuleComponent implements OnInit {
   flags: Observable<any[]>;
   flagsRef: AngularFirestoreCollection;
 
+  segmentModel = "comment";
+
   constructor(private modalCtrl: ModalController,
               private afs: AngularFirestore,
               private alertCtrl: AlertController,
@@ -27,10 +29,30 @@ export class FlagsModuleComponent implements OnInit {
   ngOnInit() {}
 
   async acceptComment(commentId) {
-
+    const alert = await this.alertCtrl.create({
+      header: 'Confirm!',
+      message: 'Ignore this report?',
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          cssClass: 'secondary',
+          handler: () => {
+            console.log('Confirm Cancel');
+          }
+        }, {
+          text: 'Confirm',
+          handler: () => {
+            this.commentService.rejectReport(commentId);
+            console.log('Confirm Okay');
+          }
+        }
+      ]
+    });
+    await alert.present();
   }//
 
-  async deleteComment(postid) {
+  async deleteComment(commentId) {
     const alert = await this.alertCtrl.create({
       header: 'Confirm!',
       message: 'Delete this comment?',
@@ -45,13 +67,12 @@ export class FlagsModuleComponent implements OnInit {
         }, {
           text: 'Confirm',
           handler: () => {
-            this.commentService.deleteComment(postid);
+            this.commentService.deleteComment(commentId);
             console.log('Confirm Okay');
           }
         }
       ]
     });
-
     await alert.present();
   }//
 
