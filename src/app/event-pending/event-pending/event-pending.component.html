@@ -10,5 +10,54 @@
 </ion-header>
 
 <ion-content>
-  
+
+  <ion-segment value="evt" color="secondary">
+    <ion-segment-button value="evt" layout="icon-start">
+      <ion-icon name="calendar"></ion-icon>
+      <ion-label>Pending Events</ion-label>
+    </ion-segment-button>
+  </ion-segment>
+
+  <div class="ion-text-center ion-padding" *ngIf="(pendingEv | async)?.length <= 0">
+    <ion-icon name="calendar" class="label-icon"></ion-icon>
+    <p><strong>No Pending Events for now.</strong></p>
+  </div>
+  <div *ngIf="(pendingEv | async)?.length > 0">
+    <div *ngFor="let eventz of pendingEv | async">
+      <ion-card>
+        <ion-item lines="none" class="name-content">
+          <ion-avatar slot="start">
+            <img [src]="eventz.eventPostedByPhoto" alt="" />
+          </ion-avatar>
+          <ion-label>
+            <h2 class="userpost-name">{{ eventz.eventPostedBy }} {{ eventz.eventPostedBySurname }}</h2>
+            <p>{{ eventz.createdAt | date }}</p>
+          </ion-label>
+        </ion-item>
+        <img [src]="eventz.eventImageUrl" />
+        <ion-card-header>
+          <ion-card-title class="ion-padding-bottom"
+            >{{ eventz.eventTitle }}</ion-card-title
+          >
+          <ion-chip>
+            <ion-icon color="secondary" name="calendar-number"></ion-icon>
+            <ion-label>Start: {{ eventz.eventStartDate | date }}</ion-label>
+          </ion-chip>
+          <ion-chip>
+            <ion-icon color="secondary" name="calendar-number"></ion-icon>
+            <ion-label>End: {{ eventz.eventEndDate | date }}</ion-label>
+          </ion-chip>
+          <ion-chip>
+            <ion-icon color="secondary" name="time"></ion-icon>
+            <ion-label>{{ eventz.eventTime | date:'shortTime' }}</ion-label>
+          </ion-chip>
+        </ion-card-header>
+        <ion-card-content>
+          <p class="content-font">
+            {{ eventz.eventContent }}
+          </p>
+        </ion-card-content>
+      </ion-card>
+    </div>
+  </div>
 </ion-content>

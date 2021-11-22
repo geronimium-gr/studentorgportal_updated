@@ -119,7 +119,7 @@
         <!-- Post Section -->
       <div *ngIf="segmentModel === 'post'">
         <div class="ion-text-center ion-padding" *ngIf="!isLoading && posts?.length <= 0">
-          <ion-icon name="shapes" class="label-icon"></ion-icon>
+          <ion-icon name="copy" class="label-icon"></ion-icon>
           <p><strong>No Post is added.</strong></p>
         </div>
         <div *ngIf="!isLoading && posts?.length > 0">
@@ -183,7 +183,7 @@
           View Pending Events
         </ion-button>
         <div class="ion-text-center ion-padding" *ngIf="!isLoading && eventsList?.length <= 0">
-          <ion-icon name="shapes" class="label-icon"></ion-icon>
+          <ion-icon name="calendar" class="label-icon"></ion-icon>
           <p><strong>No Event is added.</strong></p>
         </div>
         <div *ngIf="!isLoading && eventsList?.length > 0">

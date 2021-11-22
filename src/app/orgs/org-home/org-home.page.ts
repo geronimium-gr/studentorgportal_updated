@@ -156,7 +156,10 @@ export class OrgHomePage implements OnInit, OnDestroy {
 
   async openPendingEvents() {
     const modal = await this.modalCtrl.create({
-      component: EventPendingComponent
+      component: EventPendingComponent,
+      componentProps: {
+        orgId: this.orgId
+      }
     });
     return await modal.present();
   }

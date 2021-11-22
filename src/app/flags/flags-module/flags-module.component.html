@@ -24,7 +24,7 @@
     <!-- Comment Section -->
     <div *ngIf="segmentModel === 'comment'">
       <div class="ion-text-center ion-padding" *ngIf="(flags | async)?.length <= 0">
-        <ion-icon name="shapes" class="label-icon"></ion-icon>
+        <ion-icon name="flag" class="label-icon"></ion-icon>
         <p><strong>No Report is added.</strong></p>
       </div>
       <div *ngIf="(flags | async)?.length > 0">
