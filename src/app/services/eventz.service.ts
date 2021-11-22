@@ -144,6 +144,17 @@ export class EventzService {
     });
    }
 
+   onPendingEvent(eventId) {
+    this.afs.collection('eventz').doc(eventId).update({
+      'status': "pending"
+    }).then(() => {
+      this.toast("Event is posted. Wait for the approval.", 'success');
+      this.closePopOver();
+    }).catch(error => {
+      this.toast(error.message, 'danger');
+    });
+   }
+
    async deleteEvent(eventId) {
     const loading = await this.loadingCtrl.create({
       message: `Deleting Event. Please Wait`,

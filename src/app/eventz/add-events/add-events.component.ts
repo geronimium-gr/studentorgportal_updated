@@ -98,6 +98,7 @@ export class AddEventsComponent implements OnInit, OnDestroy {
     if (!this.selectedImage) {
       const image = '';
       this.eventService.addEvents(eventId, title, content, image, this.userId, this.userName, this.userSurname, this.userPhoto, this.loadedOrg.orgId, startDate, endDate, startTime);
+      this.addtoQueueEvent(eventId);
       this.formGroup.reset();
     } else if (this.selectedImage) {
       const file = this.selectedImage;
@@ -110,10 +111,19 @@ export class AddEventsComponent implements OnInit, OnDestroy {
       .toPromise();
 
       this.eventService.addEvents(eventId, title, content, downloadUrl, this.userId, this.userName, this.userSurname, this.userPhoto, this.loadedOrg.orgId, startDate, endDate, startTime);
+      this.addtoQueueEvent(eventId);
       this.formGroup.reset();
 
     } else {
       console.log("Error happens.")
+    }
+  }
+
+  addtoQueueEvent(eventId) {
+    if (this.authService.canAccessByOfficer(this.user)) {
+      this.eventService.onPendingEvent(eventId);
+    } else {
+      console.log("Not an Officer");
     }
   }
 
