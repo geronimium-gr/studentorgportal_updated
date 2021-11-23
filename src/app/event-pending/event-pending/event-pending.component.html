@@ -57,6 +57,14 @@
             {{ eventz.eventContent }}
           </p>
         </ion-card-content>
+        <ion-chip class="ion-float-right" outline color="danger" (click)="deleteEvent(eventz.eventId)">
+          <ion-icon name="trash"></ion-icon>
+          <ion-label>Delete Event</ion-label>
+        </ion-chip>
+        <ion-chip class="ion-float-right" outline color="success" (click)="acceptEvent(eventz.eventId)">
+          <ion-icon name="checkmark-circle"></ion-icon>
+          <ion-label>Approve Event</ion-label>
+        </ion-chip>
       </ion-card>
     </div>
   </div>
