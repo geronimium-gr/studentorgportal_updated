@@ -39,7 +39,10 @@
             </ion-chip>
             <ion-card-title class="org-title">{{ orgName }}</ion-card-title>
           </ion-card-header>
-          <ion-card-content> {{ orgDesc }} </ion-card-content>
+          <ion-card-content [ngClass]="{'limitTextHeight': isReadMore}"> {{ orgDesc }} </ion-card-content>
+          <ion-button color="tertiary" expand="full" size="small" fill="clear" (click)="showText()">
+            {{ isReadMore ? 'Read More' : 'Read Less'}}
+          </ion-button>
           <ion-item>
             <ion-icon name="person" slot="start"></ion-icon>
             <ion-text>Members</ion-text>

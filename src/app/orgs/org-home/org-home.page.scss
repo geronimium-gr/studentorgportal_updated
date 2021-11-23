@@ -77,5 +77,10 @@ ion-chip {
   cursor: pointer !important;
 }
 
+.limitTextHeight {
+  height: 20px;
+  overflow: hidden;
+}
+
 
 

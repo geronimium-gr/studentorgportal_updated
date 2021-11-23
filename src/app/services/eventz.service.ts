@@ -166,7 +166,6 @@ export class EventzService implements OnDestroy {
       } else if (status == 'approved') {
         console.log("Approved.");
       }
-      this.closePopOver();
     }).catch(error => {
       this.toast(error.message, 'danger');
     });

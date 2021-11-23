@@ -65,6 +65,7 @@ export class OrgHomePage implements OnInit, OnDestroy {
 
   eventsList: Eventz[];
 
+  isReadMore = true;
 
   constructor(private orgService: OrganizationService,
     private afs: AngularFirestore,
@@ -132,6 +133,10 @@ export class OrgHomePage implements OnInit, OnDestroy {
     // this.sub = this.postReference.valueChanges().subscribe(val => {
     //   this.heartType = val.likes.includes(this.userId) ? 'heart' : 'heart-outline';
     // });
+  }
+
+  showText() {
+    this.isReadMore = !this.isReadMore;
   }
 
   ionViewWillEnter() {
