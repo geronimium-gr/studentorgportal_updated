@@ -41,42 +41,29 @@
           </ion-card-header>
           <ion-card-content [ngClass]="{'limitTextHeight': isReadMore}"> {{ orgDesc }} </ion-card-content>
           <ion-button color="tertiary" expand="full" size="small" fill="clear" (click)="showText()">
+            <ion-icon [name]="isReadMore ? 'chevron-down-circle' : 'chevron-up-circle'" slot="start"></ion-icon>
             {{ isReadMore ? 'Read More' : 'Read Less'}}
           </ion-button>
-          <ion-item>
+          <ion-item button>
             <ion-icon name="person" slot="start"></ion-icon>
             <ion-text>Members</ion-text>
             <ion-badge slot="end">00</ion-badge>
           </ion-item>
-          <ion-button
-            color="primary"
-            *ngIf="auth.canDelete(user)"
-            class="ion-margin"
-            expand="full"
-            (click)="editOrgForm(null)"
-          >
+
+          <ion-item detail button (click)="editOrgForm(null)" *ngIf="auth.canDelete(user)">
             <ion-icon name="create" slot="start"></ion-icon>
             <ion-text>Edit Org</ion-text>
-          </ion-button>
-          <ion-button
-            color="primary"
-            *ngIf="auth.canDelete(user)"
-            class="ion-margin"
-            expand="full"
-            (click)="deleteOrg()"
-          >
+          </ion-item>
+
+          <ion-item detail button (click)="deleteOrg()" *ngIf="auth.canDelete(user)">
             <ion-icon name="trash-bin" slot="start"></ion-icon>
             <ion-text>Delete Org</ion-text>
-          </ion-button>
-          <ion-button
-            color="primary"
-            class="ion-margin"
-            expand="full"
-            (click)="openFileSystem()"
-          >
-            <ion-icon name="file-tray-full" slot="start"></ion-icon>
-            <ion-text>Files</ion-text>
-          </ion-button>
+          </ion-item>
+
+          <ion-item detail button (click)="openFileSystem()">
+            <ion-icon name="folder-open" slot="start"></ion-icon>
+            <ion-text>File System</ion-text>
+          </ion-item>
         </ion-card>
       </ion-col>
       <ion-col size-lg="5" size-md="4" size-sm="6" size="12">
