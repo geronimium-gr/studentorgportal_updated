@@ -261,7 +261,7 @@ export class CommentSectionComponent implements OnInit, OnDestroy {
           handler: contentCom => {
             if (contentCom.reportInput) {
               console.log(contentCom.reportInput);
-              this.commentService.flagComment(id, "danger", contentCom.reportInput, this.loadedOrgName, this.userName + " " + this.userSurname);
+              this.commentService.flagComment(id, report, contentCom.reportInput, orgName, user);
             } else {
               this.alertController("Input Required", "Enter Content", "Try Again");
               return false;

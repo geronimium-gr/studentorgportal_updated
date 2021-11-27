@@ -1,12 +1,14 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
-import { AngularFireStorage } from '@angular/fire/storage';
 import { Router } from '@angular/router';
-import { MenuController, ModalController } from '@ionic/angular';
+import { AlertController, MenuController, ModalController } from '@ionic/angular';
 import { Subscription } from 'rxjs';
 import { FlagsModuleComponent } from './flags/flags-module/flags-module.component';
 import { AuditTrailService } from './services/audit-trail.service';
 import { AuthService } from './services/auth.service';
+
+import { Observable, Observer, fromEvent, merge } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 const themes = {
   autumn: {
@@ -41,13 +43,15 @@ export class AppComponent implements OnInit, OnDestroy{
   appSub: Subscription;
   access: boolean;
 
+  connectionMsg: boolean;
+
   // userRef;
   // user$;
 
   constructor(public authService: AuthService,
               private router: Router,
               private menu: MenuController,
-              private storage: AngularFireStorage,
+              private alertController: AlertController,
               private auditService: AuditTrailService,
               private afs: AngularFirestore,
               private modalCtrl: ModalController) {
@@ -63,7 +67,16 @@ export class AppComponent implements OnInit, OnDestroy{
       }
     });
 
-    //this.auditService.filterData();
+    this.createOnline$().subscribe(isOnline => {
+      console.log(isOnline);
+      if (isOnline == true) {
+        this.connectionMsg = true;
+      } else {
+        this.connectionMsg = false;
+        this.reloadPage();
+      }
+      console.log("Msg: " + this.connectionMsg);
+    })
 
   }
 
@@ -71,6 +84,17 @@ export class AppComponent implements OnInit, OnDestroy{
     // this.afs.collection('user').doc(this.userId);
     // this.user$ = this.userRef.valueChanges();
 
+  }
+
+  createOnline$() {
+    return merge<boolean>(
+      fromEvent(window, 'offline').pipe(map(() => false)),
+      fromEvent(window, 'online').pipe(map(() => true)),
+      new Observable((sub: Observer<boolean>) => {
+        sub.next(navigator.onLine);
+        sub.complete();
+      })
+    );
   }
 
   enterUserList(){
@@ -105,6 +129,24 @@ export class AppComponent implements OnInit, OnDestroy{
 
   onLogout(){
     this.auditService.addAuditRecord(this.user.userId, this.user.userName, this.user.userSurname, this.user.userEmail, this.user.userSchoolId, "Logout");
+  }
+
+  async reloadPage() {
+    const alert = await this.alertController.create({
+      header: 'Connection Lost',
+      message: 'Try to <strong>reload</strong> the page.',
+      backdropDismiss: false,
+      buttons: [
+        {
+          text: 'Reload',
+          handler: () => {
+            window.location.reload();
+          }
+        }
+      ]
+    });
+
+    await alert.present();
   }
 
 

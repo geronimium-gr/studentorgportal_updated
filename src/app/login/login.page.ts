@@ -1,13 +1,8 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { AngularFirestore } from '@angular/fire/firestore';
 import { NgForm } from '@angular/forms';
 import { ToastController } from '@ionic/angular';
 import { Subscription } from 'rxjs';
-import { AuditTrailService } from '../services/audit-trail.service';
 import { AuthService } from '../services/auth.service';
-
-import { Observable, Observer, fromEvent, merge } from 'rxjs';
-import { map } from 'rxjs/operators';
 
 
 @Component({
@@ -30,22 +25,11 @@ export class LoginPage implements OnInit, OnDestroy {
   userInfo: any;
 
   loginSub: Subscription;
-  connectionMsg: boolean;
 
   constructor(private toaster: ToastController,
-              private authService: AuthService,
-              private auditService: AuditTrailService,
-              private afs: AngularFirestore)
+              private authService: AuthService)
   {
-    this.createOnline$().subscribe(isOnline => {
-      console.log(isOnline);
-      if (isOnline == true) {
-        this.connectionMsg = true;
-      } else {
-        this.connectionMsg = false;
-      }
-      console.log("Msg: " + this.connectionMsg);
-    })
+
   }
 
   ngOnInit() {
@@ -65,17 +49,6 @@ export class LoginPage implements OnInit, OnDestroy {
   async login(email: string, password: string){
     this.authService.signIn(email, password);
   } //end of login
-
-  createOnline$() {
-    return merge<boolean>(
-      fromEvent(window, 'offline').pipe(map(() => false)),
-      fromEvent(window, 'online').pipe(map(() => true)),
-      new Observable((sub: Observer<boolean>) => {
-        sub.next(navigator.onLine);
-        sub.complete();
-      })
-    );
-  }
 
   async toast(message, status){
     const toast = await this.toaster.create({
