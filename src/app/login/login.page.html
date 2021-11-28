@@ -65,10 +65,18 @@
   </div>
 </div> -->
 
-<div class="ion-text-center ion-padding" *ngIf="connectionMsg == false">
-  <ion-icon name="cloud-offline" class="label-icon"></ion-icon>
-  <p><strong>No Internet Connection</strong></p>
-</div>
+<ion-content *ngIf="connectionMsg == false">
+  <div class="ion-text-center ion-padding" style="height: 100%; display: flex; align-items: center; justify-content: center;">
+    <ion-card color="danger">
+      <ion-card-title class="ion-padding">
+        <div style="font-size:100px;">&#9888;</div>
+        <strong>
+          No Internet Connection
+        </strong>
+      </ion-card-title>
+    </ion-card>
+  </div>
+</ion-content>
 
 
 

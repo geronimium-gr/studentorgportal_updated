@@ -32,13 +32,16 @@ export class AddPostComponent implements OnInit, OnDestroy {
 
   postSub: Subscription;
 
+  checkOrg: boolean;
+
   constructor(private postService: PostService,
               private storage: AngularFireStorage,
               private loadingCtrl: LoadingController,
               private afs: AngularFirestore,
               private navParams: NavParams,
               private authService: AuthService,
-              private popoverCtrl: PopoverController) {
+              private popoverCtrl: PopoverController,
+              public auth: AuthService) {
 
     this.postSub = this.authService.user$.subscribe(async user => {
       this.user = user;
@@ -142,6 +145,15 @@ export class AddPostComponent implements OnInit, OnDestroy {
 
   onClose() {
     this.popoverCtrl.dismiss();
+  }
+
+  checkAllOrg() {
+    if (this.checkOrg == true) {
+      console.log("Checked");
+    } else {
+      console.log("Not Checked");
+      console.log("Please LORD tulong, matapos sana namin to.");
+    }
   }
 
   ngOnDestroy() {
