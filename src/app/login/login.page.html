@@ -1,33 +1,5 @@
 
-  <!-- <ion-card>
-    <form #f="ngForm" (ngSubmit)="onSubmit(f)">
-      <ion-list lines="full">
-        <ion-item>
-          <ion-label position="fixed">Email:</ion-label>
-          <ion-input name="email" required type="email" ngModel #email="ngModel" email></ion-input>
-        </ion-item>
-        <ion-item>
-          <ion-label position="fixed">Password:</ion-label>
-          <ion-input
-            name="password"
-            required
-            [type]="showPassword ? 'text' : 'password'"
-            ngModel
-            #password="ngModel"
-            minlength="6">
-          </ion-input>
-          <ion-icon [name]="passwordToggleIcon" (click)="togglePassword()"></ion-icon>
-        </ion-item>
-
-        <div class="ion-text-right ion-padding-end">
-          <p><a style="text-decoration: none;" [routerLink]="['/forgot-password']">Forgot Password?</a></p>
-        </div>
-
-        <ion-button class="ion-margin" type="submit" expand="block" [disabled]="!f.valid">Login</ion-button>
-      </ion-list>
-    </form>
-  </ion-card> -->
-
+<ion-content *ngIf="connectionMsg == true">
   <img class="wave" src="https://firebasestorage.googleapis.com/v0/b/db-stuportal.appspot.com/o/assets%2Fwave2.png?alt=media&token=5312c5ad-2c9e-48dd-a5c7-0aa7c7dc844c">
 
   <div class="wrapper">
@@ -86,11 +58,17 @@
     </ion-row>
   </ion-grid>
 </div>
-
+</ion-content>
 <!-- <div class="container">
   <div class="image">
     <img src="../../assets/images/PLVlogo.png" alt="">
   </div>
 </div> -->
+
+<div class="ion-text-center ion-padding" *ngIf="connectionMsg == false">
+  <ion-icon name="cloud-offline" class="label-icon"></ion-icon>
+  <p><strong>No Internet Connection</strong></p>
+</div>
+
 
 

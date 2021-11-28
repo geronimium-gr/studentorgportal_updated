@@ -73,7 +73,6 @@ export class AppComponent implements OnInit, OnDestroy{
         this.connectionMsg = true;
       } else {
         this.connectionMsg = false;
-        this.reloadPage();
       }
       console.log("Msg: " + this.connectionMsg);
     })
