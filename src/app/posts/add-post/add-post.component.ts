@@ -86,7 +86,7 @@ export class AddPostComponent implements OnInit, OnDestroy {
     if (!this.selectedImage) {
       const image = '';
 
-      this.postService.addPosts(postId, title, content, image, this.userId, this.userName, this.userSurname,this.userPhoto, this.loadedOrg.orgId);
+      this.publicPost(postId, title, content, image, this.userId, this.userName, this.userSurname,this.userPhoto, this.loadedOrg.orgId);
       this.formGroup.reset();
     } else {
       const file = this.selectedImage;
@@ -98,10 +98,19 @@ export class AddPostComponent implements OnInit, OnDestroy {
       .getDownloadURL()
       .toPromise();
 
-      this.postService.addPosts(postId, title, content, downloadUrl, this.userId, this.userName, this.userSurname, this.userPhoto, this.loadedOrg.orgId);
+      this.publicPost(postId, title, content, downloadUrl, this.userId, this.userName, this.userSurname, this.userPhoto, this.loadedOrg.orgId);
       this.formGroup.reset();
     }
 
+  }
+
+  publicPost(id, title, content, image, userId, userName, surname, photoUrl, orgId) {
+    if (this.checkOrg == true) {
+      this.postService.addPosts(id, title, content, image, userId, userName, surname, photoUrl, "public");
+      return;
+    }
+
+    this.postService.addPosts(id, title, content, image, userId, userName, surname, photoUrl, orgId);
   }
 
   async uploadImage(uid, file): Promise<string> {

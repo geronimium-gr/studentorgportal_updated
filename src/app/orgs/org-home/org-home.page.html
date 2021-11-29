@@ -108,12 +108,14 @@
 
         <!-- Post Section -->
       <div *ngIf="segmentModel === 'post'">
-        <div class="ion-text-center ion-padding" *ngIf="!isLoading && posts?.length <= 0">
-          <ion-icon name="copy" class="label-icon"></ion-icon>
-          <p><strong>No Post is added.</strong></p>
-        </div>
-        <div *ngIf="!isLoading && posts?.length > 0">
-          <div *ngFor="let p of posts">
+
+        <ion-item lines="full" color="none" *ngIf="!isLoading && (publicPosts | async)?.length > 0">
+          <ion-icon name="megaphone"></ion-icon>
+          <ion-title>Announcement</ion-title>
+        </ion-item>
+
+        <div *ngIf="!isLoading && (publicPosts | async)?.length > 0">
+          <div *ngFor="let p of publicPosts | async">
             <ion-card [id]="p.postId">
               <ion-item lines="none">
                 <ion-avatar slot="start">
@@ -133,7 +135,7 @@
               </ion-item>
               <img [src]="p.postImageUrl" />
               <ion-card-header>
-                <ion-card-title>{{ p.postTitle }}</ion-card-title>
+                <ion-card-title class="postTitle">{{ p.postTitle }}</ion-card-title>
               </ion-card-header>
               <ion-card-content>
                 <p class="content-font">{{ p.postContent }}</p>
@@ -156,7 +158,67 @@
                       name="chatbox"
                       slot="icon-only"
                     ></ion-icon>
-                    <!-- <ion-text class="reaction-num">0</ion-text> -->
+                  </ion-button>
+                </ion-col>
+              </ion-row>
+            </ion-card>
+          </div>
+        </div>
+
+        <ion-item lines="full" color="none" *ngIf="!isLoading && posts?.length > 0">
+          <ion-icon name="copy"></ion-icon>
+          <ion-title>Organization Post</ion-title>
+        </ion-item>
+
+        <div class="ion-text-center ion-padding" *ngIf="(!isLoading && posts?.length <= 0) && (publicPosts | async)?.length <= 0">
+          <ion-icon name="copy" class="label-icon"></ion-icon>
+          <p><strong>No Post is added.</strong></p>
+        </div>
+
+        <div *ngIf="!isLoading && posts?.length > 0">
+          <div *ngFor="let p of posts">
+            <ion-card [id]="p.postId">
+              <ion-item lines="none">
+                <ion-avatar slot="start">
+                  <img [src]="p.postedByPhoto" alt="" />
+                </ion-avatar>
+                <ion-label>
+                  <h2 class="userpost-name">{{ p.postedBy }} {{ p.postedBySurname }}</h2>
+                  <p>{{ p.createdAt | date }}</p>
+                  <p *ngIf="p.editedBy">
+                    <ion-icon name="create" slot="start"></ion-icon>
+                    <span>{{ p.editedBy }}</span>
+                  </p>
+                </ion-label>
+                <ion-button color="secondary" fill="clear" slot="end" (click)="editPost($event, p.postId)" *ngIf="(p.postedById === cUser) || auth.canEdit(user)">
+                  <ion-icon name="ellipsis-vertical" slot="icon-only"></ion-icon>
+                </ion-button>
+              </ion-item>
+              <img [src]="p.postImageUrl" />
+              <ion-card-header>
+                <ion-card-title class="postTitle">{{ p.postTitle }}</ion-card-title>
+              </ion-card-header>
+              <ion-card-content>
+                <p class="content-font">{{ p.postContent }}</p>
+              </ion-card-content>
+              <ion-row class="reaction-sys">
+                <ion-col size="6">
+                  <ion-button color="secondary" fill="clear" (click)="toggleHeart(p.postId)">
+                    <ion-icon
+                      class="reaction-icon"
+                      [name]="heartType"
+                      slot="start"
+                    ></ion-icon>
+                    <ion-text class="reaction-num">0</ion-text>
+                  </ion-button>
+                </ion-col>
+                <ion-col size="6">
+                  <ion-button color="secondary" fill="clear" (click)="openCommentSection(p.postId)">
+                    <ion-icon
+                      class="reaction-icon"
+                      name="chatbox"
+                      slot="icon-only"
+                    ></ion-icon>
                   </ion-button>
                 </ion-col>
               </ion-row>

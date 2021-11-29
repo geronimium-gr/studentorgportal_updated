@@ -1,8 +1,8 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { AngularFirestore, AngularFirestoreDocument } from '@angular/fire/firestore';
+import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument } from '@angular/fire/firestore';
 import { Router, ActivatedRoute } from '@angular/router';
 import { AlertController, LoadingController, ModalController, PopoverController, ToastController } from '@ionic/angular';
-import { Subscription } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import firebase from 'firebase/app';
 import 'firebase/auth';
 import { AngularFireStorage } from '@angular/fire/storage';
@@ -53,6 +53,10 @@ export class OrgHomePage implements OnInit, OnDestroy {
   posts: Post[];
   loadedPost: Post;
   isLoading = false;
+
+  //Public Post
+  publicPosts: Observable<any[]>;
+  postsRef: AngularFirestoreCollection;
 
   //reaction
   heartType: string = "heart-outline";
@@ -107,9 +111,10 @@ export class OrgHomePage implements OnInit, OnDestroy {
 
     const fragment: string = this.activateRoute.snapshot.fragment;
 
-    console.log("fragment " + fragment);
-
     this.router.navigate([], { fragment: fragment });
+
+    this.postsRef = this.afs.collection("post", ref => ref.orderBy("createdAt", "desc").where("postOrgId", "==", "public"));
+    this.publicPosts = this.postsRef.valueChanges();
   }//
 
   ngOnInit() {

@@ -57,7 +57,7 @@ ion-chip {
 //Content font
 
 .content-font {
-  font-size: 15px;
+  font-size: 16px;
 }
 
 //Oval Input
@@ -80,6 +80,11 @@ ion-chip {
 .limitTextHeight {
   height: 20px;
   overflow: hidden;
+}
+
+//Post Title
+.postTitle {
+  font-weight: 600;
 }
 
 
