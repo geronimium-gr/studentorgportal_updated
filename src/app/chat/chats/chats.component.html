@@ -15,18 +15,49 @@
 </ion-header>
 
 <ion-content>
-  <ion-card>
+  <!-- <ion-card>
     <ion-item lines="none">
       <ion-avatar slot="start">
         <img src="https://avatars.dicebear.com/api/female/1.svg"  alt="" />
       </ion-avatar>
       <ion-label>
-        <p>John Paulo Geronimo</p>
-        <p>
+        <p style="font-size: smaller;" >John Paulo Geronimo</p>
+        <ion-text>lorem</ion-text>
+        <p style="font-size: x-small;">
           <ion-icon name="time" slot="start" style="vertical-align: middle;"></ion-icon>
           <span style="vertical-align: middle;">12:00 PM Dec 8, 2021</span>
         </p>
       </ion-label>
     </ion-item>
-  </ion-card>
+  </ion-card> -->
+
+  <div class="conversation ion-padding">
+    <div class="chat-section" id="chat">
+      <div class="chat">
+        <div class="yours messages">
+          <div class="last-message-other">
+            <ion-avatar>
+              <img src="https://avatars.dicebear.com/api/female/1.svg"  alt="" />
+            </ion-avatar>
+            <div class="message last">
+              Hello, how are you?
+            </div>
+          </div>
+          <span>1:44 AM</span>
+        </div>
+        <div class="mine messages">
+          <div class="message last">
+            Great thnks
+          </div>
+          <span>1:44 AM</span>
+        </div>
+      </div>
+    </div>
+    <div class="message-input">
+      <ion-input placeholder="Type your message..."></ion-input>
+      <div class="send-button">
+        <ion-icon name="send-sharp"></ion-icon>
+      </div>
+    </div>
+  </div>
 </ion-content>
