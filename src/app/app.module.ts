@@ -24,7 +24,7 @@ import { AuthService } from "./services/auth.service";
 //Auth Guard
 import { AuthGuard } from "./guards/auth.guard";
 
-//Popover
+//Popover and Modals
 import { UpdatePasswordComponent } from './update-password/update-password.component';
 import { UpdateProfileComponent } from './update-profile/update-profile.component';
 import { NewOrgComponent } from './orgs/new-org/new-org.component';
@@ -37,11 +37,12 @@ import { OptionButtonComponent } from './posts/option-button/option-button.compo
 import { UpdateEventsComponent } from './eventz/update-events/update-events.component';
 import { FlagsModuleComponent } from './flags/flags-module/flags-module.component';
 import { EventPendingComponent } from './event-pending/event-pending/event-pending.component';
+import { CourseComponent } from './courseList/course/course.component';
+import { ChatsComponent } from './chat/chats/chats.component';
 
 //Shared Module
 import { PickerModule } from './picker/picker.module';
 import { CommentSectionComponent } from './comments/comment-section/comment-section.component';
-import { CourseComponent } from './courseList/course/course.component';
 
 
 @NgModule({
@@ -60,7 +61,8 @@ import { CourseComponent } from './courseList/course/course.component';
     CommentSectionComponent,
     CourseComponent,
     FlagsModuleComponent,
-    EventPendingComponent
+    EventPendingComponent,
+    ChatsComponent
   ],
   entryComponents: [
     UpdatePasswordComponent,
@@ -76,7 +78,8 @@ import { CourseComponent } from './courseList/course/course.component';
     CommentSectionComponent,
     CourseComponent,
     FlagsModuleComponent,
-    EventPendingComponent
+    EventPendingComponent,
+    ChatsComponent
   ],
   imports: [
     BrowserModule,

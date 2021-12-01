@@ -23,6 +23,7 @@ import { OptionButtonComponent } from '../../posts/option-button/option-button.c
 import { CommentSectionComponent } from 'src/app/comments/comment-section/comment-section.component';
 import { CommentsService } from 'src/app/services/comments.service';
 import { EventPendingComponent } from 'src/app/event-pending/event-pending/event-pending.component';
+import { ChatsComponent } from 'src/app/chat/chats/chats.component';
 
 @Component({
   selector: 'app-org-home',
@@ -151,6 +152,16 @@ export class OrgHomePage implements OnInit, OnDestroy {
   toggleHeart(postid) {
     this.postIds = postid;
     this.heartType = this.heartType == "heart" ? "heart-outline" : "heart";
+  }
+
+  async openChat() {
+    const modal = await this.modalCtrl.create({
+      component: ChatsComponent,
+      componentProps: {
+        orgId: this.orgId
+      }
+    });
+    return await modal.present();
   }
 
   async openCommentSection(postId) {

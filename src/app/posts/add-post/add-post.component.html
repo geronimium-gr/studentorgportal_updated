@@ -57,7 +57,7 @@
       </ion-item>
     </ion-list>
   </form>
-  <ion-item *ngIf="auth.canDelete(user)">
+  <ion-item lines="none" *ngIf="auth.canDelete(user)">
     <ion-label>Post in all Orgs</ion-label>
     <ion-checkbox color="primary" slot="start" [(ngModel)]="checkOrg" (ionChange)="checkAllOrg()"></ion-checkbox>
   </ion-item>
