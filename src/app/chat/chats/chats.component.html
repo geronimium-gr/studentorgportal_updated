@@ -6,32 +6,38 @@
       </ion-button>
     </ion-buttons>
     <ion-buttons slot="start" disabled>
-      <ion-button>
-        <ion-icon name="chatbubbles" slot="icon-only"></ion-icon>
-      </ion-button>
+      <ion-item lines="none" class="icon-content">
+        <ion-avatar>
+          <img src="https://avatars.dicebear.com/api/female/1.svg"  alt="" />
+        </ion-avatar>
+      </ion-item>
     </ion-buttons>
     <ion-title>Chats</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-  <!-- <ion-card>
+  <ion-card>
     <ion-item lines="none">
       <ion-avatar slot="start">
         <img src="https://avatars.dicebear.com/api/female/1.svg"  alt="" />
       </ion-avatar>
       <ion-label>
-        <p style="font-size: smaller;" >John Paulo Geronimo</p>
-        <ion-text>lorem</ion-text>
+        <p style="font-size: smaller;">
+          <strong>
+            John Paulo Geronimo
+          </strong>
+        </p>
+        <p class="ion-text-wrap message-content">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ratione mollitia hic commodi maiores atque amet rem id deleniti. Pariatur molestiae sint error non laborum, illum ipsa? Iure nemo odio dolor.</p>
         <p style="font-size: x-small;">
           <ion-icon name="time" slot="start" style="vertical-align: middle;"></ion-icon>
           <span style="vertical-align: middle;">12:00 PM Dec 8, 2021</span>
         </p>
       </ion-label>
     </ion-item>
-  </ion-card> -->
+  </ion-card>
 
-  <div class="conversation ion-padding">
+  <!-- <div class="conversation ion-padding">
     <div class="chat-section" id="chat">
       <div class="chat">
         <div class="yours messages">
@@ -59,5 +65,5 @@
         <ion-icon name="send-sharp"></ion-icon>
       </div>
     </div>
-  </div>
+  </div> -->
 </ion-content>
