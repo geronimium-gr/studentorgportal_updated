@@ -158,7 +158,10 @@ export class OrgHomePage implements OnInit, OnDestroy {
     const modal = await this.modalCtrl.create({
       component: ChatsComponent,
       componentProps: {
-        orgId: this.orgId
+        orgId: this.orgId,
+        orgName: this.orgName,
+        orgPhoto: this.loadOrganization.imageUrl,
+        userId: this.cUser
       }
     });
     return await modal.present();

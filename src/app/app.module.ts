@@ -43,6 +43,7 @@ import { ChatsComponent } from './chat/chats/chats.component';
 //Shared Module
 import { PickerModule } from './picker/picker.module';
 import { CommentSectionComponent } from './comments/comment-section/comment-section.component';
+import { AutosizeModule } from "ngx-autosize";
 
 
 @NgModule({
@@ -91,7 +92,8 @@ import { CommentSectionComponent } from './comments/comment-section/comment-sect
     AngularFirestoreModule,
     AngularFireAuthModule,
     AngularFireStorageModule,
-    PickerModule
+    PickerModule,
+    AutosizeModule
   ],
   providers: [
     AuthService,
