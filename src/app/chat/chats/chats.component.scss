@@ -21,8 +21,8 @@
 }
 
 .profile-pic {
-  width: auto;
-  height: auto;
+  width: 43px;
+  height: 43px;
 }
 
 .message-writer {
@@ -39,4 +39,8 @@
   --padding-end: 0.5em;
 }
 
+//No Chat Icon
+.label-icon {
+  font-size: 10rem;
+}
 

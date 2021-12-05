@@ -161,7 +161,8 @@ export class OrgHomePage implements OnInit, OnDestroy {
         orgId: this.orgId,
         orgName: this.orgName,
         orgPhoto: this.loadOrganization.imageUrl,
-        userId: this.cUser
+        userId: this.cUser,
+        userInfo: this.user
       }
     });
     return await modal.present();
