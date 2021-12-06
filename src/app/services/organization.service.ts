@@ -57,7 +57,7 @@ export class OrganizationService {
     return this.org = this.orgDoc.valueChanges();
   }
 
-  async addOrganization(orgId, orgName, orgDesc, image) {
+  async addOrganization(orgId, orgName, orgDesc, image, orgType) {
     const loading = await this.loadingCtrl.create({
       message: 'Adding Event...',
       spinner: 'crescent',
@@ -71,6 +71,7 @@ export class OrganizationService {
       'orgName': orgName,
       'description': orgDesc,
       'imageUrl': image,
+      'orgType': orgType,
       'createdAt': Date.now()
     }).then(() => {
       loading.dismiss();
@@ -82,29 +83,7 @@ export class OrganizationService {
     });
   }
 
-  async updateOrganization(orgId, orgName, orgDesc) {
-    const loading = await this.loadingCtrl.create({
-      message: 'Updating...',
-      spinner: 'crescent',
-      showBackdrop: true
-    });
-
-    loading.present();
-
-    this.afs.collection('organization').doc(orgId).update({
-      'orgName': orgName,
-      'description': orgDesc
-    }).then(() => {
-      loading.dismiss();
-      this.toast('Update Success', 'success');
-      this.closePopOver();
-    }).catch(error => {
-      loading.dismiss();
-      this.toast(error.message, 'danger');
-    });
-  }
-
-  async updateOrganizationwithImage(orgId, orgName, orgDesc, image) {
+  async updateOrganization(orgId, orgName, orgDesc, orgType) {
     const loading = await this.loadingCtrl.create({
       message: 'Updating...',
       spinner: 'crescent',
@@ -116,6 +95,30 @@ export class OrganizationService {
     this.afs.collection('organization').doc(orgId).update({
       'orgName': orgName,
       'description': orgDesc,
+      'orgType': orgType
+    }).then(() => {
+      loading.dismiss();
+      this.toast('Update Success', 'success');
+      this.closePopOver();
+    }).catch(error => {
+      loading.dismiss();
+      this.toast(error.message, 'danger');
+    });
+  }
+
+  async updateOrganizationwithImage(orgId, orgName, orgDesc, image, orgType) {
+    const loading = await this.loadingCtrl.create({
+      message: 'Updating...',
+      spinner: 'crescent',
+      showBackdrop: true
+    });
+
+    loading.present();
+
+    this.afs.collection('organization').doc(orgId).update({
+      'orgName': orgName,
+      'description': orgDesc,
+      'orgType': orgType,
       'imageUrl': image
     }).then(() => {
       loading.dismiss();

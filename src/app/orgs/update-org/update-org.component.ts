@@ -13,6 +13,7 @@ import { OrganizationService } from '../../services/organization.service';
 export class UpdateOrgComponent implements OnInit {
 
   loadedOrg: any;
+  selectType: any; 
 
   @ViewChild('filePicker') filePickerRef: ElementRef<HTMLInputElement>;
   selectedImage: File;
@@ -28,6 +29,7 @@ export class UpdateOrgComponent implements OnInit {
 
   ngOnInit() {
     this.loadedOrg = this.navParams.get('editOrgId');
+    this.selectType = this.loadedOrg.orgType;
   }
 
   onSubmit(form: NgForm){
@@ -37,11 +39,13 @@ export class UpdateOrgComponent implements OnInit {
 
     const organizationName = form.value.orgName;
     const organizationDesc = form.value.orgDesc;
+    let orgType = this.selectType;
 
-    this.updateOrg(organizationName, organizationDesc);
+    this.updateOrg(organizationName, organizationDesc, orgType);
+    console.log(orgType);
   }
 
-  async updateOrg(name, description) {
+  async updateOrg(name, description, orgType) {
 
     try {
       const file = this.selectedImage;
@@ -54,11 +58,11 @@ export class UpdateOrgComponent implements OnInit {
       .getDownloadURL()
       .toPromise();
 
-      this.orgService.updateOrganizationwithImage(orgId, name, description, downloadUrl);
+      this.orgService.updateOrganizationwithImage(orgId, name, description, downloadUrl, orgType);
       console.log("No image selected...");
 
       } catch (error) {
-        this.orgService.updateOrganization(this.loadedOrg.orgId, name, description);
+        this.orgService.updateOrganization(this.loadedOrg.orgId, name, description, orgType);
       }
 
   }
@@ -101,6 +105,11 @@ export class UpdateOrgComponent implements OnInit {
       return result.ref.fullPath;
     }
   }//
+
+  changeOrgType(type) {
+    console.log(type);
+    this.selectType = type;
+  }
 
   onClose() {
     this.popOverCtrl.dismiss();

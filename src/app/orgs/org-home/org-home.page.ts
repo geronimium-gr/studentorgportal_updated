@@ -46,6 +46,7 @@ export class OrgHomePage implements OnInit, OnDestroy {
 
   orgName: any;
   orgDesc: any;
+  orgType: any;
 
   orgSub: Subscription;
 
@@ -204,6 +205,7 @@ export class OrgHomePage implements OnInit, OnDestroy {
         this.loadOrganization = org;
         this.orgName = org.orgName;
         this.orgDesc = org.description;
+        this.orgType = org.orgType;
 
         loading.dismiss();
       } catch (error) {

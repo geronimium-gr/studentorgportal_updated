@@ -61,6 +61,14 @@
         #descCtrl="ngModel">
         </ion-textarea>
       </ion-item>
+      <ion-item>
+        <ion-icon name="shapes" slot="start" color="secondary"></ion-icon>
+        <ion-label>Org Type</ion-label>
+        <ion-select interface="alert" [(ngModel)]="selectType" (ionChange)="selectedType(selectType)" [ngModelOptions]="{standalone: true}">
+          <ion-select-option value="Academic">Academic</ion-select-option>
+          <ion-select-option value="Non-Academic">Non-Academic</ion-select-option>
+        </ion-select>
+      </ion-item>
     </ion-list>
   </form>
 </ion-list>

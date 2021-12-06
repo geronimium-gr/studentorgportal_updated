@@ -34,8 +34,8 @@
         <ion-card>
           <ion-card-header>
             <ion-chip>
-              <ion-icon name="book" color="secondary"></ion-icon>
-              <ion-label>Organization</ion-label>
+              <ion-icon [name]="orgType === 'Academic' ? 'book' : 'color-palette'" color="secondary"></ion-icon>
+              <ion-label>{{ orgType }} Org</ion-label>
             </ion-chip>
             <ion-card-title class="org-title">{{ orgName }}</ion-card-title>
           </ion-card-header>

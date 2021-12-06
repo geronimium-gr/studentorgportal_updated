@@ -24,6 +24,8 @@ export class NewOrgComponent implements OnInit {
 
   currentImageUrl: string;
 
+  selectType = "Academic"
+
   constructor(private orgService: OrganizationService,
               private aStorage: AngularFireStorage,
               private loadingCtrl: LoadingController,
@@ -52,7 +54,7 @@ export class NewOrgComponent implements OnInit {
     .getDownloadURL()
     .toPromise();
 
-    this.orgService.addOrganization(orgId, name, description, downloadUrl);
+    this.orgService.addOrganization(orgId, name, description, downloadUrl, this.selectType);
   }
 
   async uploadImage(uid, file): Promise<string> {
@@ -93,6 +95,10 @@ export class NewOrgComponent implements OnInit {
       loading.dismiss();
     }
   }//
+
+  selectedType(ev) {
+    console.log(ev + this.selectType);
+  }
 
   onClose() {
     this.popoverCtrl.dismiss();
