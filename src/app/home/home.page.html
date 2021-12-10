@@ -39,6 +39,17 @@
     <ion-title>My Orgs</ion-title>
   </ion-item>
 
+  <ion-segment color="tertiary" value="Academic" [(ngModel)]="segmentModel" (ionChange)="segmentChanged()">
+    <ion-segment-button value="Academic" layout="icon-start">
+      <ion-label>Academic</ion-label>
+      <ion-icon name="book"></ion-icon>
+    </ion-segment-button>
+    <ion-segment-button value="Non-Academic" layout="icon-start">
+      <ion-label>Non-Academic</ion-label>
+      <ion-icon name="color-palette"></ion-icon>
+    </ion-segment-button>
+  </ion-segment>
+
   <div class="ion-text-center ion-padding" *ngIf="!isLoading && organization?.length <= 0">
     <ion-icon name="shapes" class="label-icon"></ion-icon>
     <p><strong>No Organization is added. Create one?</strong></p>

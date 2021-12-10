@@ -63,6 +63,7 @@ export class UpdatePostComponent implements OnInit, OnDestroy {
 
     this.loadedPost = this.navParams.get('editPostId');
     this.loadedOrg = this.navParams.get('editOrgIds');
+
   }
 
   ionViewWillEnter() {
@@ -111,7 +112,6 @@ export class UpdatePostComponent implements OnInit, OnDestroy {
     this.postSub = this.orgService.getOrganization(this.loadedOrg).subscribe(async org => {
       this.orgName = org.orgName;
       console.log(this.orgName);
-
     });
   }
 
@@ -154,6 +154,11 @@ export class UpdatePostComponent implements OnInit, OnDestroy {
   }
 
   addedRecordAudit() {
+
+    if (this.orgName == undefined) {
+      this.orgName = "Profile";
+    }
+
     this.auditService.addRecordForEdit(
       this.userInfo.userId,
       this.userInfo.userName,

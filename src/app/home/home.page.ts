@@ -19,6 +19,8 @@ export class HomePage implements OnInit, OnDestroy{
   orgSub: Subscription;
   isLoading = false;
 
+  segmentModel = "Academic"
+
   user: any
 
   slideOpts = {
@@ -31,24 +33,34 @@ export class HomePage implements OnInit, OnDestroy{
               private popOverCtrl: PopoverController,
               private orgService: OrganizationService,
               private authService: AuthService,
-              public auth: AuthService) 
-  
+              public auth: AuthService)
+
   {
     this.orgSub = this.authService.user$.subscribe(async users => {
       this.user = users;
-    })
+    });
   }
 
   ngOnInit() {
-    this.isLoading = true;
-    this.orgSub = this.orgService.getOrganizations().subscribe(orgs => {
-      this.organization = orgs;
-      this.isLoading = false;
-    });
+    // this.isLoading = true;
+    // this.segmentChanged();
+    // this.orgSub = this.orgService.getOrganizations().subscribe(orgs => {
+    //   this.organization = orgs;
+    //   this.isLoading = false;
+    // });
   }
 
   openFirst(){
     this.menu.enable(true, 'm1');
+  }
+
+  segmentChanged() {
+    console.log(this.segmentModel);
+    this.orgService.getOrgType(this.segmentModel);
+    this.orgSub = this.orgService.getOrganizations().subscribe(orgs => {
+      this.organization = orgs;
+      this.isLoading = false;
+    });
   }
 
   async openAddForm(ev: any) {

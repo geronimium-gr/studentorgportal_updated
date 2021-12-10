@@ -40,7 +40,7 @@ export class ChatService {
 
   filterData() {
     this.chatCol = this.afs
-    .collection("chat", ref => ref.orderBy("createdAt", "asc"));
+    .collection("chat", ref => ref.orderBy("createdAt", "asc").where("userOrgId", "==", this.orgId));
 
     this.chats = this.chatCol.snapshotChanges().pipe(
       map(action => {

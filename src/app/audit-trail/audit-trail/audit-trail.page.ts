@@ -8,6 +8,7 @@ import { AuditTrail } from '../../models/audit-trail';
 import firebase from 'firebase/app';
 import 'firebase/auth';
 import 'firebase/firestore';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-audit-trail',
@@ -18,6 +19,7 @@ export class AuditTrailPage implements OnInit, OnDestroy {
 
   selectCategory = "userName";
   searchValue: string = "";
+  user: any;
 
   auditList: AuditTrail[];
   auditSub: Subscription;
@@ -35,9 +37,19 @@ export class AuditTrailPage implements OnInit, OnDestroy {
               private auditService: AuditTrailService,
               private alertCtrl: AlertController,
               private loadingCtrl: LoadingController,
-              private toastCtrl: ToastController
+              private toastCtrl: ToastController,
+              public auth: AuthService,
+              private authService: AuthService
     )
     {
+      this.auditSub = this.authService.user$.subscribe(async user => {
+        try {
+          this.user = user;
+        } catch (error) {
+          console.log(error);
+        }
+      });//
+
       this.getData();
     }
 
@@ -185,7 +197,7 @@ export class AuditTrailPage implements OnInit, OnDestroy {
         (await userRef).forEach((element) => {
             batch.delete(element.ref);
         });
-  
+
         return batch.commit();
     } catch (error) {
       console.log(error);

@@ -20,7 +20,7 @@
 </ion-item>
 
 <div class="ion-padding">
-<ion-button (click)="deleteData()" color="danger" *ngIf="rows?.length > 0">
+<ion-button (click)="deleteData()" color="danger" *ngIf="rows?.length > 0 || auth.canDelete(user)">
   <ion-icon name="trash" slot="start"></ion-icon>
   <ion-label>Delete Records</ion-label>
 </ion-button>

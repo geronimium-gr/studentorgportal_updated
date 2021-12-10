@@ -168,7 +168,7 @@
                 <p class="content-font">{{ p.postContent }}</p>
               </ion-card-content>
               <ion-card-content>
-                <ion-chip outline color="tertiary" [routerLink]="['/home', p.postOrgId]" [fragment]="p.postId">
+                <ion-chip outline color="tertiary" *ngIf="p.postOrgId !== 'public'" [routerLink]="['/home', p.postOrgId]" [fragment]="p.postId">
                   <ion-icon name="link"></ion-icon>
                   <ion-label>View Org</ion-label>
                 </ion-chip>

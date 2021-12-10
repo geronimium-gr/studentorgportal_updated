@@ -45,9 +45,6 @@ export class ChatsComponent implements OnInit, OnDestroy {
     this.userInfo = this.navParams.get("userInfo");
 
     this.chatService.getOrgId(this.orgId);
-
-
-
   }
 
   ngOnInit() {

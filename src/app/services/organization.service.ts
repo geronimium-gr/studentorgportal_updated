@@ -27,6 +27,8 @@ export class OrganizationService {
 
   org$: any;
 
+  orgType = "";
+
   constructor(
     private afs: AngularFirestore,
     private loadingCtrl: LoadingController,
@@ -34,8 +36,17 @@ export class OrganizationService {
     private toaster: ToastController,
     private router: Router,
     private storage: AngularFireStorage
-  ) {
-    this.orgCol = this.afs.collection('organization', ref => ref.orderBy("createdAt", "desc"));
+  ) { } //
+
+  getOrgType(type) {
+    this.orgType = type;
+    console.log(type);
+
+    this.filterData();
+  }
+
+  filterData() {
+    this.orgCol = this.afs.collection('organization', ref => ref.orderBy("createdAt", "desc").where("orgType", "==", this.orgType));
 
     this.orgs = this.orgCol.snapshotChanges().pipe(
       map(action => {
@@ -46,7 +57,7 @@ export class OrganizationService {
         })
       })
     );
-  } //
+  }
 
   getOrganizations() {
     return this.orgs;
