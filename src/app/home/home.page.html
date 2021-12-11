@@ -50,14 +50,20 @@
     </ion-segment-button>
   </ion-segment>
 
-  <div class="ion-text-center ion-padding" *ngIf="!isLoading && organization?.length <= 0">
+  <div class="ion-text-center ion-padding" *ngIf="(!isLoading && organization?.length <= 0) && segmentModel === 'Academic'">
     <ion-icon name="shapes" class="label-icon"></ion-icon>
     <p><strong>No Organization is added. Create one?</strong></p>
     <ion-button color="primary" (click)="openAddForm(null)">Create Organization</ion-button>
   </div>
 
-  <!-- Org List -->
-  <ion-grid *ngIf="!isLoading && organization.length > 0">
+  <div class="ion-text-center ion-padding" *ngIf="(!isLoading && (orgs | async)?.length <= 0) && segmentModel === 'Non-Academic'">
+    <ion-icon name="shapes" class="label-icon"></ion-icon>
+    <p><strong>No Organization is added. Create one?</strong></p>
+    <ion-button color="primary" (click)="openAddForm(null)">Create Organization</ion-button>
+  </div>
+
+  <!-- Org List Academic -->
+  <ion-grid *ngIf="(!isLoading && organization?.length > 0 ) && segmentModel === 'Academic'">
     <ion-row>
       <ion-col size-lg="3" size-md="4" size-sm="6" size="12" *ngFor="let o of organization">
         <ion-card>
@@ -80,5 +86,27 @@
     </ion-row>
   </ion-grid>
 
-
+    <!-- Org List Non-Academic -->
+    <ion-grid *ngIf="(!isLoading && (orgs | async)?.length > 0 ) && segmentModel === 'Non-Academic'">
+      <ion-row>
+        <ion-col size-lg="3" size-md="4" size-sm="6" size="12" *ngFor="let o of orgs | async">
+          <ion-card>
+            <div class="container">
+              <ion-img class="img" [src]="o.imageUrl"></ion-img>
+            </div>
+            <ion-card-header>
+              <ion-card-title class="truncateWord">{{ o.orgName }}</ion-card-title>
+              <ion-card-subtitle>0 members</ion-card-subtitle>
+            </ion-card-header>
+            <ion-card-content>
+              <p class="truncateWord">{{ o.description }}</p>
+            </ion-card-content>
+            <ion-button fill="solid" class="ion-margin" expand="block" color="primary" [routerLink]="['/home', o.orgId]">
+              <ion-icon name="open" slot="start"></ion-icon>
+              <ion-label>View</ion-label>
+            </ion-button>
+          </ion-card>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
 </ion-content>

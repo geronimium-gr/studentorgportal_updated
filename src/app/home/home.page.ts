@@ -1,7 +1,8 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/firestore';
 import { AngularFireStorage } from '@angular/fire/storage';
 import { MenuController, PopoverController } from '@ionic/angular';
-import { Subscription } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 
 import { Organization } from '../models/organization.model';
 import { NewOrgComponent } from '../orgs/new-org/new-org.component';
@@ -23,6 +24,9 @@ export class HomePage implements OnInit, OnDestroy{
 
   user: any
 
+  orgs: Observable<any[]>;
+  orgRef: AngularFirestoreCollection;
+
   slideOpts = {
     speed: 1000,
     autoplay: true,
@@ -33,21 +37,27 @@ export class HomePage implements OnInit, OnDestroy{
               private popOverCtrl: PopoverController,
               private orgService: OrganizationService,
               private authService: AuthService,
-              public auth: AuthService)
+              public auth: AuthService,
+              private afs: AngularFirestore)
 
   {
     this.orgSub = this.authService.user$.subscribe(async users => {
       this.user = users;
     });
+
+    this.orgService.filterData();
+
+    this.orgRef = this.afs.collection('organization', ref => ref.orderBy("createdAt", "desc").where("orgType", "==", "Non-Academic"));
+    this.orgs = this.orgRef.valueChanges();
+
   }
 
   ngOnInit() {
-    // this.isLoading = true;
-    // this.segmentChanged();
-    // this.orgSub = this.orgService.getOrganizations().subscribe(orgs => {
-    //   this.organization = orgs;
-    //   this.isLoading = false;
-    // });
+    this.isLoading = true;
+    this.orgSub = this.orgService.getOrganizations().subscribe(orgs => {
+      this.organization = orgs;
+      this.isLoading = false;
+    });
   }
 
   openFirst(){
@@ -56,11 +66,6 @@ export class HomePage implements OnInit, OnDestroy{
 
   segmentChanged() {
     console.log(this.segmentModel);
-    this.orgService.getOrgType(this.segmentModel);
-    this.orgSub = this.orgService.getOrganizations().subscribe(orgs => {
-      this.organization = orgs;
-      this.isLoading = false;
-    });
   }
 
   async openAddForm(ev: any) {
