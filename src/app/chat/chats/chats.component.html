@@ -47,6 +47,9 @@
                       <ion-icon name="time" slot="start" style="vertical-align: middle;"></ion-icon>
                       <span style="vertical-align: middle;">{{ chat.createdAt | date:'medium' }}</span>
                     </p>
+                    <ion-button color="danger" class="ion-float-right report-button" (click)="flagChat(chat.chatId)" fill="clear" size="small">
+                      <ion-icon name="flag" slot="icon-only"></ion-icon>
+                    </ion-button>
                   </ion-label>
                 </ion-item>
               </ion-col>

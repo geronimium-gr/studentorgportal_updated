@@ -66,6 +66,105 @@ export class ChatsComponent implements OnInit, OnDestroy {
     this.modalCtrl.dismiss();
   }
 
+  async flagChat(id) {
+    const alert = await this.alertCtrl.create({
+      cssClass: 'flag-alert',
+      header: 'Report Message',
+      message: 'Why are you <strong>reporting</strong> this message?',
+      inputs: [
+        {
+          name: 'radio1',
+          type: 'radio',
+          label: 'It contains harassment or abuse.',
+          value: 'It contains harassment or abuse.'
+        },
+        {
+          name: 'radio2',
+          type: 'radio',
+          label: 'It\'s unfriendly or unkind.',
+          value: 'It\'s unfriendly or unkind.'
+        },
+        {
+          name: 'radio3',
+          type: 'radio',
+          label: 'Something else.',
+          value: 'smthg'
+        }
+      ],
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          cssClass: 'secondary',
+          handler: () => {
+            console.log('Confirm Cancel');
+          }
+        }, {
+          text: 'Ok',
+          handler: (result) => {
+            if (result == 'smthg') {
+              console.log('Something else.');
+              // this.somethingElseInput(id, "danger", this.loadedOrgName, this.userName + " " + this.userSurname);
+            } else {
+              console.log(result);
+
+              // this.commentService.flagComment(id, "danger", result, this.loadedOrgName, this.userName + " " + this.userSurname);
+            }
+          }
+        }
+      ]
+    });
+
+    await alert.present();
+  }
+
+  async somethingElseInput(id, report, orgName, user) {
+    const alert = await this.alertCtrl.create({
+      header: 'Something else.',
+      message: 'Try to be specific as possible.',
+      inputs: [
+        {
+          name: 'reportInput',
+          id: 'paragraph',
+          type: 'textarea',
+          placeholder: 'Type here...'
+        }
+      ],
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          cssClass: 'secondary',
+          handler: () => {
+            console.log('Confirm Cancel');
+          }
+        }, {
+          text: 'Confirm',
+          handler: contentCom => {
+            if (contentCom.reportInput) {
+              console.log(contentCom.reportInput);
+              // this.commentService.flagComment(id, report, contentCom.reportInput, orgName, user);
+            } else {
+              this.alertController("Input Required", "Enter Content", "Try Again");
+              return false;
+            }
+          }
+        }
+      ]
+    });
+
+    await alert.present();
+  }
+
+  async alertController(header, message, button){
+    let alert = await this.alertCtrl.create({
+      header: header,
+      message: message,
+      buttons: [ button ]
+    });
+    alert.present();
+  }//
+
   ngOnDestroy() {
     if (this.chatSub) {
       this.chatSub.unsubscribe();
