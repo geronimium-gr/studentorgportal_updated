@@ -104,11 +104,13 @@ export class ChatsComponent implements OnInit, OnDestroy {
           handler: (result) => {
             if (result == 'smthg') {
               console.log('Something else.');
-              // this.somethingElseInput(id, "danger", this.loadedOrgName, this.userName + " " + this.userSurname);
+              this.somethingElseInput(id, "danger", this.orgName, this.userInfo.userName + " " + this.userInfo.userSurname);
+            } else if (result == undefined) {
+              this.alertController("Select first", "You must select first.", "Try Again");
+              return false;
             } else {
               console.log(result);
-
-              // this.commentService.flagComment(id, "danger", result, this.loadedOrgName, this.userName + " " + this.userSurname);
+              this.chatService.flagChat(id, "danger", result, this.orgName, this.userInfo.userName + " " + this.userInfo.userSurname);
             }
           }
         }
@@ -143,7 +145,7 @@ export class ChatsComponent implements OnInit, OnDestroy {
           handler: contentCom => {
             if (contentCom.reportInput) {
               console.log(contentCom.reportInput);
-              // this.commentService.flagComment(id, report, contentCom.reportInput, orgName, user);
+              this.chatService.flagChat(id, report, contentCom.reportInput, orgName, user);
             } else {
               this.alertController("Input Required", "Enter Content", "Try Again");
               return false;

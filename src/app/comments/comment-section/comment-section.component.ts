@@ -223,9 +223,11 @@ export class CommentSectionComponent implements OnInit, OnDestroy {
             if (result == 'smthg') {
               console.log('Something else.');
               this.somethingElseInput(id, "danger", this.loadedOrgName, this.userName + " " + this.userSurname);
+            } else if (result == undefined) {
+              this.alertController("Select first", "You must select first.", "Try Again");
+              return false;
             } else {
               console.log(result);
-
               this.commentService.flagComment(id, "danger", result, this.loadedOrgName, this.userName + " " + this.userSurname);
             }
           }

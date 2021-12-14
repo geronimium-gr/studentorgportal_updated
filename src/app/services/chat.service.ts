@@ -97,4 +97,67 @@ export class ChatService {
     toast.present();
   }//
 
+  async flagChat(chatId, status, report, orgName, reportedBy) {
+    const loading = await this.loadingCtrl.create({
+      message: 'Reporting message',
+      spinner: 'crescent',
+      showBackdrop: true
+    });
+
+    loading.present();
+
+    this.afs.collection('chat').doc(chatId).update({
+      'status': status,
+      'report': report,
+      'orgName': orgName,
+      'reportedBy': reportedBy
+    }).then(() => {
+      loading.dismiss();
+      this.toast('Message successfully reported', 'success');
+    }).catch(error => {
+      loading.dismiss();
+      this.toast(error.message, 'danger');
+    });
+   }
+
+  async rejectReport(chatId) {
+    const loading = await this.loadingCtrl.create({
+      message: 'Wait',
+      spinner: 'crescent',
+      showBackdrop: true
+    });
+
+    loading.present();
+
+    this.afs.collection('chat').doc(chatId).update({
+      'status': "safe"
+    }).then(() => {
+      loading.dismiss();
+      this.toast('Done', 'success');
+    }).catch(error => {
+      loading.dismiss();
+      this.toast(error.message, 'danger');
+    });
+  }
+
+  async removeReport(chatId) {
+    const loading = await this.loadingCtrl.create({
+      message: 'Wait',
+      spinner: 'crescent',
+      showBackdrop: true
+    });
+
+    loading.present();
+
+    this.afs.collection('chat').doc(chatId).delete().then(() => {
+      loading.dismiss();
+      this.toast('Done', 'success');
+    }).catch(error => {
+      loading.dismiss();
+      this.toast(error.message, 'danger');
+    });
+  }
+
+
+
 }

@@ -21,6 +21,7 @@
       <ion-label>Chats</ion-label>
     </ion-segment-button>
   </ion-segment>
+
     <!-- Comment Section -->
     <div *ngIf="segmentModel === 'comment'">
       <div class="ion-text-center ion-padding" *ngIf="(flags | async)?.length <= 0">
@@ -67,6 +68,58 @@
               <ion-chip outline color="danger" (click)="deleteComment(f.commentId)">
                 <ion-icon name="trash"></ion-icon>
                 <ion-label>Delete Comment</ion-label>
+              </ion-chip>
+            </ion-card-content>
+          </ion-card>
+        </div>
+      </div>
+    </div>
+
+    <div *ngIf="segmentModel === 'chat'">
+      <div class="ion-text-center ion-padding" *ngIf="(flagsChat | async)?.length <= 0">
+        <ion-icon name="flag" class="label-icon"></ion-icon>
+        <p><strong>No Report is added.</strong></p>
+      </div>
+      <div *ngIf="(flagsChat | async)?.length > 0">
+        <div *ngFor="let f of flagsChat | async">
+          <ion-card>
+            <ion-item class="name-content" lines="none">
+              <ion-avatar slot="start">
+                <img [src]="f.userPhoto" alt="" />
+              </ion-avatar>
+              <ion-label>
+                <h2 class="userpost-name">{{ f.userName }} {{ f.userSurname }}</h2>
+                <p>{{ f.createdAt | date }}</p>
+                <p>
+                  <strong>
+                    From {{ f.orgName }}
+                  </strong>
+                </p>
+              </ion-label>
+            </ion-item>
+            <ion-card-content>
+              <p class="content-font">{{ f.chatContent }}</p>
+            </ion-card-content>
+            <ion-card-content>
+              <p>
+                <strong>
+                  <ion-icon name="warning" slot="start" color="warning"></ion-icon>
+                  Report Details: {{ f.report }}
+                </strong>
+              </p>
+              <p>
+                <strong>
+                  <ion-icon name="person" slot="start" color="tertiary"></ion-icon>
+                  Reported by: {{ f.reportedBy }}
+                </strong>
+              </p>
+              <ion-chip outline color="tertiary" (click)="acceptChat(f.chatId)">
+                <ion-icon name="close-circle"></ion-icon>
+                <ion-label>Reject Report</ion-label>
+              </ion-chip>
+              <ion-chip outline color="danger" (click)="deleteChat(f.chatId)">
+                <ion-icon name="trash"></ion-icon>
+                <ion-label>Delete Message</ion-label>
               </ion-chip>
             </ion-card-content>
           </ion-card>
