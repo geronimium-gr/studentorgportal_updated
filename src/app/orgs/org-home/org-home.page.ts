@@ -24,6 +24,7 @@ import { CommentSectionComponent } from 'src/app/comments/comment-section/commen
 import { CommentsService } from 'src/app/services/comments.service';
 import { EventPendingComponent } from 'src/app/event-pending/event-pending/event-pending.component';
 import { ChatsComponent } from 'src/app/chat/chats/chats.component';
+import { NotificationComponent } from 'src/app/notifs/notification/notification.component';
 
 @Component({
   selector: 'app-org-home',
@@ -158,6 +159,20 @@ export class OrgHomePage implements OnInit, OnDestroy {
   async openChat() {
     const modal = await this.modalCtrl.create({
       component: ChatsComponent,
+      componentProps: {
+        orgId: this.orgId,
+        orgName: this.orgName,
+        orgPhoto: this.loadOrganization.imageUrl,
+        userId: this.cUser,
+        userInfo: this.user
+      }
+    });
+    return await modal.present();
+  }
+
+  async openNotifs() {
+    const modal = await this.modalCtrl.create({
+      component: NotificationComponent,
       componentProps: {
         orgId: this.orgId,
         orgName: this.orgName,

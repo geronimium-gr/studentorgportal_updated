@@ -39,6 +39,7 @@ import { FlagsModuleComponent } from './flags/flags-module/flags-module.componen
 import { EventPendingComponent } from './event-pending/event-pending/event-pending.component';
 import { CourseComponent } from './courseList/course/course.component';
 import { ChatsComponent } from './chat/chats/chats.component';
+import { NotificationComponent } from './notifs/notification/notification.component';
 
 //Shared Module
 import { PickerModule } from './picker/picker.module';
@@ -63,7 +64,8 @@ import { AutosizeModule } from "ngx-autosize";
     CourseComponent,
     FlagsModuleComponent,
     EventPendingComponent,
-    ChatsComponent
+    ChatsComponent,
+    NotificationComponent
   ],
   entryComponents: [
     UpdatePasswordComponent,
@@ -80,7 +82,8 @@ import { AutosizeModule } from "ngx-autosize";
     CourseComponent,
     FlagsModuleComponent,
     EventPendingComponent,
-    ChatsComponent
+    ChatsComponent,
+    NotificationComponent
   ],
   imports: [
     BrowserModule,

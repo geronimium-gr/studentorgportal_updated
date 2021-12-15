@@ -1,0 +1,28 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Notification</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="closeModal()">
+        <ion-icon slot="icon-only" name="close"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-list>
+    <ion-item>
+      <ion-avatar slot="start">
+        <img src="https://avatars.dicebear.com/api/human/1.svg" />
+      </ion-avatar>
+      <ion-thumbnail slot="end">
+        <img src="https://picsum.photos/id/238/200" />
+      </ion-thumbnail>
+      <ion-label>
+        <h3>John Paulo Geronimo</h3>
+        <p>created a post.</p>
+        <p>Dec 20, 2021 | 12:00 PM</p>
+      </ion-label>
+    </ion-item>
+  </ion-list>
+</ion-content>
