@@ -10,19 +10,24 @@
 </ion-header>
 
 <ion-content>
-  <ion-list>
-    <ion-item>
+  <ion-list *ngFor="let n of notif">
+    <ion-item *ngIf="notif?.length > 0">
       <ion-avatar slot="start">
-        <img src="https://avatars.dicebear.com/api/human/1.svg" />
+        <img [src]="n.userPhoto" />
       </ion-avatar>
       <ion-thumbnail slot="end">
-        <img src="https://picsum.photos/id/238/200" />
+        <img [src]="n?.notifPhoto" />
       </ion-thumbnail>
       <ion-label>
-        <h3>John Paulo Geronimo</h3>
-        <p>created a post.</p>
-        <p>Dec 20, 2021 | 12:00 PM</p>
+        <h3>{{ n.userName }} {{ n.userSurname }} </h3>
+        <p>{{ n.action }}</p>
+        <p class="time-font">{{ n.createdAt | date:'medium' }}</p>
       </ion-label>
     </ion-item>
   </ion-list>
+
+  <div class="ion-text-center ion-padding" *ngIf="notif?.length <= 0">
+    <ion-icon name="notifications" class="label-icon"></ion-icon>
+    <p><strong>No Notifications today.</strong></p>
+  </div>
 </ion-content>
