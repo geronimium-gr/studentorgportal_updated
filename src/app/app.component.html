@@ -24,19 +24,19 @@
           </ion-item>
         </ion-menu-toggle>
         <ion-menu-toggle>
-          <ion-item (click)="enterUserList()" *ngIf="authService.canEdit(user)" detail>
+          <ion-item button (click)="enterUserList()" *ngIf="authService.canEdit(user)" detail>
             <ion-icon name="list-outline" slot="start"></ion-icon>
             <ion-label>User List</ion-label>
           </ion-item>
         </ion-menu-toggle>
         <ion-menu-toggle>
-          <ion-item (click)="enterAuditTrail()" *ngIf="authService.canEdit(user)" detail>
+          <ion-item button (click)="enterAuditTrail()" *ngIf="authService.canEdit(user)" detail>
             <ion-icon name="receipt-outline" slot="start"></ion-icon>
             <ion-label>Audit Trail</ion-label>
           </ion-item>
         </ion-menu-toggle>
         <ion-menu-toggle>
-          <ion-item (click)="openFlags()" *ngIf="authService.canEdit(user)" detail>
+          <ion-item button (click)="openFlags()" *ngIf="authService.canEdit(user)" detail>
             <ion-icon name="flag-outline" slot="start"></ion-icon>
             <ion-label>Flags</ion-label>
           </ion-item>

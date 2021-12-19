@@ -109,7 +109,6 @@ export class AddPostComponent implements OnInit, OnDestroy {
       this.postService.addPosts(id, title, content, image, userId, userName, surname, photoUrl, "public");
       return;
     }
-
     this.postService.addPosts(id, title, content, image, userId, userName, surname, photoUrl, orgId);
   }
 
@@ -161,7 +160,6 @@ export class AddPostComponent implements OnInit, OnDestroy {
       console.log("Checked");
     } else {
       console.log("Not Checked");
-      console.log("Please LORD tulong, matapos sana namin to.");
     }
   }
 

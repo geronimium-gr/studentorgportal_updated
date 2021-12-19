@@ -1,12 +1,11 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument } from '@angular/fire/firestore';
-import { AngularFireStorage } from '@angular/fire/storage';
-import { ActivatedRoute, Router } from '@angular/router';
 import { LoadingController, PopoverController, ToastController } from '@ionic/angular';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { Post } from '../models/post.model';
+import { NotificationsService } from './notifications.service';
 
 @Injectable({
   providedIn: 'root'
@@ -26,9 +25,7 @@ export class PostService {
     private loadingCtrl: LoadingController,
     private popOverCtrl: PopoverController,
     private toaster: ToastController,
-    private router: Router,
-    private storage: AngularFireStorage,
-    private activateRoute: ActivatedRoute
+    private notifService: NotificationsService
     ) {}//
 
   getOrgId(idParameter) {
@@ -85,6 +82,7 @@ export class PostService {
     }).then(() => {
       loading.dismiss();
       this.toast('New Post Added', 'success');
+      this.notifService.sendNotif(userId, userName, surname, userPhoto, orgId, "added a post", image);
       this.closePopOver();
     }).catch(error => {
       loading.dismiss();

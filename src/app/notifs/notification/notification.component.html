@@ -11,7 +11,7 @@
 
 <ion-content>
   <ion-list *ngFor="let n of notif">
-    <ion-item *ngIf="notif?.length > 0">
+    <ion-item *ngIf="notif?.length > 0" (click)="viewNotif()" style="cursor: pointer;">
       <ion-avatar slot="start">
         <img [src]="n.userPhoto" />
       </ion-avatar>

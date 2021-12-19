@@ -32,6 +32,11 @@ export class NotificationComponent implements OnInit, OnDestroy {
     });
   }
 
+  viewNotif() {
+    console.log("Notification Click...");
+
+  }
+
   closeModal() {
     this.modalCtrl.dismiss();
   }

@@ -20,11 +20,12 @@ import { FilestorageComponent } from '../../files-storage/filestorage/filestorag
 import { Eventz } from '../../models/eventz.model';
 import { EventzService } from '../../services/eventz.service';
 import { OptionButtonComponent } from '../../posts/option-button/option-button.component';
-import { CommentSectionComponent } from 'src/app/comments/comment-section/comment-section.component';
-import { CommentsService } from 'src/app/services/comments.service';
-import { EventPendingComponent } from 'src/app/event-pending/event-pending/event-pending.component';
-import { ChatsComponent } from 'src/app/chat/chats/chats.component';
-import { NotificationComponent } from 'src/app/notifs/notification/notification.component';
+import { CommentSectionComponent } from '../../comments/comment-section/comment-section.component';
+import { CommentsService } from '../../services/comments.service';
+import { EventPendingComponent } from '../../event-pending/event-pending/event-pending.component';
+import { ChatsComponent } from '../../chat/chats/chats.component';
+import { NotificationComponent } from '../../notifs/notification/notification.component';
+import { ViewportScroller } from '@angular/common';
 
 @Component({
   selector: 'app-org-home',
@@ -88,7 +89,8 @@ export class OrgHomePage implements OnInit, OnDestroy {
     private postService: PostService,
     private modalCtrl: ModalController,
     private eventService: EventzService,
-    private commentService: CommentsService) {
+    private commentService: CommentsService,
+    private viewportScroller: ViewportScroller) {
 
     if (firebase.auth().currentUser !== null) {
       console.log("user id: " + firebase.auth().currentUser.uid);
@@ -112,9 +114,6 @@ export class OrgHomePage implements OnInit, OnDestroy {
     this.postService.getOrgId(this.orgId);
     this.eventService.getOrgId(this.orgId);
 
-    const fragment: string = this.activateRoute.snapshot.fragment;
-
-    this.router.navigate([], { fragment: fragment });
 
     this.postsRef = this.afs.collection("post", ref => ref.orderBy("createdAt", "desc").where("postOrgId", "==", "public"));
     this.publicPosts = this.postsRef.valueChanges();
@@ -149,6 +148,7 @@ export class OrgHomePage implements OnInit, OnDestroy {
 
   ionViewWillEnter() {
     this.loadOrgDetails();
+    const fragment: string = this.activateRoute.snapshot.fragment;
   }
 
   toggleHeart(postid) {

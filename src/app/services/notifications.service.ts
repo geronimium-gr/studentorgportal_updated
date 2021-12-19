@@ -58,17 +58,10 @@ export class NotificationsService {
   }
 
   async sendNotif(userId, userName, userSurname, userPhoto, orgId, action, notifPhoto) {
-    const loading = await this.loadingCtrl.create({
-      message: 'Loading...',
-      spinner: 'crescent',
-      showBackdrop: true
-    });
-
-    loading.present();
 
     const notifId = this.afs.createId();
 
-    this.afs.collection('chat').doc(notifId).set({
+    this.afs.collection('notification').doc(notifId).set({
       'notifId': notifId,
       'userId': userId,
       'userName': userName,
@@ -79,9 +72,9 @@ export class NotificationsService {
       'notifPhoto': notifPhoto,
       'createdAt': Date.now()
     }).then(() => {
-      loading.dismiss();
+      console.log("Added in Notification");
     }).catch(error => {
-      loading.dismiss();
+      console.log(error);
     });
    }
 }
