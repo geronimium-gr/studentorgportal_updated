@@ -39,6 +39,16 @@ export class LoginPage implements OnInit, OnDestroy {
         this.connectionMsg = true;
       } else {
         this.connectionMsg = false;
+
+        let text = "Please check your connection.";
+
+        if (confirm(text) == true) {
+          window.location.reload();
+        } else {
+          window.location.reload();
+        }
+
+
       }
       console.log("Msg: " + this.connectionMsg);
     })
