@@ -6,8 +6,8 @@ import firebase from 'firebase/app';
 import 'firebase/auth';
 import { Router } from "@angular/router";
 import { LoadingController, ToastController } from "@ionic/angular";
-import { Observable, of, Subscription } from "rxjs";
-import { switchMap } from "rxjs/operators";
+import { fromEvent, merge, Observable, Observer, of, Subscription } from "rxjs";
+import { map, switchMap } from "rxjs/operators";
 
 @Injectable({
   providedIn: 'root'
@@ -158,5 +158,16 @@ export class AuthService {
   canAccessByMod(user: User): boolean {
     const allowed = ['moderator'];
     return this.checkAuthorization(user, allowed);
+  }
+
+  createOnline$() {
+    return merge<boolean>(
+      fromEvent(window, 'offline').pipe(map(() => false)),
+      fromEvent(window, 'online').pipe(map(() => true)),
+      new Observable((sub: Observer<boolean>) => {
+        sub.next(navigator.onLine);
+        sub.complete();
+      })
+    );
   }
 }

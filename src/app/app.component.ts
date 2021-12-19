@@ -70,13 +70,19 @@ export class AppComponent implements OnInit, OnDestroy{
     this.createOnline$().subscribe(isOnline => {
       console.log(isOnline);
       if (isOnline == true) {
-        this.connectionMsg = true;
+        console.log("connection restored");
       } else {
-        this.connectionMsg = false;
-      }
-      console.log("Msg: " + this.connectionMsg);
-    })
+        console.log("connection failed");
 
+        let text = "Please check your connection.\nTry to reload the page.";
+
+        if (confirm(text) == true) {
+          window.location.reload();
+        } else {
+          window.location.reload();
+        }
+      }
+    });
   }
 
   ngOnInit(){

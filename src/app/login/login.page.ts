@@ -4,10 +4,6 @@ import { ToastController } from '@ionic/angular';
 import { Subscription } from 'rxjs';
 import { AuthService } from '../services/auth.service';
 
-import { Observable, Observer, fromEvent, merge } from 'rxjs';
-import { map } from 'rxjs/operators';
-
-
 @Component({
   selector: 'app-login',
   templateUrl: './login.page.html',
@@ -28,44 +24,14 @@ export class LoginPage implements OnInit, OnDestroy {
   userInfo: any;
 
   loginSub: Subscription;
-  connectionMsg: boolean;
 
   constructor(private toaster: ToastController,
               private authService: AuthService)
   {
-    this.createOnline$().subscribe(isOnline => {
-      console.log(isOnline);
-      if (isOnline == true) {
-        this.connectionMsg = true;
-      } else {
-        this.connectionMsg = false;
 
-        let text = "Please check your connection.";
-
-        if (confirm(text) == true) {
-          window.location.reload();
-        } else {
-          window.location.reload();
-        }
-
-
-      }
-      console.log("Msg: " + this.connectionMsg);
-    })
-  }
+  }//
 
   ngOnInit() {
-  }
-
-  createOnline$() {
-    return merge<boolean>(
-      fromEvent(window, 'offline').pipe(map(() => false)),
-      fromEvent(window, 'online').pipe(map(() => true)),
-      new Observable((sub: Observer<boolean>) => {
-        sub.next(navigator.onLine);
-        sub.complete();
-      })
-    );
   }
 
   //Author: https://youtu.be/oIcgaAV8FIk
