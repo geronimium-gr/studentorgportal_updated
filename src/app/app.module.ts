@@ -45,6 +45,7 @@ import { NotificationComponent } from './notifs/notification/notification.compon
 import { PickerModule } from './picker/picker.module';
 import { CommentSectionComponent } from './comments/comment-section/comment-section.component';
 import { AutosizeModule } from "ngx-autosize";
+import { ViewNotificationComponent } from './notifs/view-notification/view-notification.component';
 
 
 @NgModule({
@@ -65,7 +66,8 @@ import { AutosizeModule } from "ngx-autosize";
     FlagsModuleComponent,
     EventPendingComponent,
     ChatsComponent,
-    NotificationComponent
+    NotificationComponent,
+    ViewNotificationComponent
   ],
   entryComponents: [
     UpdatePasswordComponent,
@@ -83,7 +85,8 @@ import { AutosizeModule } from "ngx-autosize";
     FlagsModuleComponent,
     EventPendingComponent,
     ChatsComponent,
-    NotificationComponent
+    NotificationComponent,
+    ViewNotificationComponent
   ],
   imports: [
     BrowserModule,

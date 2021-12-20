@@ -82,7 +82,7 @@ export class PostService {
     }).then(() => {
       loading.dismiss();
       this.toast('New Post Added', 'success');
-      this.notifService.sendNotif(userId, userName, surname, userPhoto, orgId, "added a post", image);
+      this.notifService.sendNotif(userId, userName, surname, userPhoto, orgId, "added a post", image, postId);
       this.closePopOver();
     }).catch(error => {
       loading.dismiss();

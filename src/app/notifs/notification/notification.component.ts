@@ -2,6 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ModalController, NavParams } from '@ionic/angular';
 import { Subscription } from 'rxjs';
 import { NotificationsService } from '../../services/notifications.service';
+import { ViewNotificationComponent } from '../view-notification/view-notification.component';
 
 @Component({
   selector: 'app-notification',
@@ -32,9 +33,14 @@ export class NotificationComponent implements OnInit, OnDestroy {
     });
   }
 
-  viewNotif() {
-    console.log("Notification Click...");
-
+  async viewNotif(notifId) {
+    const modal = await this.modalCtrl.create({
+      component: ViewNotificationComponent,
+      componentProps: {
+        notifId: notifId
+      }
+    });
+    return await modal.present();
   }
 
   closeModal() {

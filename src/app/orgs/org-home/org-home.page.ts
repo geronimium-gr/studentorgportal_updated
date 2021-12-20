@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument } from '@angular/fire/firestore';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
 import { AlertController, LoadingController, ModalController, PopoverController, ToastController } from '@ionic/angular';
 import { Observable, Subscription } from 'rxjs';
 import firebase from 'firebase/app';
@@ -132,6 +132,10 @@ export class OrgHomePage implements OnInit, OnDestroy {
       this.eventsList = events;
     });
 
+    // const fragment: string = this.activateRoute.snapshot.fragment;
+
+    // this.router.navigate([], {fragment: fragment});
+
     // this.commentCounter = this.commentService.getCommentCounter();
     // console.log(this.commentCounter);
 
@@ -148,7 +152,6 @@ export class OrgHomePage implements OnInit, OnDestroy {
 
   ionViewWillEnter() {
     this.loadOrgDetails();
-    const fragment: string = this.activateRoute.snapshot.fragment;
   }
 
   toggleHeart(postid) {

@@ -11,15 +11,15 @@
 
 <ion-content>
   <ion-list *ngFor="let n of notif">
-    <ion-item *ngIf="notif?.length > 0" (click)="viewNotif()" style="cursor: pointer;">
+    <ion-item *ngIf="notif?.length > 0" button (click)="viewNotif(n.notifId)">
       <ion-avatar slot="start">
         <img [src]="n.userPhoto" />
       </ion-avatar>
       <ion-thumbnail slot="end">
-        <img [src]="n?.notifPhoto" />
+        <img *ngIf="n.notifPhoto" [src]="n.notifPhoto" />
       </ion-thumbnail>
       <ion-label>
-        <h3>{{ n.userName }} {{ n.userSurname }} </h3>
+        <h3>{{ n.userName }} {{ n.userSurname }}</h3>
         <p>{{ n.action }}</p>
         <p class="time-font">{{ n.createdAt | date:'medium' }}</p>
       </ion-label>

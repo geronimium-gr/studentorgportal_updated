@@ -13,6 +13,7 @@ interface Notificationz {
   userOrgId: string;
   action: string;
   notifPhoto: string;
+  postId: string;
   createdAt: number;
 }
 
@@ -40,7 +41,7 @@ export class NotificationsService {
 
   filterData() {
     this.notifCol = this.afs
-    .collection("notification", ref => ref.orderBy("createdAt", "asc"));
+    .collection("notification", ref => ref.orderBy("createdAt", "desc"));
 
     this.notifs = this.notifCol.snapshotChanges().pipe(
       map(action => {
@@ -53,11 +54,16 @@ export class NotificationsService {
     );
   }//
 
+  getNotifDetail(notifId) {
+    this.notifDoc = this.afs.doc<Notificationz>(`notification/${notifId}`);
+    return this.notif = this.notifDoc.valueChanges();
+  }
+
   getNotifications() {
     return this.notifs;
   }
 
-  async sendNotif(userId, userName, userSurname, userPhoto, orgId, action, notifPhoto) {
+  async sendNotif(userId, userName, userSurname, userPhoto, orgId, action, notifPhoto, postId) {
 
     const notifId = this.afs.createId();
 
@@ -70,6 +76,7 @@ export class NotificationsService {
       'userOrgId': orgId,
       'action': action,
       'notifPhoto': notifPhoto,
+      'postId': postId,
       'createdAt': Date.now()
     }).then(() => {
       console.log("Added in Notification");

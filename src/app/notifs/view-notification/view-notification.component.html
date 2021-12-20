@@ -1,0 +1,18 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>{{ notifFn }} {{ notifSn}}</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="closeModal()">
+        <ion-icon slot="icon-only" name="close"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-card>
+    <ion-card-title>{{ notifFn }} {{ notifSn}}</ion-card-title>
+    <ion-card-subtitle>{{ notifAction }}</ion-card-subtitle>
+  </ion-card>
+</ion-content>
+
