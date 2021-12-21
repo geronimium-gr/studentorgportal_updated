@@ -1,7 +1,8 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ModalController, NavParams } from '@ionic/angular';
 import { Subscription } from 'rxjs';
-import { NotificationsService } from 'src/app/services/notifications.service';
+import { CommentSectionComponent } from '../../comments/comment-section/comment-section.component';
+import { NotificationsService } from '../../services/notifications.service';
 
 @Component({
   selector: 'app-view-notification',
@@ -15,7 +16,7 @@ export class ViewNotificationComponent implements OnInit, OnDestroy {
 
   notifFn: string;
   notifSn: string;
-  notifAction: string;
+  notifDetails: any;
 
   constructor(public modalCtrl: ModalController,
               private notifService: NotificationsService,
@@ -32,10 +33,20 @@ export class ViewNotificationComponent implements OnInit, OnDestroy {
 
   async loadNotifDetails() {
     this.notifSub = this.notifService.getNotifDetail(this.notifId).subscribe(async notif => {
+      this.notifDetails = notif;
       this.notifFn = notif.userName;
       this.notifSn = notif.userSurname;
-      this.notifAction = notif.action;
     });
+  }
+
+  async openCommentSection(postId) {
+    const modal = await this.modalCtrl.create({
+      component: CommentSectionComponent,
+      componentProps: {
+        postIdComment: postId
+      }
+    });
+    return await modal.present();
   }
 
   closeModal() {

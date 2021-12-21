@@ -7,6 +7,9 @@ import { map } from 'rxjs/operators';
 import { Post } from '../models/post.model';
 import { NotificationsService } from './notifications.service';
 
+import firebase from 'firebase/app';
+import 'firebase/firestore';
+
 @Injectable({
   providedIn: 'root'
 })
@@ -82,7 +85,7 @@ export class PostService {
     }).then(() => {
       loading.dismiss();
       this.toast('New Post Added', 'success');
-      this.notifService.sendNotif(userId, userName, surname, userPhoto, orgId, "added a post", image, postId);
+      this.notifService.sendNotif(userId, userName, surname, userPhoto, orgId, "added a post", image, postId, content, title, "", "", "", "");
       this.closePopOver();
     }).catch(error => {
       loading.dismiss();
@@ -158,6 +161,8 @@ export class PostService {
 
     loading.present();
 
+    this.deleteNotif(postId);
+
     this.afs.collection('post').doc(postId).delete()
     .then(() => {
       loading.dismiss();
@@ -167,6 +172,19 @@ export class PostService {
       this.toast(error.message, 'danger');
     });
    }
+
+   async deleteNotif(postId) {
+    try {
+      const batch = this.afs.firestore.batch();
+      const notifRef = firebase.firestore()
+        .collection('notification').doc(postId)
+        batch.delete(notifRef);
+        await batch.commit();
+    } catch (error) {
+      console.log(error);
+    }
+
+  }
 
    closePopOver(){
     this.popOverCtrl.dismiss();

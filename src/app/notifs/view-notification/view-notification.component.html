@@ -1,6 +1,6 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>{{ notifFn }} {{ notifSn}}</ion-title>
+    <ion-title>{{ notifFn }} {{ notifSn }}</ion-title>
     <ion-buttons slot="end">
       <ion-button (click)="closeModal()">
         <ion-icon slot="icon-only" name="close"></ion-icon>
@@ -11,8 +11,50 @@
 
 <ion-content>
   <ion-card>
-    <ion-card-title>{{ notifFn }} {{ notifSn}}</ion-card-title>
-    <ion-card-subtitle>{{ notifAction }}</ion-card-subtitle>
-  </ion-card>
+  <ion-item lines="none">
+    <ion-avatar slot="start">
+      <img [src]="notifDetails?.userPhoto" alt="" />
+    </ion-avatar>
+    <ion-label>
+      <h2 class="userpost-name">{{ notifFn }} {{ notifSn }}</h2>
+      <p>{{ notifDetails?.createdAt | date }}</p>
+      <ion-chip *ngIf="notifDetails?.status" [color]="notifDetails?.status === 'approved' ? 'success' : 'warning'" class="ion-no-margin">
+        <ion-label>{{ notifDetails?.status | titlecase }}</ion-label>
+      </ion-chip>
+    </ion-label>
+  </ion-item>
+  <img [src]="notifDetails?.notifPhoto" />
+  <ion-card-header>
+    <ion-card-title>{{ notifDetails?.postTitle }}</ion-card-title>
+    <ion-chip *ngIf="notifDetails?.eventStartDate">
+      <ion-icon color="secondary" name="calendar-number"></ion-icon>
+      <ion-label>Start: {{ notifDetails?.eventStartDate | date }}</ion-label>
+    </ion-chip>
+    <ion-chip *ngIf="notifDetails?.eventEndDate">
+      <ion-icon color="secondary" name="calendar-number"></ion-icon>
+      <ion-label>End: {{ notifDetails?.eventEndDate | date }}</ion-label>
+    </ion-chip>
+    <ion-chip *ngIf="notifDetails?.eventTime">
+      <ion-icon color="secondary" name="time"></ion-icon>
+      <ion-label>{{ notifDetails?.eventTime | date:'shortTime' }}</ion-label>
+    </ion-chip>
+  </ion-card-header>
+  <ion-card-content>
+    <p class="content-font">{{ notifDetails?.postContent }}</p>
+  </ion-card-content>
+  <ion-footer *ngIf="!notifDetails?.status">
+    <ion-row class="reaction-sys">
+      <ion-col>
+        <ion-button color="secondary" fill="clear" (click)="openCommentSection(notifDetails.postId)">
+          <ion-icon
+            class="reaction-icon"
+            name="chatbox"
+            slot="icon-only"
+          ></ion-icon>
+        </ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-footer>
+</ion-card>
 </ion-content>
 

@@ -6,6 +6,10 @@ import { map } from 'rxjs/operators';
 
 import { Eventz } from '../models/eventz.model';
 import { AuthService } from './auth.service';
+import { NotificationsService } from './notifications.service';
+
+import firebase from 'firebase/app';
+import 'firebase/firestore';
 
 @Injectable({
   providedIn: 'root'
@@ -29,7 +33,8 @@ export class EventzService implements OnDestroy {
     private loadingCtrl: LoadingController,
     private popOverCtrl: PopoverController,
     private toaster: ToastController,
-    private authService: AuthService )
+    private authService: AuthService,
+    private notifService: NotificationsService )
     {
 
       this.eventHub = this.authService.user$.subscribe(async user => {
@@ -95,6 +100,7 @@ export class EventzService implements OnDestroy {
     }).then(() => {
       loading.dismiss();
       this.toast('New Event Added', 'success');
+      this.notifService.sendNotif(userId, userName, surname, userPhoto, orgId, "added an event", image, eventId, content, title, startDate, endDate, time, "");
       this.addtoQueueEvent(eventId);
       this.closePopOver();
     }).catch(error => {
@@ -169,6 +175,20 @@ export class EventzService implements OnDestroy {
     }).catch(error => {
       this.toast(error.message, 'danger');
     });
+
+    this.afs.collection('notification').doc(eventId).update({
+      'status': status
+    }).then(() => {
+      if (status == 'pending') {
+        console.log("Pending Notif");
+      } else if (status == 'approved') {
+        console.log("Approved Notif");
+      }
+    }).catch(error => {
+      this.toast(error.message, 'danger');
+    });
+
+
    }
 
    addtoQueueEvent(eventId) {
@@ -189,6 +209,8 @@ export class EventzService implements OnDestroy {
 
     loading.present();
 
+    this.deleteNotif(eventId);
+
     this.afs.collection('eventz').doc(eventId).delete()
     .then(() => {
       loading.dismiss();
@@ -198,6 +220,19 @@ export class EventzService implements OnDestroy {
       this.toast(error.message, 'danger');
     });
    }
+
+   async deleteNotif(eventId) {
+    try {
+      const batch = this.afs.firestore.batch();
+      const notifRef = firebase.firestore()
+        .collection('notification').doc(eventId)
+        batch.delete(notifRef);
+        await batch.commit();
+    } catch (error) {
+      console.log(error);
+    }
+
+  }
 
    closePopOver(){
     this.popOverCtrl.dismiss();
