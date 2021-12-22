@@ -43,7 +43,7 @@ export class NotificationsService {
 
   filterData() {
     this.notifCol = this.afs
-    .collection("notification", ref => ref.orderBy("createdAt", "desc").where("userOrgId", "==", this.orgId));
+    .collection("notification", ref => ref.where("userOrgId", "==", this.orgId).where("userId","!=", this.currentUserId).orderBy("userId", "desc").orderBy("createdAt", "desc"));
 
     this.notifs = this.notifCol.snapshotChanges().pipe(
       map(action => {

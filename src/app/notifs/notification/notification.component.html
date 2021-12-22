@@ -12,7 +12,7 @@
 <ion-content>
 <div *ngIf="notif?.length > 0">
   <ion-list *ngFor="let n of notif">
-    <ion-item *ngIf="n.userId !== currentUser" button (click)="viewNotif(n.notifId)">
+    <ion-item button (click)="viewNotif(n.notifId)">
       <ion-avatar slot="start">
         <img [src]="n.userPhoto" />
       </ion-avatar>
