@@ -1,77 +1,131 @@
-
+<!-- Author: https://youtu.be/p0bGHP-PXD4 -->
 <ion-content>
-  <img class="wave" src="https://firebasestorage.googleapis.com/v0/b/db-stuportal.appspot.com/o/assets%2Fwave2.png?alt=media&token=5312c5ad-2c9e-48dd-a5c7-0aa7c7dc844c">
+  <!-- Navigation Bar -->
+  <div class="bg">
 
-  <div class="wrapper">
-  <ion-grid class="square">
-    <ion-row class="ion-align-items-center ion-justify-content-center">
-      <ion-col class="left" size-lg="3" size-md="4" size-sm="6" size="12">
-        <ion-card class="left-side">
-          <ion-card-content>
-            <ion-img class="logo" src="https://firebasestorage.googleapis.com/v0/b/db-stuportal.appspot.com/o/assets%2FPLVlogo.png?alt=media&token=0a5a60b7-e6d3-42cb-b13a-0820e87562ed"></ion-img>
-          </ion-card-content>
-        </ion-card>
-      </ion-col>
-      <ion-col class="right" size-lg="5" size-md="6" size-sm="6" size="12">
-        <ion-card>
-          <ion-card-header><h5>Pamantasan ng Lungsod ng Valenzuela</h5></ion-card-header>
-          <ion-card-content>
+    <div class="navbar">
+      <div class="container flex">
+        <h1 class="logo">
+          <img src="https://firebasestorage.googleapis.com/v0/b/db-stuportal.appspot.com/o/assets%2Fplvlogo.png?alt=media&token=92c49d9e-3854-492e-979f-39bb5e0c8e62">
+          <strong class="logo-name">
+            PLV Connect
+          </strong>
+        </h1>
+      </div>
+    </div>
+
+    <!-- Login -->
+    <section class="showcase">
+      <div class="container grid">
+        <div class="showcase-text">
+          <h1>Student Organization Portal</h1>
+          <p>A place for the Academic and Non-Academic Organizations.</p>
+        </div>
+
+        <ion-card class="showcase-form card">
+          <div>
+            <h2>Login</h2>
             <form #f="ngForm" (ngSubmit)="onSubmit(f)">
-              <ion-list lines="full">
-                <ion-item>
-                  <ion-icon name="at-circle" slot="start" [color]="email.touched && !email.valid ? 'danger' : 'secondary'"></ion-icon>
-                  <ion-input name="email" placeholder="Email" required type="email" ngModel #email="ngModel" email></ion-input>
-                </ion-item>
-                <ion-item>
-                  <ion-icon name="lock-closed" slot="start" [color]="password.touched && !password.valid ? 'danger' : 'secondary'"></ion-icon>
-                  <ion-input
-                    name="password"
-                    placeholder="Password"
-                    required
-                    [type]="showPassword ? 'text' : 'password'"
-                    ngModel
-                    #password="ngModel"
-                    minlength="6">
-                  </ion-input>
-                  <ion-icon [name]="passwordToggleIcon" (click)="togglePassword()"></ion-icon>
-                </ion-item>
+              <ion-label color="danger" position="stacked" *ngIf="email.touched && !email.valid">
+                <ion-icon name="information-circle" slot="start"></ion-icon>
+                Enter valid email
+              </ion-label> <br *ngIf="(email.touched && !email.valid) || (password.touched && !password.valid)">
+              <ion-label color="danger" position="stacked" *ngIf="password.touched && !password.valid">
+                <ion-icon name="information-circle" slot="start"></ion-icon>
+                Enter valid password
+              </ion-label>
+              <ion-item>
+                <ion-input name="email" placeholder="Email" required type="email" ngModel #email="ngModel" email></ion-input>
+              </ion-item>
 
-                <div class="ion-text-right ion-padding-end ion-padding-vertical">
-                  <p><a class="fpass" [routerLink]="['/forgot-password']">Forgot Password?</a></p>
-                </div>
+              <ion-item>
+                <ion-input
+                  name="password"
+                  placeholder="Password"
+                  required
+                  [type]="showPassword ? 'text' : 'password'"
+                  ngModel
+                  #password="ngModel"
+                  minlength="6">
+                </ion-input>
+                <ion-icon [name]="passwordToggleIcon" (click)="togglePassword()" slot="end"></ion-icon>
+              </ion-item>
 
-                <ion-item color="danger" lines="none" *ngIf="email.touched && !email.valid">
-                  <ion-icon name="close-circle" slot="start"></ion-icon>
-                  <ion-text>Enter valid email.</ion-text>
-                </ion-item>
-                <ion-item color="danger" lines="none" *ngIf="password.touched && !password.valid">
-                  <ion-icon name="close-circle" slot="start"></ion-icon>
-                  <ion-text>Enter valid password.</ion-text>
-                </ion-item>
-
-                <ion-button class="ion-margin" type="submit" expand="block" [disabled]="!f.valid">Login</ion-button>
-              </ion-list>
+            <ion-button style="margin: 5px 0 0 0;" type="submit" expand="block" [disabled]="!f.valid">Login</ion-button>
             </form>
-          </ion-card-content>
+          </div>
         </ion-card>
-      </ion-col>
-    </ion-row>
-  </ion-grid>
-</div>
+      </div>
+    </section>
+  </div>
+
+  <!-- Logo of OSA/PLV -->
+  <section class="stats">
+    <div class="container">
+      <h3 class="stats-heading ion-text-center my-1">
+        Welcome to PLV Connect, student portal for the Academic and Non-Academic Organizations.
+      </h3>
+
+      <div class="grid ion-text-center my-4">
+        <div>
+          <img style="width: 30%; height: 30%;" src="https://firebasestorage.googleapis.com/v0/b/db-stuportal.appspot.com/o/assets%2FPLVlogo.png?alt=media&token=0a5a60b7-e6d3-42cb-b13a-0820e87562ed">
+          <p color="text-secondary">Pamantasan ng Lungsod ng Valenzuela</p>
+        </div>
+        <div>
+          <img style="width: 47%; height: 47%;" src="https://firebasestorage.googleapis.com/v0/b/db-stuportal.appspot.com/o/assets%2FOSA.png?alt=media&token=82d30b8d-57dd-41ee-ad4b-d57c9d2551c5">
+          <p class="text-secondary">Office of Student Affairs</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Vision/Mission -->
+  <section class="cloud bg-primary my-2 py-2">
+    <div class="container grid">
+      <img src="https://firebasestorage.googleapis.com/v0/b/db-stuportal.appspot.com/o/assets%2FLogoMakr-3Vx6e7.png?alt=media&token=3ccf8347-9aa7-4394-8568-6b8f034d76e1">
+      <div class="ion-text-center">
+        <h2 class="lgt">Mission</h2>
+        <p class="lead my-1">
+          To provide the citizens of Valenzuela an efficient and effective institution of higher learning
+          that will make them skillful, productive, competent, competitive, civic-minded, and God loving
+          toward a peaceful, healthy and progressive city of Valenzuela.
+        </p>
+      </div>
+    </div>
+  </section>
+  <section class="cloud bg-primary my-2-1 py-2">
+    <div class="container grid">
+      <img src="https://firebasestorage.googleapis.com/v0/b/db-stuportal.appspot.com/o/assets%2FLogoMakr-8Irdly%20(1).png?alt=media&token=7b1458ec-f139-4d34-a5d4-a152e9574ab6">
+      <div class="ion-text-center">
+        <h2 class="lgt">Vision</h2>
+        <p class="lead my-1">
+          A dynamic center for the development of competent and competitive
+          human resource as foundation for growth and advancement of the City of Valenzuela.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer bg-dark py-4">
+    <div class="container grid">
+      <div>
+        <h1>
+          <strong>PLV Connect</strong>
+        </h1>
+        <p>Student Organization Portal</p>
+      </div>
+      <div class="social">
+        <a class="link-1" href="https://web.facebook.com/plvstudentaffairs">
+          <ion-icon name="logo-facebook" slot="icon-only"></ion-icon>
+        </a>
+        <a class="link" href="https://valenzuela.plv.edu.ph/PLVWeb/home">
+          <ion-icon name="globe" slot="icon-only"></ion-icon>
+        </a>
+        <a class="link" href="mailto:plv.osa.official@gmail.com">
+          <ion-icon name="mail" slot="icon-only"></ion-icon>
+        </a>
+      </div>
+    </div>
+  </footer>
 </ion-content>
-
-<!-- <ion-content>
-    <ion-slides pager="true">
-    <ion-slide>
-      <ion-img class="img-carousel" src="https://picsum.photos/200/300"></ion-img>
-      <h3>PLV Connect - Student Organization Portal</h3>
-    </ion-slide>
-    <ion-slide>
-      <ion-img class="img-carousel" src="https://picsum.photos/200/300"></ion-img>
-    </ion-slide>
-  </ion-slides>
-</ion-content> -->
-
-
-
-
