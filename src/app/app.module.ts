@@ -40,12 +40,13 @@ import { EventPendingComponent } from './event-pending/event-pending/event-pendi
 import { CourseComponent } from './courseList/course/course.component';
 import { ChatsComponent } from './chat/chats/chats.component';
 import { NotificationComponent } from './notifs/notification/notification.component';
+import { MembersListComponent } from './members/members-list/members-list.component';
+import { ViewNotificationComponent } from './notifs/view-notification/view-notification.component';
 
 //Shared Module
 import { PickerModule } from './picker/picker.module';
 import { CommentSectionComponent } from './comments/comment-section/comment-section.component';
 import { AutosizeModule } from "ngx-autosize";
-import { ViewNotificationComponent } from './notifs/view-notification/view-notification.component';
 
 
 @NgModule({
@@ -67,7 +68,8 @@ import { ViewNotificationComponent } from './notifs/view-notification/view-notif
     EventPendingComponent,
     ChatsComponent,
     NotificationComponent,
-    ViewNotificationComponent
+    ViewNotificationComponent,
+    MembersListComponent
   ],
   entryComponents: [
     UpdatePasswordComponent,
@@ -86,7 +88,8 @@ import { ViewNotificationComponent } from './notifs/view-notification/view-notif
     EventPendingComponent,
     ChatsComponent,
     NotificationComponent,
-    ViewNotificationComponent
+    ViewNotificationComponent,
+    MembersListComponent
   ],
   imports: [
     BrowserModule,

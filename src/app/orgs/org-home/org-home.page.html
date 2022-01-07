@@ -44,7 +44,7 @@
             <ion-icon [name]="isReadMore ? 'chevron-down-circle' : 'chevron-up-circle'" slot="start"></ion-icon>
             {{ isReadMore ? 'Read More' : 'Read Less'}}
           </ion-button>
-          <ion-item button>
+          <ion-item detail button (click)="openMembersList()">
             <ion-icon name="person" slot="start"></ion-icon>
             <ion-text>Members</ion-text>
             <ion-badge slot="end">00</ion-badge>
@@ -109,6 +109,7 @@
         <!-- Post Section -->
       <div *ngIf="segmentModel === 'post'">
 
+        <!-- Public Post -->
         <ion-item lines="full" color="none" *ngIf="!isLoading && (publicPosts | async)?.length > 0">
           <ion-icon name="megaphone"></ion-icon>
           <ion-title>Announcement</ion-title>
@@ -143,13 +144,13 @@
               <ion-footer>
                 <ion-row class="reaction-sys">
                   <ion-col size="6">
-                    <ion-button color="secondary" fill="clear" (click)="toggleHeart(p.postId)">
+                    <ion-button color="secondary" fill="clear" (click)="p.postLikes?.includes(cUser) === true ? unLike(p.postId, cUser) : like(p.postId, cUser)">
                       <ion-icon
                         class="reaction-icon"
-                        [name]="heartType"
-                        slot="start"
+                        [name]="p.postLikes?.includes(cUser) ? 'thumbs-up-sharp' : 'thumbs-up-outline'"
+                        slot="start" 
                       ></ion-icon>
-                      <ion-text class="reaction-num">0</ion-text>
+                      <ion-text class="reaction-num">{{ p.postLikes?.length }}</ion-text>
                     </ion-button>
                   </ion-col>
                   <ion-col size="6">
@@ -167,6 +168,7 @@
           </div>
         </div>
 
+        <!-- Organization Post -->
         <ion-item lines="full" color="none" *ngIf="!isLoading && posts?.length > 0">
           <ion-icon name="copy"></ion-icon>
           <ion-title>Organization Post</ion-title>
@@ -206,13 +208,14 @@
               <ion-footer>
                 <ion-row class="reaction-sys">
                   <ion-col size="6">
-                    <ion-button color="secondary" fill="clear" (click)="toggleHeart(p.postId)">
+                    <ion-button color="secondary"  fill="clear" 
+                    (click)="p.postLikes?.includes(cUser) === true ? unLike(p.postId, cUser) : like(p.postId, cUser)">
                       <ion-icon
                         class="reaction-icon"
-                        [name]="heartType"
+                        [name]="p.postLikes?.includes(cUser) ? 'thumbs-up-sharp' : 'thumbs-up-outline'"
                         slot="start"
                       ></ion-icon>
-                      <ion-text class="reaction-num">0</ion-text>
+                      <ion-text class="reaction-num">{{ p.postLikes?.length }}</ion-text>
                     </ion-button>
                   </ion-col>
                   <ion-col size="6">

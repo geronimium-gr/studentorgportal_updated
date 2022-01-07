@@ -1,9 +1,38 @@
 import { Injectable } from '@angular/core';
+import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/firestore';
+import { LoadingController } from '@ionic/angular';
+import { Post } from '../models/post.model';
+import { User } from '../models/user';
+
+import firebase from 'firebase/app';
+import 'firebase/firestore'
 
 @Injectable({
   providedIn: 'root'
 })
 export class ReactionsService {
+  postCollection: AngularFirestoreCollection<Post>;
+  userCollection: AngularFirestoreCollection<User>;
 
-  constructor() { } 
+  constructor(private afs: AngularFirestore,
+              private loadingCtrl: LoadingController) {
+  }
+
+  async addLike(postId: string, userId: string) {
+
+    const likeRef = firebase.firestore().collection('post').doc(postId);
+
+    likeRef.update({
+      postLikes: firebase.firestore.FieldValue.arrayUnion(userId)
+    });
+  }
+
+  removeLike(postId: string, userId: string): void {
+
+    const likeRef = firebase.firestore().collection('post').doc(postId);
+
+    likeRef.update({
+      postLikes: firebase.firestore.FieldValue.arrayRemove(userId)
+    });
+  }
 }

@@ -25,7 +25,8 @@ import { CommentsService } from '../../services/comments.service';
 import { EventPendingComponent } from '../../event-pending/event-pending/event-pending.component';
 import { ChatsComponent } from '../../chat/chats/chats.component';
 import { NotificationComponent } from '../../notifs/notification/notification.component';
-import { ViewportScroller } from '@angular/common';
+import { MembersListComponent } from '../../members/members-list/members-list.component';
+import { ReactionsService } from 'src/app/services/reactions.service';
 
 @Component({
   selector: 'app-org-home',
@@ -90,7 +91,7 @@ export class OrgHomePage implements OnInit, OnDestroy {
     private modalCtrl: ModalController,
     private eventService: EventzService,
     private commentService: CommentsService,
-    private viewportScroller: ViewportScroller) {
+    private reactionService: ReactionsService) {
 
     if (firebase.auth().currentUser !== null) {
       console.log("user id: " + firebase.auth().currentUser.uid);
@@ -154,9 +155,28 @@ export class OrgHomePage implements OnInit, OnDestroy {
     this.loadOrgDetails();
   }
 
-  toggleHeart(postid) {
-    this.postIds = postid;
-    this.heartType = this.heartType == "heart" ? "heart-outline" : "heart";
+  like(postid, cUser) {
+    // this.postIds = postid;
+    // this.heartType = this.heartType == "heart" ? "heart-outline" : "heart";
+
+    this.reactionService.addLike(postid, cUser)
+  }
+
+  unLike(postid, cUser) {
+    this.reactionService.removeLike(postid, cUser)
+  }
+
+  async openMembersList() {
+    const modal = await this.modalCtrl.create({
+      component: MembersListComponent,
+      cssClass: 'my-custom-class',
+      componentProps: {
+        orgId: this.orgId,
+        orgName: this.orgName,
+        userId: this.cUser
+      }
+    });
+    return await modal.present();
   }
 
   async openChat() {

@@ -13,6 +13,7 @@ export class UpdatePasswordComponent implements OnInit {
   oldPassword: string;
   newPassword: string;
   confirmPassword: string;
+  passwordNotMatch: boolean;
 
   viewPass: boolean = false;
   showPassword: boolean = false;
@@ -22,6 +23,14 @@ export class UpdatePasswordComponent implements OnInit {
               private popOverCtrl: PopoverController) { }
 
   ngOnInit() {}
+
+  checkPassword(){
+    if (this.oldPassword !== this.newPassword) {
+      this.passwordNotMatch = true;
+    } else {
+      this.passwordNotMatch = false;
+    }
+  }// end
 
   async updatePassword(){
     const loading = await this.loadingCtrl.create({

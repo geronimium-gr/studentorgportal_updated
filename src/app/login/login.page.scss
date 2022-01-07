@@ -112,6 +112,10 @@ p {
   -ms-transform: skewY(-3deg);
 }
 
+.forgot-pass:hover {
+  color: var(--ion-color-secondary);
+}
+
 // Logo
 .stats {
   padding-top: 80px;
