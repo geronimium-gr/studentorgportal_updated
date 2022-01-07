@@ -95,7 +95,7 @@
                   </ion-avatar>
                   <ion-input
                     class="placeholder-title"
-                    (click)="segmentModel === 'post' ? addPost(null) : segmentModel === 'event' ? addEvent(null) : false"
+                    (click)="segmentModel === 'post' ? addPost(null) : segmentModel === 'event' ? addEvent(null) : segmentModel === 'poll' ? addPoll(null) : false"
                     [placeholder]="'Add ' + segmentModel +  ' content...'"
                   >
                   </ion-input>
@@ -144,7 +144,7 @@
               <ion-footer>
                 <ion-row class="reaction-sys">
                   <ion-col size="6">
-                    <ion-button color="secondary" fill="clear" (click)="p.postLikes?.includes(cUser) === true ? unLike(p.postId, cUser) : like(p.postId, cUser)">
+                    <ion-button color="secondary" fill="clear" (click)="p.postLikes?.includes(cUser) === true ? unLike(p.postId, cUser, 'post') : like(p.postId, cUser, 'post')">
                       <ion-icon
                         class="reaction-icon"
                         [name]="p.postLikes?.includes(cUser) ? 'thumbs-up-sharp' : 'thumbs-up-outline'"
@@ -209,7 +209,7 @@
                 <ion-row class="reaction-sys">
                   <ion-col size="6">
                     <ion-button color="secondary"  fill="clear" 
-                    (click)="p.postLikes?.includes(cUser) === true ? unLike(p.postId, cUser) : like(p.postId, cUser)">
+                    (click)="p.postLikes?.includes(cUser) === true ? unLike(p.postId, cUser, 'post') : like(p.postId, cUser, 'post')">
                       <ion-icon
                         class="reaction-icon"
                         [name]="p.postLikes?.includes(cUser) ? 'thumbs-up-sharp' : 'thumbs-up-outline'"
@@ -286,16 +286,70 @@
               </ion-card-content>
               <ion-row class="reaction-sys">
                 <ion-col size="12">
-                  <ion-button color="secondary" fill="clear">
+                  <ion-button color="secondary" fill="clear" (click)="eventz.postLikes?.includes(cUser) === true ? unLike(eventz.eventId, cUser, 'eventz') : like(eventz.eventId, cUser, 'eventz')">
                     <ion-icon
                       class="reaction-icon"
-                      name="heart-outline"
+                      [name]="eventz.postLikes?.includes(cUser) ? 'thumbs-up-sharp' : 'thumbs-up-outline'"
                       slot="start"
                     ></ion-icon>
-                    <ion-text class="reaction-num">0</ion-text>
+                    <ion-text class="reaction-num">{{ eventz.postLikes?.length }}</ion-text>
                   </ion-button>
                 </ion-col>
               </ion-row>
+            </ion-card>
+          </div>
+        </div>
+      </div>
+
+
+      <!-- Poll Section -->
+      <div *ngIf="segmentModel === 'poll'">
+        <div class="ion-text-center ion-padding" *ngIf="!isLoading && pollList?.length <= 0">
+          <ion-icon name="stats-chart" class="label-icon"></ion-icon>
+          <p><strong>No Poll is added.</strong></p>
+        </div>
+        <div *ngIf="!isLoading && pollList?.length > 0">
+          <div *ngFor="let poll of pollList">
+            <ion-card>
+              <ion-item lines="none">
+                <ion-avatar slot="start">
+                  <img [src]="poll.postedByPhoto" alt="" />
+                </ion-avatar>
+                <ion-label>
+                  <h2 class="userpost-name">{{ poll.postedBy }} {{ poll.postedBySurname }}</h2>
+                  <p>{{ poll.createdAt | date }}</p>
+                </ion-label>
+                <ion-button color="secondary" fill="clear" slot="end" (click)="editPost($event, poll.pollId)" *ngIf="poll.postedById === cUser">
+                  <ion-icon name="ellipsis-vertical" slot="icon-only"></ion-icon>
+                </ion-button>
+              </ion-item>
+              <ion-card-header>
+                <ion-card-title>{{ poll.pollTitle }}</ion-card-title>
+              </ion-card-header>
+              <ion-card-content>
+                <p class="content-font">
+                  {{ poll.pollContent }}
+                </p>
+                <ion-item>
+                  <ion-label position="stacked"><h1>{{ poll.pollOptionA }} - {{ poll.votesA?.length }}</h1></ion-label>
+                  <ion-progress-bar color="primary" [value]="poll.votesA?.length / 100"></ion-progress-bar>
+                </ion-item>
+                <ion-item>
+                  <ion-label position="stacked"><h1>{{ poll.pollOptionB }} - {{ poll.votesB?.length }}</h1></ion-label>
+                  <ion-progress-bar color="primary" [value]="poll.votesB?.length / 100"></ion-progress-bar>
+                </ion-item>
+                <ion-item *ngIf="poll.pollOptionC">
+                  <ion-label position="stacked"><h1>{{ poll.pollOptionC }} - {{ poll.votesC?.length }}</h1></ion-label>
+                  <ion-progress-bar color="primary" [value]="poll.votesC?.length / 100"></ion-progress-bar>
+                </ion-item>
+                <ion-item *ngIf="poll.pollOptionD">
+                  <ion-label position="stacked"><h1>{{ poll.pollOptionD }} - {{ poll.votesD?.length }}</h1></ion-label>
+                  <ion-progress-bar color="primary" [value]="poll.votesD?.length / 100"></ion-progress-bar>
+                </ion-item>
+              </ion-card-content>
+              <ion-footer>
+                <ion-button expand="full">Cast Vote</ion-button>
+              </ion-footer>
             </ion-card>
           </div>
         </div>

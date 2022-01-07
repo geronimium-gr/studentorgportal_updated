@@ -18,18 +18,18 @@ export class ReactionsService {
               private loadingCtrl: LoadingController) {
   }
 
-  async addLike(postId: string, userId: string) {
+  async addLike(postId: string, userId: string, event: string) {
 
-    const likeRef = firebase.firestore().collection('post').doc(postId);
+    const likeRef = firebase.firestore().collection(event).doc(postId);
 
     likeRef.update({
       postLikes: firebase.firestore.FieldValue.arrayUnion(userId)
     });
   }
 
-  removeLike(postId: string, userId: string): void {
+  removeLike(postId: string, userId: string, event: string) {
 
-    const likeRef = firebase.firestore().collection('post').doc(postId);
+    const likeRef = firebase.firestore().collection(event).doc(postId);
 
     likeRef.update({
       postLikes: firebase.firestore.FieldValue.arrayRemove(userId)

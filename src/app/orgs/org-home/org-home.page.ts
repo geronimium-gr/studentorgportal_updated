@@ -26,7 +26,10 @@ import { EventPendingComponent } from '../../event-pending/event-pending/event-p
 import { ChatsComponent } from '../../chat/chats/chats.component';
 import { NotificationComponent } from '../../notifs/notification/notification.component';
 import { MembersListComponent } from '../../members/members-list/members-list.component';
-import { ReactionsService } from 'src/app/services/reactions.service';
+import { ReactionsService } from '../../services/reactions.service';
+import { AddPollComponent } from '../../polls/add-poll/add-poll.component';
+import { PollsService } from 'src/app/services/polls.service';
+import { Polls } from 'src/app/models/polls';
 
 @Component({
   selector: 'app-org-home',
@@ -73,6 +76,7 @@ export class OrgHomePage implements OnInit, OnDestroy {
   postIds: any;
 
   eventsList: Eventz[];
+  pollList: Polls[];
 
   isReadMore = true;
 
@@ -91,7 +95,8 @@ export class OrgHomePage implements OnInit, OnDestroy {
     private modalCtrl: ModalController,
     private eventService: EventzService,
     private commentService: CommentsService,
-    private reactionService: ReactionsService) {
+    private reactionService: ReactionsService,
+    private pollService: PollsService) {
 
     if (firebase.auth().currentUser !== null) {
       console.log("user id: " + firebase.auth().currentUser.uid);
@@ -114,6 +119,7 @@ export class OrgHomePage implements OnInit, OnDestroy {
 
     this.postService.getOrgId(this.orgId);
     this.eventService.getOrgId(this.orgId);
+    this.pollService.getOrgId(this.orgId);
 
 
     this.postsRef = this.afs.collection("post", ref => ref.orderBy("createdAt", "desc").where("postOrgId", "==", "public"));
@@ -133,6 +139,11 @@ export class OrgHomePage implements OnInit, OnDestroy {
       this.eventsList = events;
     });
 
+    this.orgSub = this.pollService.getPolls().subscribe(polls => {
+      this.isLoading = false;
+      this.pollList = polls;
+    });
+
     // const fragment: string = this.activateRoute.snapshot.fragment;
 
     // this.router.navigate([], {fragment: fragment});
@@ -140,11 +151,6 @@ export class OrgHomePage implements OnInit, OnDestroy {
     // this.commentCounter = this.commentService.getCommentCounter();
     // console.log(this.commentCounter);
 
-
-    // this.postReference = this.afs.doc(`post/${this.postIds}`);
-    // this.sub = this.postReference.valueChanges().subscribe(val => {
-    //   this.heartType = val.likes.includes(this.userId) ? 'heart' : 'heart-outline';
-    // });
   }
 
   showText() {
@@ -155,15 +161,15 @@ export class OrgHomePage implements OnInit, OnDestroy {
     this.loadOrgDetails();
   }
 
-  like(postid, cUser) {
+  like(postid, cUser, event) {
     // this.postIds = postid;
     // this.heartType = this.heartType == "heart" ? "heart-outline" : "heart";
 
-    this.reactionService.addLike(postid, cUser)
+    this.reactionService.addLike(postid, cUser, event);
   }
 
-  unLike(postid, cUser) {
-    this.reactionService.removeLike(postid, cUser)
+  unLike(postid, cUser, event) {
+    this.reactionService.removeLike(postid, cUser, event);
   }
 
   async openMembersList() {
@@ -447,6 +453,22 @@ export class OrgHomePage implements OnInit, OnDestroy {
       }
     });
     return await popover.present();
+  }
+
+  async addPoll(ev: any) {
+    const popover = await this.popoverCtrl.create({
+      component: AddPollComponent,
+      event: ev,
+      animated: true,
+      mode: 'md',
+      cssClass: 'contact-popover',
+      componentProps: {
+        orgId: this.orgId,
+        cUser: this.cUser,
+        userInfo: this.user
+      }
+    });
+    return await popover.present();    
   }
 
   onSegmentChange() {

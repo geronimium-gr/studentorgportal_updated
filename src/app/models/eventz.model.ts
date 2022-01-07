@@ -11,5 +11,6 @@ export interface Eventz {
   eventStartDate: number;
   eventEndDate: number;
   eventTime: number;
+  postLikes: string[];
   createdAt: number;
 }
