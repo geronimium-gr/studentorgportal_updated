@@ -5,6 +5,9 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Polls } from '../models/polls';
 
+import firebase from 'firebase/app';
+import 'firebase/firestore'
+
 @Injectable({
   providedIn: 'root'
 })
@@ -16,7 +19,7 @@ export class PollsService {
 
   orgId = ""
 
-  constructor(    
+  constructor(
     private afs: AngularFirestore,
     private loadingCtrl: LoadingController,
     private toaster: ToastController,
@@ -28,7 +31,7 @@ export class PollsService {
   }
 
   filterData() {
-    this.pollCol = this.afs.collection("poll", ref => ref.orderBy("createdAt", "desc"));
+    this.pollCol = this.afs.collection("poll", ref => ref.orderBy("createdAt", "desc").where("postOrgId", "==", this.orgId));
     //this.postCol = this.afs.collection("post", ref => ref.where("postOrgId", "==", this.orgIds));
 
     this.polls = this.pollCol.snapshotChanges().pipe(
@@ -82,6 +85,88 @@ export class PollsService {
       this.toast(error.message, 'danger');
     });
    }
+
+   async deletePoll(pollId) {
+    const loading = await this.loadingCtrl.create({
+      message: `Deleting poll. Please Wait`,
+      spinner: 'crescent',
+      showBackdrop: true
+    });
+
+    loading.present();
+
+    this.afs.collection('poll').doc(pollId).delete()
+    .then(() => {
+      loading.dismiss();
+      this.toast('Delete successfully', 'success');
+    }).catch(error => {
+      loading.dismiss();
+      this.toast(error.message, 'danger');
+    });
+   }
+
+   async addVote(pollId: string, userId: string, votePoll: string) {
+
+    const pollRef = firebase.firestore().collection('poll').doc(pollId);
+
+    switch (votePoll) {
+      case 'votesA':
+        pollRef.update({
+          votesA: firebase.firestore.FieldValue.arrayUnion(userId)
+        });
+        break;
+      case 'votesB':
+        pollRef.update({
+          votesB: firebase.firestore.FieldValue.arrayUnion(userId)
+        });
+        break;
+      case 'votesC':
+        pollRef.update({
+          votesC: firebase.firestore.FieldValue.arrayUnion(userId)
+        });
+        break;
+      case 'votesD':
+        pollRef.update({
+          votesD: firebase.firestore.FieldValue.arrayUnion(userId)
+        });
+        break;
+      default:
+        console.log("Error exists.");
+        break;
+    }
+  }//
+
+  async removeVote(pollId: string, userId: string, votePoll: string) {
+
+    const pollRef = firebase.firestore().collection('poll').doc(pollId);
+
+    switch (votePoll) {
+      case 'votesA':
+        pollRef.update({
+          votesA: firebase.firestore.FieldValue.arrayRemove(userId)
+        });
+        break;
+      case 'votesB':
+        pollRef.update({
+          votesB: firebase.firestore.FieldValue.arrayRemove(userId)
+        });
+        break;
+      case 'votesC':
+        pollRef.update({
+          votesC: firebase.firestore.FieldValue.arrayRemove(userId)
+        });
+        break;
+      case 'votesD':
+        pollRef.update({
+          votesD: firebase.firestore.FieldValue.arrayRemove(userId)
+        });
+        break;
+      default:
+        console.log("Error exists.");
+        break;
+    }
+
+  }
 
    closePopOver(){
     this.popOverCtrl.dismiss();

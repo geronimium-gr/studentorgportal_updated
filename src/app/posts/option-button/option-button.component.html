@@ -13,3 +13,7 @@
 <ion-button color="danger" (click)="deleteEventForm()" *ngIf="indicatorEvent === 'event'">
   <ion-icon name="trash-bin" slot="icon-only"></ion-icon>
 </ion-button>
+
+<ion-button style="margin-left: 30px;" color="danger" (click)="deletePoll()" *ngIf="indicatorEvent === 'poll'">
+  <ion-icon name="trash-bin" slot="icon-only"></ion-icon>
+</ion-button>

@@ -172,6 +172,17 @@ export class OrgHomePage implements OnInit, OnDestroy {
     this.reactionService.removeLike(postid, cUser, event);
   }
 
+  vote(pollid, cUser, pollType, pollType1, pollType2, pollType3) {
+    this.pollService.addVote(pollid, cUser, pollType);
+    this.pollService.removeVote(pollid, cUser, pollType1);
+    this.pollService.removeVote(pollid, cUser, pollType2);
+    this.pollService.removeVote(pollid, cUser, pollType3);
+  }
+
+  unVote(pollid, cUser, pollType) {
+    this.pollService.removeVote(pollid, cUser, pollType);
+  }
+
   async openMembersList() {
     const modal = await this.modalCtrl.create({
       component: MembersListComponent,
@@ -468,7 +479,7 @@ export class OrgHomePage implements OnInit, OnDestroy {
         userInfo: this.user
       }
     });
-    return await popover.present();    
+    return await popover.present();
   }
 
   onSegmentChange() {

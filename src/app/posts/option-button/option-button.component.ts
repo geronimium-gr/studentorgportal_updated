@@ -1,6 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { AlertController, NavParams, PopoverController } from '@ionic/angular';
-import { EventzService } from 'src/app/services/eventz.service';
+import { EventzService } from '../../services/eventz.service';
+import { PollsService } from '../../services/polls.service';
 import { UpdateEventsComponent } from '../../eventz/update-events/update-events.component';
 import { PostService } from '../../services/post.service';
 import { UpdatePostComponent } from '../update-post/update-post.component';
@@ -20,7 +21,8 @@ export class OptionButtonComponent implements OnInit, OnDestroy {
               private popoverCtrl: PopoverController,
               private alertCtrl: AlertController,
               private postService: PostService,
-              private eventService: EventzService) { }
+              private eventService: EventzService,
+              private pollService: PollsService) { }
 
   //Editing Post
   ngOnInit() {
@@ -118,6 +120,33 @@ export class OptionButtonComponent implements OnInit, OnDestroy {
 
     await alert.present();
 
+  }
+
+  async deletePoll() {
+    const alert = await this.alertCtrl.create({
+      header: 'Confirm!',
+      message: 'Delete this poll?',
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          cssClass: 'secondary',
+          handler: () => {
+            console.log('Confirm Cancel');
+            this.closePopOver();
+          }
+        }, {
+          text: 'Confirm',
+          handler: () => {
+            console.log('Confirm Okay');
+            this.pollService.deletePoll(this.loadedPost);
+            this.closePopOver();
+          }
+        }
+      ]
+    });
+
+    await alert.present();
   }
 
   closePopOver(){
