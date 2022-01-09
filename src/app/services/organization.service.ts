@@ -74,6 +74,7 @@ export class OrganizationService {
       'description': orgDesc,
       'imageUrl': image,
       'orgType': orgType,
+      'userList': [],
       'createdAt': Date.now()
     }).then(() => {
       loading.dismiss();

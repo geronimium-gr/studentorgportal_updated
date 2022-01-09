@@ -47,7 +47,7 @@
           <ion-item detail button (click)="openMembersList()">
             <ion-icon name="person" slot="start"></ion-icon>
             <ion-text>Members</ion-text>
-            <ion-badge slot="end">00</ion-badge>
+            <ion-badge slot="end">{{ loadOrganization.userList?.length }}</ion-badge>
           </ion-item>
 
           <ion-item detail button (click)="editOrgForm(null)" *ngIf="auth.canDelete(user)">
@@ -84,7 +84,7 @@
           </ion-segment-button>
         </ion-segment>
 
-        <div *ngIf="segmentModel === 'event' ? auth.canAccess(user): auth.canRead(user)">
+        <div *ngIf="segmentModel === 'event' || segmentModel === 'poll' ? auth.canAccess(user): auth.canRead(user)">
         <ion-card class="post-card" *ngIf="segmentModel">
           <form>
             <ion-row>
@@ -332,7 +332,7 @@
                 </p>
                 <ion-list class="pollOpt">
                   <ion-list-header>
-                    <ion-label>{{ poll.pollOptionA }} ({{ poll.votesA?.length }})</ion-label>
+                    <ion-label>{{ poll.pollOptionA }} ({{ poll.votesA?.length }} vote/s)</ion-label>
                     <ion-button (click)="poll.votesA?.includes(cUser) ? unVote(poll.pollId, cUser, 'votesA'): vote(poll.pollId, cUser, 'votesA', 'votesB', 'votesC', 'votesD')">
                       <ion-icon color="secondary" [name]="poll.votesA?.includes(cUser) ? 'checkmark-circle' : 'checkmark-circle-outline'" slot="icon-only"></ion-icon>
                     </ion-button>
@@ -342,7 +342,7 @@
 
                 <ion-list class="pollOpt">
                   <ion-list-header>
-                    <ion-label>{{ poll.pollOptionB }} ({{ poll.votesB?.length }})</ion-label>
+                    <ion-label>{{ poll.pollOptionB }} ({{ poll.votesB?.length }} vote/s)</ion-label>
                     <ion-button (click)="poll.votesB?.includes(cUser) ? unVote(poll.pollId, cUser, 'votesB') : vote(poll.pollId, cUser, 'votesB', 'votesA', 'votesC', 'votesD')">
                       <ion-icon color="secondary" [name]="poll.votesB?.includes(cUser) ? 'checkmark-circle' : 'checkmark-circle-outline'" slot="icon-only"></ion-icon>
                     </ion-button>
@@ -352,7 +352,7 @@
 
                 <ion-list class="pollOpt" *ngIf="poll.pollOptionC">
                   <ion-list-header>
-                    <ion-label>{{ poll.pollOptionC }} ({{ poll.votesC?.length }})</ion-label>
+                    <ion-label>{{ poll.pollOptionC }} ({{ poll.votesC?.length }} vote/s)</ion-label>
                     <ion-button (click)="poll.votesC?.includes(cUser) ? unVote(poll.pollId, cUser, 'votesC') : vote(poll.pollId, cUser, 'votesC', 'votesA', 'votesB', 'votesD')">
                       <ion-icon color="secondary" [name]="poll.votesC?.includes(cUser) ? 'checkmark-circle' : 'checkmark-circle-outline'" slot="icon-only"></ion-icon>
                     </ion-button>
@@ -362,7 +362,7 @@
 
                 <ion-list class="pollOpt" *ngIf="poll.pollOptionD">
                   <ion-list-header>
-                    <ion-label>{{ poll.pollOptionD }} ({{ poll.votesD?.length }})</ion-label>
+                    <ion-label>{{ poll.pollOptionD }} ({{ poll.votesD?.length }} vote/s)</ion-label>
                     <ion-button (click)="poll.votesD?.includes(cUser) ? unVote(poll.pollId, cUser, 'votesD') : vote(poll.pollId, cUser, 'votesD', 'votesA', 'votesB', 'votesC')">
                       <ion-icon color="secondary" [name]="poll.votesD?.includes(cUser) ? 'checkmark-circle' : 'checkmark-circle-outline'" slot="icon-only"></ion-icon>
                     </ion-button>

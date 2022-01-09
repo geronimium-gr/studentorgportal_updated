@@ -45,7 +45,7 @@ export class UserService {
       ref
         // .where('userId', '!=', this.cUser)
         // .orderBy('userId')
-        .orderBy('createdAt', 'desc')
+        .orderBy('userName')
     );
 
     this.users = this.userCol.snapshotChanges().pipe(

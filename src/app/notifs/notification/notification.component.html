@@ -10,7 +10,7 @@
 </ion-header>
 
 <ion-content>
-<div *ngIf="notif?.length > 0">
+<div>
   <ion-item color="tertiary">
       <ion-icon name="notifications" slot="start"></ion-icon>
     <ion-label>
@@ -22,6 +22,8 @@
       <p>Check updates of the post and events in your organization.</p>
     </ion-label>
   </ion-item>
+</div>
+<ion-grid>
   <ion-list *ngFor="let n of notif">
     <ion-item *ngIf="n.userId !== currentUser" button (click)="viewNotif(n.notifId)">
       <ion-avatar slot="start">
@@ -37,7 +39,7 @@
       </ion-label>
     </ion-item>
   </ion-list>
-</div>
+</ion-grid>
 
   <!-- <div class="ion-text-center ion-padding" *ngIf="notif?.length <= 0">
     <ion-icon name="notifications" class="label-icon"></ion-icon>

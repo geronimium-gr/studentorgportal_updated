@@ -190,7 +190,7 @@ export class OrgHomePage implements OnInit, OnDestroy {
       componentProps: {
         orgId: this.orgId,
         orgName: this.orgName,
-        userId: this.cUser
+        cUser: this.cUser
       }
     });
     return await modal.present();

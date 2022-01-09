@@ -17,5 +17,6 @@ export interface User {
   userPhoto: string;
   role: Roles;
   roleName: string;
+  organizationId: string[];
   createdAt: number;
 }
