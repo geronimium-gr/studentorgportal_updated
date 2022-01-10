@@ -1,9 +1,10 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { AlertController, IonItemSliding, LoadingController, ModalController, NavParams } from '@ionic/angular';
 import { Subscription } from 'rxjs';
-import { MembershipService } from 'src/app/services/membership.service';
-import { OrganizationService } from 'src/app/services/organization.service';
+import { MembershipService } from '../../services/membership.service';
+import { OrganizationService } from '../../services/organization.service';
 import { UserService } from '../../services/user.service';
+import { AuthService } from '../../services/auth.service';
 
 import firebase from 'firebase/app';
 import 'firebase/firestore'
@@ -24,9 +25,11 @@ export class MembersListComponent implements OnInit, OnDestroy {
 
   memberSub: Subscription;
   isLoading = false;
+  show = false;
 
   cUser: any;
   orgId: any;
+  user: any
 
   constructor(public modalCtrl: ModalController,
               private userService: UserService,
@@ -34,11 +37,15 @@ export class MembersListComponent implements OnInit, OnDestroy {
               private memberService: MembershipService,
               private orgService: OrganizationService,
               private loadingCtrl: LoadingController,
-              private alertCtrl: AlertController)
+              private alertCtrl: AlertController,
+              private authService: AuthService,
+              public auth: AuthService)
 
   {
     this.orgId = this.navParams.get("orgId");
     this.cUser = this.navParams.get("cUser");
+
+
 
   }
 
@@ -48,7 +55,11 @@ export class MembersListComponent implements OnInit, OnDestroy {
       this.userList = members;
     });
     this.isLoading = false;
-    
+
+    this.memberSub = this.authService.user$.subscribe(async users => {
+      this.user = users;
+    });
+
   }
 
   ionViewWillEnter() {
@@ -56,13 +67,6 @@ export class MembersListComponent implements OnInit, OnDestroy {
   }
 
    async loadMembers() {
-    const loading = await this.loadingCtrl.create({
-      message: 'Wait...',
-      spinner: 'crescent',
-      showBackdrop: true
-    });
-
-    loading.present();
 
     this.memberSub = this.orgService.getOrganization(this.orgId).subscribe(org => {
       this.memberList = org.userList;
@@ -72,23 +76,22 @@ export class MembersListComponent implements OnInit, OnDestroy {
 
         docRef.get().then((doc) => {
             if (doc.exists) {
-               this.memberInfo.push({ 
-                userId: doc.data().userId, 
-                userName: doc.data().userName, 
+               this.memberInfo.push({
+                userId: doc.data().userId,
+                userName: doc.data().userName,
                 userSurname: doc.data().userSurname,
                 userPhoto: doc.data().userPhoto,
                 roleName: doc.data().roleName,
                 organizationId: doc.data().organizationId
               });
-              loading.dismiss();
+
+              this.memberInfo.sort((a, b) => (a.userName > b.userName) ? 1 : -1);
             } else {
                 // doc.data() will be undefined in this case
                 console.log("No such document!");
-                loading.dismiss();
             }
         }).catch((error) => {
             console.log("Error getting document:", error);
-            loading.dismiss();
         });
       });//
     });
@@ -98,6 +101,16 @@ export class MembersListComponent implements OnInit, OnDestroy {
     this.memberService.addUserInOrg(this.orgId, userId);
     sliding.close();
     this.onClose();
+  }
+
+  onSegmentChange() {
+    if (this.segmentModel === 'members') {
+      this.segmentModel = 'members';
+      console.log(this.segmentModel);
+    } else if (this.segmentModel === 'add member') {
+      this.segmentModel = 'add member';
+      console.log(this.segmentModel);
+    }
   }
 
   async removeMember(userId, sliding: IonItemSliding) {

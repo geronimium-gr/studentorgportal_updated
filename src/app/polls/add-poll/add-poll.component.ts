@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { NavParams, PopoverController } from '@ionic/angular';
-import { PollsService } from 'src/app/services/polls.service';
+import { PollsService } from '../../services/polls.service';
 
 @Component({
   selector: 'app-add-poll',
@@ -20,8 +20,8 @@ export class AddPollComponent implements OnInit {
   constructor(private popoverCtrl: PopoverController,
               private afs: AngularFirestore,
               private pollService: PollsService,
-              private navParams: NavParams) 
-  { 
+              private navParams: NavParams)
+  {
     this.orgId = this.navParams.get("orgId");
     this.currentUser = this.navParams.get("cUser");
     this.userInfo = this.navParams.get("userInfo");
@@ -67,8 +67,8 @@ export class AddPollComponent implements OnInit {
     const pollA = this.formGroup.value.pollOptA;
     const pollB = this.formGroup.value.pollOptB;
     const pollC = this.formGroup.value.pollOptC;
-    const pollD = this.formGroup.value.pollOptD; 
- 
+    const pollD = this.formGroup.value.pollOptD;
+
 
     this.pollService.addPoll(pollId, title, content, pollA, pollB, pollC, pollD, this.currentUser, this.userInfo.userName, this.userInfo.userSurname, this.userInfo.userPhoto, this.orgId)
   }

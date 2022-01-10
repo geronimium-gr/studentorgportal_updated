@@ -1,6 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/firestore';
-import { AngularFireStorage } from '@angular/fire/storage';
 import { MenuController, PopoverController } from '@ionic/angular';
 import { Observable, Subscription } from 'rxjs';
 
@@ -8,6 +7,9 @@ import { Organization } from '../models/organization.model';
 import { NewOrgComponent } from '../orgs/new-org/new-org.component';
 import { AuthService } from '../services/auth.service';
 import { OrganizationService } from '../services/organization.service';
+
+import firebase from 'firebase/app';
+import 'firebase/firestore'
 
 @Component({
   selector: 'app-home',
@@ -27,11 +29,8 @@ export class HomePage implements OnInit, OnDestroy{
   orgs: Observable<any[]>;
   orgRef: AngularFirestoreCollection;
 
-  slideOpts = {
-    speed: 1000,
-    autoplay: true,
-    initialSlide: 0
-  };
+ public organizationList = [];
+ public orgInfo = [];
 
   constructor(private menu: MenuController,
               private popOverCtrl: PopoverController,
@@ -41,8 +40,37 @@ export class HomePage implements OnInit, OnDestroy{
               private afs: AngularFirestore)
 
   {
+
+
+  }
+
+  ngOnInit() {
     this.orgSub = this.authService.user$.subscribe(async users => {
       this.user = users;
+      this.organizationList = users.organizationId;
+
+      this.organizationList?.forEach(uid => {
+        const docRef = firebase.firestore().collection("organization").doc(uid);
+
+        docRef.get().then((doc) => {
+            if (doc.exists) {
+               this.orgInfo.push({
+                orgId: doc.data().orgId,
+                orgName: doc.data().orgName,
+                description: doc.data().description,
+                imageUrl: doc.data().imageUrl,
+                userList: doc.data().userList
+              });
+
+              this.orgInfo.sort((a, b) => (a.userName > b.userName) ? 1 : -1);
+            } else {
+                // doc.data() will be undefined in this case
+                console.log("No such document!");
+            }
+        }).catch((error) => {
+            console.log("Error getting document:", error);
+        });
+      });
     });
 
     this.orgService.filterData();
@@ -50,14 +78,19 @@ export class HomePage implements OnInit, OnDestroy{
     this.orgRef = this.afs.collection('organization', ref => ref.orderBy("createdAt", "desc").where("orgType", "==", "Non-Academic"));
     this.orgs = this.orgRef.valueChanges();
 
-  }
-
-  ngOnInit() {
     this.isLoading = true;
     this.orgSub = this.orgService.getOrganizations().subscribe(orgs => {
       this.organization = orgs;
       this.isLoading = false;
     });
+  }
+
+  ionViewWillEnter() {
+    this.loadOrganizations();
+  }
+
+  loadOrganizations() {
+
   }
 
   openFirst(){

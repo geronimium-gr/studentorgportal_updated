@@ -11,12 +11,12 @@
 </ion-header>
 
 <ion-content>
-  <ion-segment value="comment" color="secondary" [(ngModel)]="segmentModel">
+  <ion-segment value="comment" color="secondary" [(ngModel)]="segmentModel" (ionChange)="onSegmentChange()">
     <ion-segment-button value="members" layout="icon-start">
       <ion-icon name="people"></ion-icon>
       <ion-label>Members</ion-label>
     </ion-segment-button>
-    <ion-segment-button value="add member" layout="icon-start">
+    <ion-segment-button value="add member" layout="icon-start" *ngIf="auth.canEdit(user)">
       <ion-icon name="person-add"></ion-icon>
       <ion-label>Add Member</ion-label>
     </ion-segment-button>
@@ -34,29 +34,48 @@
           <p><strong>No Member is added.</strong></p>
         </div>
 
-        <div *ngFor="let user of memberInfo">
-          <ion-item-sliding *ngIf="user.organizationId?.includes(orgId)" #slidingMember>
-            <ion-item detail *ngIf="cUser != user.userId">
-              <ion-avatar slot="start">
-                <img [src]="user.userPhoto">
-              </ion-avatar>
-              <ion-label>
-                <h2>{{ user.userName }} {{ user.userSurname }}</h2>
-                <p>{{ user.roleName }}</p>
-              </ion-label>
-            </ion-item>
-            <ion-item-options *ngIf="cUser != user.userId">
-              <ion-item-option color="danger" (click)="removeMember(user.userId, slidingMember)">
-                <ion-icon name="person-remove" slot="icon-only"></ion-icon>
-              </ion-item-option>
-            </ion-item-options>
-          </ion-item-sliding>
+        <div *ngIf="auth.canEdit(user)">
+          <div *ngFor="let user of memberInfo">
+            <ion-item-sliding *ngIf="user.organizationId?.includes(orgId)" #slidingMember>
+              <ion-item detail>
+                <ion-avatar slot="start">
+                  <img [src]="user.userPhoto">
+                </ion-avatar>
+                <ion-label>
+                  <h2>{{ user.userName }} {{ user.userSurname }}</h2>
+                  <p>{{ user.roleName }}</p>
+                </ion-label>
+              </ion-item>
+                <ion-item-options *ngIf="cUser != user.userId">
+                  <ion-item-option color="danger" (click)="removeMember(user.userId, slidingMember)">
+                    <ion-icon name="person-remove" slot="icon-only"></ion-icon>
+                  </ion-item-option>
+                </ion-item-options>
+            </ion-item-sliding>
+          </div>
         </div>
+
+        <div *ngIf="!auth.canEdit(user)">
+          <div *ngFor="let user of memberInfo">
+            <ion-item-sliding *ngIf="user.organizationId?.includes(orgId)" #slidingMember>
+              <ion-item>
+                <ion-avatar slot="start">
+                  <img [src]="user.userPhoto">
+                </ion-avatar>
+                <ion-label>
+                  <h2>{{ user.userName }} {{ user.userSurname }}</h2>
+                  <p>{{ user.roleName }}</p>
+                </ion-label>
+              </ion-item>
+            </ion-item-sliding>
+          </div>
+        </div>
+
       </ion-list>
     </ion-grid>
   </div>
 
-  <div *ngIf="segmentModel === 'add member'">
+  <div *ngIf="segmentModel === 'add member' && auth.canEdit(user)">
     <ion-grid>
       <ion-list inset="true">
         <ion-list-header>

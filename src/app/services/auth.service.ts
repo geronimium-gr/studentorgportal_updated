@@ -136,8 +136,12 @@ export class AuthService {
   }
 
   canEdit(user: User): boolean {
-    const allowed = ['admin', 'moderator'];
-    return this.checkAuthorization(user, allowed);
+    try {
+      const allowed = ['admin', 'moderator'];
+      return this.checkAuthorization(user, allowed);
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   canAccess(user: User): boolean {

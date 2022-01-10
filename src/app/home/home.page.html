@@ -19,9 +19,6 @@
       <ion-fab-button color="light" (click)="openAddForm(null)" data-desc="Add Org">
         <ion-icon name="create"></ion-icon>
       </ion-fab-button>
-      <!-- <ion-fab-button color="light" data-desc="Add Announcement">
-        <ion-icon name="easel"></ion-icon>
-      </ion-fab-button> -->
     </ion-fab-list>
   </ion-fab>
 
@@ -39,6 +36,7 @@
     <ion-title>My Orgs</ion-title>
   </ion-item>
 
+<div *ngIf="auth.canDelete(user)">
   <ion-segment color="tertiary" value="Academic" [(ngModel)]="segmentModel" (ionChange)="segmentChanged()">
     <ion-segment-button value="Academic" layout="icon-start">
       <ion-label>Academic</ion-label>
@@ -96,7 +94,7 @@
             </div>
             <ion-card-header>
               <ion-card-title class="truncateWord">{{ o.orgName }}</ion-card-title>
-              <ion-card-subtitle>0 members</ion-card-subtitle>
+              <ion-card-subtitle>{{ o.userList?.length > 0 ? o.userList?.length : '0' }} member/s</ion-card-subtitle>
             </ion-card-header>
             <ion-card-content>
               <p class="truncateWord">{{ o.description }}</p>
@@ -109,4 +107,31 @@
         </ion-col>
       </ion-row>
     </ion-grid>
+</div>
+
+
+<div *ngIf="!auth.canDelete(user)">
+  <ion-grid>
+    <ion-row>
+      <ion-col size-lg="3" size-md="4" size-sm="6" size="12" *ngFor="let o of orgInfo">
+        <ion-card>
+          <div class="container">
+            <ion-img class="img" [src]="o.imageUrl"></ion-img>
+          </div>
+          <ion-card-header>
+            <ion-card-title class="truncateWord">{{ o.orgName }}</ion-card-title>
+            <ion-card-subtitle>{{ o.userList?.length > 0 ? o.userList?.length : '0' }} member/s</ion-card-subtitle>
+          </ion-card-header>
+          <ion-card-content>
+            <p class="truncateWord">{{ o.description }}</p>
+          </ion-card-content>
+          <ion-button fill="solid" class="ion-margin" expand="block" color="primary" [routerLink]="['/home', o.orgId]">
+            <ion-icon name="open" slot="start"></ion-icon>
+            <ion-label>View</ion-label>
+          </ion-button>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</div>
 </ion-content>

@@ -28,8 +28,8 @@ import { NotificationComponent } from '../../notifs/notification/notification.co
 import { MembersListComponent } from '../../members/members-list/members-list.component';
 import { ReactionsService } from '../../services/reactions.service';
 import { AddPollComponent } from '../../polls/add-poll/add-poll.component';
-import { PollsService } from 'src/app/services/polls.service';
-import { Polls } from 'src/app/models/polls';
+import { PollsService } from '../../services/polls.service';
+import { Polls } from '../../models/polls';
 
 @Component({
   selector: 'app-org-home',

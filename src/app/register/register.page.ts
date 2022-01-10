@@ -172,6 +172,7 @@ export class RegisterPage implements OnInit {
           'roleName': this.roleHolder,
           'course': this.selectCourse,
           'userPhoto': profilePicture,
+          'organizationId': [],
           'createdAt' : Date.now()
         })
         .then(() => {
