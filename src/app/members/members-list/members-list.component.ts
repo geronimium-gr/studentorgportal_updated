@@ -66,24 +66,27 @@ export class MembersListComponent implements OnInit, OnDestroy {
     this.loadMembers();
   }
 
-   async loadMembers() {
+    loadMembers() {
 
     this.memberSub = this.orgService.getOrganization(this.orgId).subscribe(org => {
       this.memberList = org.userList;
+      this.memberInfo = [];
 
       this.memberList.forEach(uid => {
         const docRef = firebase.firestore().collection("user").doc(uid);
 
         docRef.get().then((doc) => {
             if (doc.exists) {
-               this.memberInfo.push({
-                userId: doc.data().userId,
-                userName: doc.data().userName,
-                userSurname: doc.data().userSurname,
-                userPhoto: doc.data().userPhoto,
-                roleName: doc.data().roleName,
-                organizationId: doc.data().organizationId
-              });
+              if (!this.memberInfo.some(e => e.userId === doc.data().userId)) {
+                this.memberInfo.push({
+                 userId: doc.data().userId,
+                 userName: doc.data().userName,
+                 userSurname: doc.data().userSurname,
+                 userPhoto: doc.data().userPhoto,
+                 roleName: doc.data().roleName,
+                 organizationId: doc.data().organizationId
+               });
+              }
 
               this.memberInfo.sort((a, b) => (a.userName > b.userName) ? 1 : -1);
             } else {
@@ -95,12 +98,13 @@ export class MembersListComponent implements OnInit, OnDestroy {
         });
       });//
     });
+
   }
 
   addMember(userId, sliding: IonItemSliding) {
     this.memberService.addUserInOrg(this.orgId, userId);
     sliding.close();
-    this.onClose();
+    //this.onClose();
   }
 
   onSegmentChange() {

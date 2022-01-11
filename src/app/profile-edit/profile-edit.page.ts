@@ -127,7 +127,7 @@ export class ProfileEditPage implements OnInit, OnDestroy {
       this.roleMod = true;
       this.roleHolder = "Moderator";
       console.log("Hello Mod");
-    } else if (this.selectRole === "Student Officer") {
+    } else if (this.selectRole === "Officer") {
       this.roleOfficer = true;
       this.roleHolder = "Student Officer";
       console.log("Hello Officer");

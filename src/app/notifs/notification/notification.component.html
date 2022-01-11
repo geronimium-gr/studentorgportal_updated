@@ -25,7 +25,7 @@
 </div>
 <ion-grid>
   <ion-list *ngFor="let n of notif">
-    <ion-item *ngIf="n.userId !== currentUser" button (click)="viewNotif(n.notifId)">
+    <ion-item button (click)="viewNotif(n.notifId)">
       <ion-avatar slot="start">
         <img [src]="n.userPhoto" />
       </ion-avatar>
@@ -41,8 +41,8 @@
   </ion-list>
 </ion-grid>
 
-  <!-- <div class="ion-text-center ion-padding" *ngIf="notif?.length <= 0">
+  <div class="ion-text-center ion-padding" *ngIf="notif?.length <= 0">
     <ion-icon name="notifications" class="label-icon"></ion-icon>
     <p><strong>No Notifications today.</strong></p>
-  </div> -->
+  </div>
 </ion-content>

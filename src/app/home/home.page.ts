@@ -49,18 +49,21 @@ export class HomePage implements OnInit, OnDestroy{
       this.user = users;
       this.organizationList = users.organizationId;
 
+      this.orgInfo = [];
       this.organizationList?.forEach(uid => {
         const docRef = firebase.firestore().collection("organization").doc(uid);
 
         docRef.get().then((doc) => {
             if (doc.exists) {
-               this.orgInfo.push({
-                orgId: doc.data().orgId,
-                orgName: doc.data().orgName,
-                description: doc.data().description,
-                imageUrl: doc.data().imageUrl,
-                userList: doc.data().userList
-              });
+              if (!this.orgInfo.some(e => e.orgId === doc.data().orgId)) {
+                this.orgInfo.push({
+                 orgId: doc.data().orgId,
+                 orgName: doc.data().orgName,
+                 description: doc.data().description,
+                 imageUrl: doc.data().imageUrl,
+                 userList: doc.data().userList
+               });
+              }
 
               this.orgInfo.sort((a, b) => (a.userName > b.userName) ? 1 : -1);
             } else {
