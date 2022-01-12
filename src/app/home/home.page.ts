@@ -88,14 +88,6 @@ export class HomePage implements OnInit, OnDestroy{
     });
   }
 
-  ionViewWillEnter() {
-    this.loadOrganizations();
-  }
-
-  loadOrganizations() {
-
-  }
-
   openFirst(){
     this.menu.enable(true, 'm1');
   }

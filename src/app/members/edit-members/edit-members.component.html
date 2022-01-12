@@ -1,0 +1,39 @@
+<ion-header>
+  <ion-toolbar color="light">
+    <ion-title>Edit Role</ion-title>
+    <ion-buttons slot="primary">
+      <ion-button (click)="onClose()">
+        <ion-icon name="close" slot="icon-only"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-card class="profile-card">
+    <ion-avatar class="img-center ion-margin">
+      <img [src]="user?.userPhoto">
+    </ion-avatar>
+    <ion-card-header class="font">{{ user?.userName }} {{ user?.userSurname }}</ion-card-header>
+    <ion-card-content>
+      <ion-chip outline color="tertiary">
+        <ion-icon name="person"></ion-icon>
+        <ion-label>{{ user?.roleName }}</ion-label>
+      </ion-chip>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-item>
+    <ion-label>Role</ion-label>
+    <ion-select [value]=" user?.roleName" [interfaceOptions]="customActionSheetOptions" interface="action-sheet" placeholder="Select One" [(ngModel)]="selectRole" [ngModelOptions]="{standalone: true}">
+      <ion-select-option *ngIf="auth.canEdit(authUser)" value="Moderator">Moderator</ion-select-option>
+      <ion-select-option value="Student Officer">Student Officer</ion-select-option>
+      <ion-select-option value="Student">Student</ion-select-option>
+    </ion-select>
+  </ion-item>
+
+  <ion-item lines="none" color="success" detail="true" button [disabled]="!selectRole" (click)="updateRole()">
+    <ion-icon name="checkmark-circle-outline" slot="start"></ion-icon>
+    <ion-text>Update Changes</ion-text>
+  </ion-item>
+</ion-content>

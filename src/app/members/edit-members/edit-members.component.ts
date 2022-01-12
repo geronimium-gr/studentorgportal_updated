@@ -1,53 +1,55 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
-import { NgForm } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
-import { AlertController, LoadingController, ToastController } from '@ionic/angular';
+import { Router } from '@angular/router';
+import { AlertController, LoadingController, NavParams, PopoverController, ToastController } from '@ionic/angular';
 import { Subscription } from 'rxjs';
-
-import { UserService } from '../services/user.service';
+import { AuthService } from 'src/app/services/auth.service';
+import { UserService } from 'src/app/services/user.service';
 
 @Component({
-  selector: 'app-profile-edit',
-  templateUrl: './profile-edit.page.html',
-  styleUrls: ['./profile-edit.page.scss'],
+  selector: 'app-edit-members',
+  templateUrl: './edit-members.component.html',
+  styleUrls: ['./edit-members.component.scss'],
 })
-export class ProfileEditPage implements OnInit, OnDestroy {
+export class EditMembersComponent implements OnInit, OnDestroy {
+  customActionSheetOptions: any = {
+    header: 'Update Role',
+    subHeader: 'Select role'
+  };
 
-  userId: string;
-  fname: string;
-  studentId: string;
-  sname: string;
-  birthday: any;
+  selectRole: any;
+  user: any;
+  authUser: any;
+  userId: any;
+  editMemberSub: Subscription;
 
-  roleAdmin: boolean = false;
   roleMod: boolean = false;
   roleOfficer: boolean = false;
   roleStudent: boolean = false;
 
   roleHolder = "";
 
-  userRole: any;
-  selectRole: any;
-
-  profileEditSub: Subscription;
-
-  //EDITING PROFILE - ADMIN VIEW
-
-
-  constructor(private userService: UserService,
-              private afs: AngularFirestore,
+  constructor(private popOverCtrl: PopoverController,
               private loadingCtrl: LoadingController,
-              private toaster: ToastController,
+              private userService: UserService,
+              private alertCtrl: AlertController,
+              private navParams: NavParams,
               private router: Router,
-              private activateRoute: ActivatedRoute,
-              private alertCtrl: AlertController) { }
-
-  ngOnInit() {
-    this.userId = this.activateRoute.snapshot.params['userID'];
+              private afs: AngularFirestore,
+              private toaster: ToastController,
+              private authService: AuthService,
+              public auth: AuthService) 
+  { 
+    this.userId = this.navParams.get('userId');
   }
 
-  ionViewWillEnter(){
+  ngOnInit() {
+    this.editMemberSub = this.authService.user$.subscribe(async users => {
+      this.authUser = users;
+    });
+  }
+
+  ionViewWillEnter() {
     this.loadUserDetails();
   }
 
@@ -60,14 +62,10 @@ export class ProfileEditPage implements OnInit, OnDestroy {
 
     loading.present();
 
-    this.profileEditSub = this.userService.getUser(this.userId).subscribe(async user => {
+    this.editMemberSub = this.userService.getUser(this.userId).subscribe(async user => {
 
       try {
-        this.userRole = user.roleName;
-        this.fname = user.userName;
-        this.studentId = user.userSchoolId;
-        this.sname = user.userSurname;
-        this.birthday = user.birthday;
+        this.user = user;
         loading.dismiss();
       } catch (error) {
         this.router.navigate(['/page-not-found']);
@@ -92,25 +90,7 @@ export class ProfileEditPage implements OnInit, OnDestroy {
     });
   }//
 
-  updateRole(role){
-    //console.log(role);
-    console.log(this.selectRole + role);
-  }
-
-  onSubmit(form: NgForm){
-    if (!form.valid) {
-      return;
-    }
-
-    const user = form.value.fname;
-    const studentId = form.value.studentId;
-    const surname = form.value.sname;
-    const bday = form.value.birthdate;
-
-    this.onUpdateUser(user, studentId, surname, bday);
-  }//
-
-  async onUpdateUser(name: string, studentNo: string, surname: string, bday: any){
+  async updateRole() {
     const loading = await this.loadingCtrl.create({
       message: 'Updating...',
       spinner: 'crescent',
@@ -119,11 +99,7 @@ export class ProfileEditPage implements OnInit, OnDestroy {
 
     loading.present(); //profile or edit
 
-    if (this.selectRole === "Admin") {
-      this.roleAdmin = true;
-      this.roleHolder = "Admin";
-      console.log("Hello Admin");
-    } else if (this.selectRole === "Moderator") {
+    if (this.selectRole === "Moderator") {
       this.roleMod = true;
       this.roleHolder = "Moderator";
       console.log("Hello Mod");
@@ -138,12 +114,7 @@ export class ProfileEditPage implements OnInit, OnDestroy {
     }
 
     this.afs.collection('user').doc(this.userId).update({
-      'userName': name,
-      'userSchoolId': studentNo,
-      'userSurname': surname,
-      'birthday': bday,
       'role' : {
-        'admin': this.roleAdmin,
         'moderator': this.roleMod,
         'officer': this.roleOfficer,
         'student': this.roleStudent
@@ -154,16 +125,14 @@ export class ProfileEditPage implements OnInit, OnDestroy {
     .then(() => {
       loading.dismiss();
       this.toast('Update Success', 'success');
-      this.router.navigate(['/users']);
+      this.onClose();
     })
     .catch(error => {
       loading.dismiss();
       this.toast(error.message, 'danger');
     })
 
-
-  }//
-
+  }
 
   async toast(message, status){
     const toast = await this.toaster.create({
@@ -176,9 +145,14 @@ export class ProfileEditPage implements OnInit, OnDestroy {
     toast.present();
   }
 
+  onClose() {
+    this.popOverCtrl.dismiss();
+  }
+
   ngOnDestroy(){
-    if (this.profileEditSub) {
-      this.profileEditSub.unsubscribe();
+    if (this.editMemberSub) {
+      this.editMemberSub.unsubscribe();
     }
   }
+
 }

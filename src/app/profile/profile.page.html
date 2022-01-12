@@ -168,10 +168,10 @@
                 <p class="content-font">{{ p.postContent }}</p>
               </ion-card-content>
               <ion-card-content>
-                <ion-chip outline color="tertiary" *ngIf="p.postOrgId !== 'public'" [routerLink]="['/home', p.postOrgId]" [fragment]="p.postId">
+                <!-- <ion-chip outline color="tertiary" *ngIf="p.postOrgId !== 'public'" [routerLink]="['/home', p.postOrgId]" [fragment]="p.postId">
                   <ion-icon name="link"></ion-icon>
                   <ion-label>View Org</ion-label>
-                </ion-chip>
+                </ion-chip> -->
                 <ion-chip outline color="tertiary" (click)="editPostForm(null, p.postId)">
                   <ion-icon name="create"></ion-icon>
                   <ion-label>Edit</ion-label>

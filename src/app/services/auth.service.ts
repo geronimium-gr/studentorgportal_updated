@@ -164,6 +164,11 @@ export class AuthService {
     return this.checkAuthorization(user, allowed);
   }
 
+  canAccessByStudent(user: User): boolean {
+    const allowed = ['student'];
+    return this.checkAuthorization(user, allowed);
+  }
+
   createOnline$() {
     return merge<boolean>(
       fromEvent(window, 'offline').pipe(map(() => false)),

@@ -43,6 +43,7 @@ import { NotificationComponent } from './notifs/notification/notification.compon
 import { MembersListComponent } from './members/members-list/members-list.component';
 import { ViewNotificationComponent } from './notifs/view-notification/view-notification.component';
 import { AddPollComponent } from './polls/add-poll/add-poll.component';
+import { EditMembersComponent } from './members/edit-members/edit-members.component';
 
 //Shared Module
 import { PickerModule } from './picker/picker.module';
@@ -71,7 +72,8 @@ import { AutosizeModule } from "ngx-autosize";
     NotificationComponent,
     ViewNotificationComponent,
     MembersListComponent,
-    AddPollComponent
+    AddPollComponent,
+    EditMembersComponent
   ],
   entryComponents: [
     UpdatePasswordComponent,
@@ -92,7 +94,8 @@ import { AutosizeModule } from "ngx-autosize";
     NotificationComponent,
     ViewNotificationComponent,
     MembersListComponent,
-    AddPollComponent
+    AddPollComponent,
+    EditMembersComponent
   ],
   imports: [
     BrowserModule,

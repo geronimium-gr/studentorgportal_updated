@@ -3,7 +3,7 @@
     <ion-spinner color="secondary" *ngIf="isLoading"></ion-spinner>
     <ion-title *ngIf="!isLoading">{{ segmentModel | titlecase}}</ion-title>
     <ion-buttons slot="primary">
-      <ion-button (click)="onClose()">
+      <ion-button (click)="onClose()"> 
         <ion-icon name="close" slot="icon-only"></ion-icon>
       </ion-button>
     </ion-buttons>
@@ -11,6 +11,7 @@
 </ion-header>
 
 <ion-content>
+  <ion-searchbar animated (ionInput)="segmentModel === 'members' ? filterListMembers($event): filterListUsers($event)"></ion-searchbar>
   <ion-segment value="comment" color="secondary" [(ngModel)]="segmentModel" (ionChange)="onSegmentChange()">
     <ion-segment-button value="members" layout="icon-start">
       <ion-icon name="people"></ion-icon>
@@ -23,17 +24,23 @@
   </ion-segment>
 
   <div *ngIf="segmentModel === 'members'">
+    
     <ion-grid>
       <ion-list inset="true">
         <ion-list-header>
          Members
+         <ion-button size="small" (click)="exportCSV()">
+          <ion-icon name="download" slot="start" ></ion-icon>
+          <ion-text>Export list (CSV)</ion-text>          
+         </ion-button>
         </ion-list-header>
-
+        
         <div class="ion-text-center ion-padding" *ngIf="memberInfo?.length <= 0">
           <ion-icon name="people" class="label-icon"></ion-icon>
           <p><strong>No Member is added.</strong></p>
         </div>
 
+        <!-- Admin/Mod -->
         <div *ngIf="auth.canEdit(user)">
           <div *ngFor="let user of memberInfo">
             <ion-item-sliding *ngIf="user.organizationId?.includes(orgId)" #slidingMember>
@@ -50,12 +57,38 @@
                   <ion-item-option color="danger" (click)="removeMember(user.userId, slidingMember)">
                     <ion-icon name="person-remove" slot="icon-only"></ion-icon>
                   </ion-item-option>
+                  <ion-item-option color="secondary">
+                    <ion-icon name="create" slot="icon-only" (click)="editMember(null, user.userId, slidingMember)"></ion-icon>
+                  </ion-item-option>
                 </ion-item-options>
             </ion-item-sliding>
           </div>
         </div>
 
-        <div *ngIf="!auth.canEdit(user)">
+        <!-- Officer -->
+        <div *ngIf="auth.canAccessByOfficer(user)">
+          <div *ngFor="let user of memberInfo">
+            <ion-item-sliding *ngIf="user.organizationId?.includes(orgId)" #slidingMember>
+              <ion-item detail>
+                <ion-avatar slot="start">
+                  <img [src]="user.userPhoto">
+                </ion-avatar>
+                <ion-label>
+                  <h2>{{ user.userName }} {{ user.userSurname }}</h2>
+                  <p>{{ user.roleName }}</p>
+                </ion-label>
+              </ion-item>
+                <ion-item-options *ngIf="cUser != user.userId && user.roleName !== 'Moderator'">
+                  <ion-item-option color="secondary">
+                    <ion-icon name="create" slot="icon-only" (click)="editMember(null, user.userId, slidingMember)"></ion-icon>
+                  </ion-item-option>
+                </ion-item-options>
+            </ion-item-sliding>
+          </div>
+        </div>
+
+        <!-- Student -->
+        <div *ngIf="auth.canAccessByStudent(user)">
           <div *ngFor="let user of memberInfo">
             <ion-item-sliding *ngIf="user.organizationId?.includes(orgId)" #slidingMember>
               <ion-item>
@@ -81,6 +114,11 @@
         <ion-list-header>
          Users
         </ion-list-header>
+
+        <div class="ion-text-center ion-padding" *ngIf="userList?.length <= 0">
+          <ion-icon name="people" class="label-icon"></ion-icon>
+          <p><strong>No User found.</strong></p>
+        </div>
 
         <div *ngFor="let user of userList">
           <ion-item-sliding *ngIf="!user.organizationId?.includes(orgId)" #slidingMember>
