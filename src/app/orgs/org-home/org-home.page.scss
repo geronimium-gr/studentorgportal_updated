@@ -6,6 +6,13 @@
 
 .action-card {
   box-shadow: none;
+  position: relative;
+}
+
+.cover-photo-btn {
+  position: absolute;
+  right: 0;
+  bottom: 8px;
 }
 
 .org-title {

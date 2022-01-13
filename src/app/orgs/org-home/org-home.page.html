@@ -18,6 +18,9 @@
 <ion-content *ngIf="loadOrganization">
   <ion-card class="action-card ion-no-margin ion-no-padding">
     <img class="header-img" [src]="loadOrganization?.imageUrl" />
+    <ion-button class="cover-photo-btn" (click)="editOrgPhoto(null)" *ngIf="auth.canAccessByMod(user) || auth.canAccessByOfficer(user)">
+      <ion-icon name="camera" slot="icon-only"></ion-icon>
+    </ion-button>
   </ion-card>
 
   <ion-grid>

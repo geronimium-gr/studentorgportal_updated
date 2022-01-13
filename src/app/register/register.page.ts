@@ -182,6 +182,7 @@ export class RegisterPage implements OnInit {
           // this.authService.signIn("geronimoadalia@gmail.com", "123123");
 
           this.router.navigate(['/users']);
+          window.location.reload();
         })
         .catch(error => {
           loading.dismiss();

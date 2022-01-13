@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { Router } from '@angular/router';
-import { IonItemSliding, LoadingController, MenuController, ToastController } from '@ionic/angular';
+import { AlertController, IonItemSliding, LoadingController, MenuController, ToastController } from '@ionic/angular';
 import { Subscription } from 'rxjs';
 import { User } from '../models/user';
 import { UserService } from '../services/user.service';
@@ -39,7 +39,8 @@ export class UserListPage implements OnInit, OnDestroy {
               private loadingCtrl: LoadingController,
               private toaster: ToastController,
               private afs: AngularFirestore,
-              private menu: MenuController
+              private menu: MenuController,
+              private alertCtrl: AlertController
               )
   {
     if (firebase.auth().currentUser !== null) {
@@ -69,7 +70,7 @@ export class UserListPage implements OnInit, OnDestroy {
 
   async deleteUser(memberid: string, sliding: IonItemSliding){
     const loading = await this.loadingCtrl.create({
-      message: 'Deleting User...',
+      message: 'Deleting User Access...',
       spinner: 'crescent',
       showBackdrop: true
     });
@@ -79,7 +80,7 @@ export class UserListPage implements OnInit, OnDestroy {
     this.afs.collection('user').doc(memberid).delete()
       .then(() => {
         loading.dismiss();
-        this.toast('User Deleted', 'warning')
+        this.toast('User Access Deleted', 'warning')
       })
       .catch((error) => {
         loading.dismiss();
@@ -87,6 +88,31 @@ export class UserListPage implements OnInit, OnDestroy {
       });
     sliding.close();
   }//
+
+  async deleteUserAlert(memberid: string, sliding: IonItemSliding) {
+    const alert = await this.alertCtrl.create({
+      header: 'Confirm!',
+      message: 'Remove user access?',
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          cssClass: 'secondary',
+          handler: () => {
+            console.log('Confirm Cancel');
+          }
+        }, {
+          text: 'Confirm',
+          handler: () => {
+            console.log('Confirm Okay');
+            this.deleteUser(memberid, sliding);
+          }
+        }
+      ]
+    });
+
+    await alert.present();
+  }
 
   async toast(message, status){
     const toast = await this.toaster.create({

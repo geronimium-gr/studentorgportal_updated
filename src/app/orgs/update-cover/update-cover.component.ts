@@ -1,55 +1,44 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { AngularFireStorage } from '@angular/fire/storage';
-import { NgForm } from '@angular/forms';
 import { LoadingController, NavParams, PopoverController } from '@ionic/angular';
-
+import { Subscription } from 'rxjs';
 import { OrganizationService } from '../../services/organization.service';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
-  selector: 'app-update-org',
-  templateUrl: './update-org.component.html',
-  styleUrls: ['./update-org.component.scss'],
+  selector: 'app-update-cover',
+  templateUrl: './update-cover.component.html',
+  styleUrls: ['./update-cover.component.scss'],
 })
-export class UpdateOrgComponent implements OnInit {
+export class UpdateCoverComponent implements OnInit, OnDestroy {
 
-  loadedOrg: any;
-  selectType: any;
   user: any;
+  coverPhotoSub: Subscription;
+  loadedOrg: any;
 
   @ViewChild('filePicker') filePickerRef: ElementRef<HTMLInputElement>;
   selectedImage: File;
   selectedImageUri: any;
   usePicker = true;
 
-  constructor(private navParams: NavParams,
+  constructor(private popOverCtrl: PopoverController,
+              private authService: AuthService,
+              private navParams: NavParams,
               private orgService: OrganizationService,
               private storage: AngularFireStorage,
-              private loadingCtrl: LoadingController,
-              private popOverCtrl: PopoverController
-              )
-  {
+              private loadingCtrl: LoadingController)
 
+  {
+    this.coverPhotoSub = this.authService.user$.subscribe(async user => {
+      this.user = user;
+  })
   }
 
   ngOnInit() {
     this.loadedOrg = this.navParams.get('editOrgId');
-    this.selectType = this.loadedOrg.orgType;
   }
 
-  onSubmit(form: NgForm){
-    if (!form.valid) {
-      return;
-    }
-
-    const organizationName = form.value.orgName;
-    const organizationDesc = form.value.orgDesc;
-    let orgType = this.selectType;
-
-    this.updateOrg(organizationName, organizationDesc, orgType);
-    console.log(orgType);
-  }
-
-  async updateOrg(name, description, orgType) {
+  async updateOrgCover() {
 
     try {
       const file = this.selectedImage;
@@ -62,11 +51,11 @@ export class UpdateOrgComponent implements OnInit {
       .getDownloadURL()
       .toPromise();
 
-      this.orgService.updateOrganizationwithImage(orgId, name, description, downloadUrl, orgType);
+      this.orgService.updateCoverPhoto(orgId, downloadUrl);
       console.log("No image selected...");
 
       } catch (error) {
-        this.orgService.updateOrganization(this.loadedOrg.orgId, name, description, orgType);
+        console.log(error);
       }
 
   }
@@ -110,13 +99,14 @@ export class UpdateOrgComponent implements OnInit {
     }
   }//
 
-  changeOrgType(type) {
-    console.log(type);
-    this.selectType = type;
-  }
-
   onClose() {
     this.popOverCtrl.dismiss();
+  }
+
+  ngOnDestroy() {
+    if (!this.coverPhotoSub) {
+      this.coverPhotoSub.unsubscribe();
+    }
   }
 
 }

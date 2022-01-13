@@ -30,6 +30,7 @@ import { ReactionsService } from '../../services/reactions.service';
 import { AddPollComponent } from '../../polls/add-poll/add-poll.component';
 import { PollsService } from '../../services/polls.service';
 import { Polls } from '../../models/polls';
+import { UpdateCoverComponent } from '../update-cover/update-cover.component';
 
 @Component({
   selector: 'app-org-home',
@@ -289,6 +290,20 @@ export class OrgHomePage implements OnInit, OnDestroy {
   async editOrgForm(ev: any) {
     const popover = await this.popoverCtrl.create({
       component: UpdateOrgComponent,
+      event: ev,
+      animated: true,
+      mode: 'md',
+      cssClass: 'contact-popover',
+      componentProps: {
+        editOrgId: this.loadOrganization
+      }
+    });
+    return await popover.present();
+  }
+
+  async editOrgPhoto(ev: any) {
+    const popover = await this.popoverCtrl.create({
+      component: UpdateCoverComponent,
       event: ev,
       animated: true,
       mode: 'md',

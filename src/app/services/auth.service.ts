@@ -49,6 +49,7 @@ export class AuthService {
 
     loading.present()
 
+
     this.afAuth.setPersistence(firebase.auth.Auth.Persistence.SESSION)
       .then(() => {
 
@@ -74,19 +75,21 @@ export class AuthService {
                 loading.dismiss();
                 this.router.navigate(['/home']);
               }).catch(error => {
-                console.log(error.message);
+                loading.dismiss();
+                this.toast(error.message, 'danger')
               });
             });
           })
           .catch(error => {
-           loading.dismiss();
-           this.toast(error.message, 'danger');
+            loading.dismiss();
+            this.toast(error.message, 'danger');
           })
       })
       .catch(error => {
         loading.dismiss();
         this.toast(error.message, 'danger');
       });
+      //loading.dismiss();
   } // end of sign in
 
   async signOut(){

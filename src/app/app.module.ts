@@ -44,6 +44,7 @@ import { MembersListComponent } from './members/members-list/members-list.compon
 import { ViewNotificationComponent } from './notifs/view-notification/view-notification.component';
 import { AddPollComponent } from './polls/add-poll/add-poll.component';
 import { EditMembersComponent } from './members/edit-members/edit-members.component';
+import { UpdateCoverComponent } from './orgs/update-cover/update-cover.component';
 
 //Shared Module
 import { PickerModule } from './picker/picker.module';
@@ -73,7 +74,8 @@ import { AutosizeModule } from "ngx-autosize";
     ViewNotificationComponent,
     MembersListComponent,
     AddPollComponent,
-    EditMembersComponent
+    EditMembersComponent,
+    UpdateCoverComponent
   ],
   entryComponents: [
     UpdatePasswordComponent,
@@ -95,7 +97,8 @@ import { AutosizeModule } from "ngx-autosize";
     ViewNotificationComponent,
     MembersListComponent,
     AddPollComponent,
-    EditMembersComponent
+    EditMembersComponent,
+    UpdateCoverComponent
   ],
   imports: [
     BrowserModule,

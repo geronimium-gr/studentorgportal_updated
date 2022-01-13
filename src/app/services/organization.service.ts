@@ -133,6 +133,27 @@ export class OrganizationService {
     });
   }//
 
+  async updateCoverPhoto(orgId, image) {
+    const loading = await this.loadingCtrl.create({
+      message: 'Updating...',
+      spinner: 'crescent',
+      showBackdrop: true
+    });
+
+    loading.present();
+
+    this.afs.collection('organization').doc(orgId).update({
+      'imageUrl': image
+    }).then(() => {
+      loading.dismiss();
+      this.toast('Update Success', 'success');
+      this.closePopOver();
+    }).catch(error => {
+      loading.dismiss();
+      this.toast(error.message, 'danger');
+    });
+  }
+
   async deleteOrganization(orgId, orgName) {
     const loading = await this.loadingCtrl.create({
       message: `Deleting ${orgName}. Please Wait`,
