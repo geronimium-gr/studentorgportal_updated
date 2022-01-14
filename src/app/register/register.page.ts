@@ -180,7 +180,7 @@ export class RegisterPage implements OnInit {
           this.toast('New User added.', 'success');
           // this.authService.signOut();
           // this.authService.signIn("geronimoadalia@gmail.com", "123123");
-
+          this.toast('New User Added', 'success');
           this.router.navigate(['/users']);
           window.location.reload();
         })

@@ -55,11 +55,11 @@ export class MembersListComponent implements OnInit, OnDestroy {
     this.orgName = this.navParams.get("orgName");
   }
 
-  ngOnInit() { 
+  ngOnInit() {
     this.isLoading = true;
     this.memberSub = this.userService.getUsers().subscribe(members => {
       this.userList = members;
-      this.loadedUserList = members; 
+      this.loadedUserList = members;
     });
     this.isLoading = false;
 
@@ -147,7 +147,7 @@ export class MembersListComponent implements OnInit, OnDestroy {
 
   async removeMember(userId, sliding: IonItemSliding) {
     const alert = await this.alertCtrl.create({
-      header: 'Confirm!',
+      header: 'Confirm',
       message: 'Remove member?',
       buttons: [
         {
@@ -232,7 +232,7 @@ export class MembersListComponent implements OnInit, OnDestroy {
     this.memberInfo.forEach((u) => {
       this.rowArray.push([u.userSurname, u.userName, u.userSchoolId, u.userEmail]);
     });
-    
+
     const csvData = this.rowArray.map((r) => r.join(",")).join("\n");
     const csvContent = "data:text/csv;charset=utf-8," + csvData;
 

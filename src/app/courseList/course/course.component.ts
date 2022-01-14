@@ -56,7 +56,7 @@ export class CourseComponent implements OnInit {
 
   async deleteCoursePrompt(slidingMember: IonItemSliding, id: string) {
     const alert = await this.alertCtrl.create({
-      header: 'Confirm!',
+      header: 'Confirm',
       message: 'Delete this course?',
       buttons: [
         {

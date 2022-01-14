@@ -53,7 +53,7 @@ export class OptionButtonComponent implements OnInit, OnDestroy {
 
   async deletePostForm() {
     const alert = await this.alertCtrl.create({
-      header: 'Confirm!',
+      header: 'Confirm',
       message: 'Delete this post?',
       buttons: [
         {
@@ -96,7 +96,7 @@ export class OptionButtonComponent implements OnInit, OnDestroy {
 
   async deleteEventForm() {
     const alert = await this.alertCtrl.create({
-      header: 'Confirm!',
+      header: 'Confirm',
       message: 'Delete this event?',
       buttons: [
         {
@@ -124,7 +124,7 @@ export class OptionButtonComponent implements OnInit, OnDestroy {
 
   async deletePoll() {
     const alert = await this.alertCtrl.create({
-      header: 'Confirm!',
+      header: 'Confirm',
       message: 'Delete this poll?',
       buttons: [
         {

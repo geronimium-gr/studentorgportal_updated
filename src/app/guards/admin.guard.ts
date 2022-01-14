@@ -19,7 +19,7 @@ export class AdminGuard implements CanActivate {
 
     return this.authService.user$.pipe(
       take(1),
-      map(user => user && user.role.admin ? true : false),
+      map(user => (user && user.role.admin) || user.role.moderator ? true : false),
       tap(isAdmin => {
         if (!isAdmin) {
           this.router.navigateByUrl('/page-not-found'); //improve

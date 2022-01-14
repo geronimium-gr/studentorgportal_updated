@@ -145,7 +145,7 @@ export class FilestorageComponent implements OnInit, OnDestroy {
 
   async deleteFilePrompt(slidingMember: IonItemSliding, file: any, id: any) {
     const alert = await this.alertCtrl.create({
-      header: 'Confirm!',
+      header: 'Confirm',
       message: 'Delete this file?',
       buttons: [
         {

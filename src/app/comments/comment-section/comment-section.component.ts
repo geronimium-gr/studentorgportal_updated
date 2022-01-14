@@ -287,7 +287,7 @@ export class CommentSectionComponent implements OnInit, OnDestroy {
 
   async deleteComment(commentId: string) {
     const alert = await this.alertCtrl.create({
-      header: 'Confirm!',
+      header: 'Confirm',
       message: 'Delete this comment?',
       buttons: [
         {

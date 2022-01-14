@@ -40,7 +40,7 @@ export class FlagsModuleComponent implements OnInit {
 
   async acceptComment(commentId) {
     const alert = await this.alertCtrl.create({
-      header: 'Confirm!',
+      header: 'Confirm',
       message: 'Ignore this report?',
       buttons: [
         {
@@ -64,7 +64,7 @@ export class FlagsModuleComponent implements OnInit {
 
   async deleteComment(commentId) {
     const alert = await this.alertCtrl.create({
-      header: 'Confirm!',
+      header: 'Confirm',
       message: 'Delete this comment?',
       buttons: [
         {
@@ -88,7 +88,7 @@ export class FlagsModuleComponent implements OnInit {
 
   async acceptChat(chatId) {
     const alert = await this.alertCtrl.create({
-      header: 'Confirm!',
+      header: 'Confirm',
       message: 'Ignore this report?',
       buttons: [
         {
@@ -112,7 +112,7 @@ export class FlagsModuleComponent implements OnInit {
 
   async deleteChat(chatId) {
     const alert = await this.alertCtrl.create({
-      header: 'Confirm!',
+      header: 'Confirm',
       message: 'Delete this message?',
       buttons: [
         {

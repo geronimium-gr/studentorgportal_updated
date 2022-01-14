@@ -97,7 +97,7 @@ export class ProfilePage implements OnInit, OnDestroy {
 
   async deletePostForm(postid) {
     const alert = await this.alertCtrl.create({
-      header: 'Confirm!',
+      header: 'Confirm',
       message: 'Delete this post?',
       buttons: [
         {

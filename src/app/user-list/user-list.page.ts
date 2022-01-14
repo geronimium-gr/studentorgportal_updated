@@ -91,7 +91,7 @@ export class UserListPage implements OnInit, OnDestroy {
 
   async deleteUserAlert(memberid: string, sliding: IonItemSliding) {
     const alert = await this.alertCtrl.create({
-      header: 'Confirm!',
+      header: 'Confirm',
       message: 'Remove user access?',
       buttons: [
         {
