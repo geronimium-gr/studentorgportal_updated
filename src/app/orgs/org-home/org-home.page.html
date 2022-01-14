@@ -307,6 +307,10 @@
 
       <!-- Poll Section -->
       <div *ngIf="segmentModel === 'poll'">
+        <ion-button expand="full" (click)="openPendingEvents()" *ngIf="auth.canEdit(user)">
+          <ion-icon name="stats-chart" slot="start"></ion-icon>
+          View Pending Polls
+        </ion-button>
         <div class="ion-text-center ion-padding" *ngIf="!isLoading && pollList?.length <= 0">
           <ion-icon name="stats-chart" class="label-icon"></ion-icon>
           <p><strong>No Poll is added.</strong></p>

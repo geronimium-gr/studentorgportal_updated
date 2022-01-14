@@ -11,61 +11,128 @@
 
 <ion-content>
 
-  <ion-segment value="evt" color="secondary">
+  <ion-segment value="evt" color="secondary" [(ngModel)]="segmentModel">
     <ion-segment-button value="evt" layout="icon-start">
       <ion-icon name="calendar"></ion-icon>
       <ion-label>Pending Events</ion-label>
     </ion-segment-button>
+    <ion-segment-button value="poll" layout="icon-start">
+      <ion-icon name="stats-chart"></ion-icon>
+      <ion-label>Pending Polls</ion-label>
+    </ion-segment-button>
   </ion-segment>
 
-  <div class="ion-text-center ion-padding" *ngIf="(pendingEv | async)?.length <= 0">
-    <ion-icon name="calendar" class="label-icon"></ion-icon>
-    <p><strong>No Pending Events for now.</strong></p>
+  <div *ngIf="segmentModel === 'evt'">
+    <div class="ion-text-center ion-padding" *ngIf="(pendingEv | async)?.length <= 0">
+      <ion-icon name="calendar" class="label-icon"></ion-icon>
+      <p><strong>No Pending Events for now.</strong></p>
+    </div>
+    <div *ngIf="(pendingEv | async)?.length > 0">
+      <div *ngFor="let eventz of pendingEv | async">
+        <ion-card>
+          <ion-item lines="none" class="name-content">
+            <ion-avatar slot="start">
+              <img [src]="eventz.eventPostedByPhoto" alt="" />
+            </ion-avatar>
+            <ion-label>
+              <h2 class="userpost-name">{{ eventz.eventPostedBy }} {{ eventz.eventPostedBySurname }}</h2>
+              <p>{{ eventz.createdAt | date }}</p>
+            </ion-label>
+          </ion-item>
+          <img [src]="eventz.eventImageUrl" />
+          <ion-card-header>
+            <ion-card-title class="ion-padding-bottom"
+              >{{ eventz.eventTitle }}</ion-card-title
+            >
+            <ion-chip>
+              <ion-icon color="secondary" name="calendar-number"></ion-icon>
+              <ion-label>Start: {{ eventz.eventStartDate | date }}</ion-label>
+            </ion-chip>
+            <ion-chip>
+              <ion-icon color="secondary" name="calendar-number"></ion-icon>
+              <ion-label>End: {{ eventz.eventEndDate | date }}</ion-label>
+            </ion-chip>
+            <ion-chip>
+              <ion-icon color="secondary" name="time"></ion-icon>
+              <ion-label>{{ eventz.eventTime | date:'shortTime' }}</ion-label>
+            </ion-chip>
+          </ion-card-header>
+          <ion-card-content>
+            <p class="content-font">
+              {{ eventz.eventContent }}
+            </p>
+          </ion-card-content>
+          <ion-chip class="ion-float-right" outline color="danger" (click)="deleteEvent(eventz.eventId)">
+            <ion-icon name="trash"></ion-icon>
+            <ion-label>Delete Event</ion-label>
+          </ion-chip>
+          <ion-chip class="ion-float-right" outline color="success" (click)="acceptEvent(eventz.eventId)">
+            <ion-icon name="checkmark-circle"></ion-icon>
+            <ion-label>Approve Event</ion-label>
+          </ion-chip>
+        </ion-card>
+      </div>
+    </div>
   </div>
-  <div *ngIf="(pendingEv | async)?.length > 0">
-    <div *ngFor="let eventz of pendingEv | async">
-      <ion-card>
-        <ion-item lines="none" class="name-content">
-          <ion-avatar slot="start">
-            <img [src]="eventz.eventPostedByPhoto" alt="" />
-          </ion-avatar>
-          <ion-label>
-            <h2 class="userpost-name">{{ eventz.eventPostedBy }} {{ eventz.eventPostedBySurname }}</h2>
-            <p>{{ eventz.createdAt | date }}</p>
-          </ion-label>
-        </ion-item>
-        <img [src]="eventz.eventImageUrl" />
-        <ion-card-header>
-          <ion-card-title class="ion-padding-bottom"
-            >{{ eventz.eventTitle }}</ion-card-title
-          >
-          <ion-chip>
-            <ion-icon color="secondary" name="calendar-number"></ion-icon>
-            <ion-label>Start: {{ eventz.eventStartDate | date }}</ion-label>
+
+  <div *ngIf="segmentModel === 'poll'">
+    <div class="ion-text-center ion-padding" *ngIf="(pendingPoll | async)?.length <= 0">
+      <ion-icon name="stats-chart" class="label-icon"></ion-icon>
+      <p><strong>No Pending Polls for now.</strong></p>
+    </div>
+    <div *ngIf="(pendingPoll | async)?.length > 0">
+      <div *ngFor="let poll of pendingPoll | async">
+        <ion-card>
+          <ion-item lines="none">
+            <ion-avatar slot="start">
+              <img [src]="poll.postedByPhoto" alt="" />
+            </ion-avatar>
+            <ion-label>
+              <h2 class="userpost-name">{{ poll.postedBy }} {{ poll.postedBySurname }}</h2>
+              <p>{{ poll.createdAt | date }}</p>
+            </ion-label>
+          </ion-item>
+          <ion-card-header>
+            <ion-card-title>{{ poll.pollTitle }}</ion-card-title>
+          </ion-card-header>
+          <ion-card-content>
+            <p class="content-font">
+              {{ poll.pollContent }}
+            </p>
+            <ion-list class="pollOpt">
+              <ion-list-header>
+                <ion-label><strong>Poll Option A</strong> - {{ poll.pollOptionA }}</ion-label>
+              </ion-list-header>
+            </ion-list>
+
+            <ion-list class="pollOpt">
+              <ion-list-header>
+                <ion-label><strong>Poll Option B</strong> - {{ poll.pollOptionB }}</ion-label>
+              </ion-list-header>
+            </ion-list>
+
+            <ion-list class="pollOpt" *ngIf="poll.pollOptionC">
+              <ion-list-header>
+                <ion-label><strong>Poll Option C</strong> - {{ poll.pollOptionC }}</ion-label>
+              </ion-list-header>
+            </ion-list>
+
+            <ion-list class="pollOpt" *ngIf="poll.pollOptionD">
+              <ion-list-header>
+                <ion-label><strong>Poll Option D</strong> - {{ poll.pollOptionD }}</ion-label>
+              </ion-list-header>
+            </ion-list>
+          </ion-card-content>
+          <ion-chip class="ion-float-right" outline color="danger" (click)="deletePoll(poll.pollId)">
+            <ion-icon name="trash"></ion-icon>
+            <ion-label>Delete Poll</ion-label>
           </ion-chip>
-          <ion-chip>
-            <ion-icon color="secondary" name="calendar-number"></ion-icon>
-            <ion-label>End: {{ eventz.eventEndDate | date }}</ion-label>
+          <ion-chip class="ion-float-right" outline color="success" (click)="acceptPoll(poll.pollId)">
+            <ion-icon name="checkmark-circle"></ion-icon>
+            <ion-label>Approve Poll</ion-label>
           </ion-chip>
-          <ion-chip>
-            <ion-icon color="secondary" name="time"></ion-icon>
-            <ion-label>{{ eventz.eventTime | date:'shortTime' }}</ion-label>
-          </ion-chip>
-        </ion-card-header>
-        <ion-card-content>
-          <p class="content-font">
-            {{ eventz.eventContent }}
-          </p>
-        </ion-card-content>
-        <ion-chip class="ion-float-right" outline color="danger" (click)="deleteEvent(eventz.eventId)">
-          <ion-icon name="trash"></ion-icon>
-          <ion-label>Delete Event</ion-label>
-        </ion-chip>
-        <ion-chip class="ion-float-right" outline color="success" (click)="acceptEvent(eventz.eventId)">
-          <ion-icon name="checkmark-circle"></ion-icon>
-          <ion-label>Approve Event</ion-label>
-        </ion-chip>
-      </ion-card>
+        </ion-card>
+      </div>
     </div>
   </div>
 </ion-content>

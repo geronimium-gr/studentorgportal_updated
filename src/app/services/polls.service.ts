@@ -1,29 +1,39 @@
-import { Injectable } from '@angular/core';
+import { Injectable, OnDestroy } from '@angular/core';
 import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument } from '@angular/fire/firestore';
 import { LoadingController, PopoverController, ToastController } from '@ionic/angular';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Polls } from '../models/polls';
 
 import firebase from 'firebase/app';
 import 'firebase/firestore'
+import { AuthService } from './auth.service';
 
 @Injectable({
   providedIn: 'root'
 })
-export class PollsService {
+export class PollsService implements OnDestroy {
   pollCol: AngularFirestoreCollection<Polls>;
   pollDoc: AngularFirestoreDocument<Polls>;
   polls: Observable<Polls[]>;
   poll: Observable<Polls>;
 
   orgId = ""
+  pollSub: Subscription;
+  user: any;
 
   constructor(
     private afs: AngularFirestore,
     private loadingCtrl: LoadingController,
     private toaster: ToastController,
-    private popOverCtrl: PopoverController) { }
+    private popOverCtrl: PopoverController,
+    private authService: AuthService)
+
+  {
+    this.pollSub = this.authService.user$.subscribe(async user => {
+      this.user = user;
+    });
+  }
 
   getOrgId(idParameter) {
     this.orgId = idParameter;
@@ -31,7 +41,7 @@ export class PollsService {
   }
 
   filterData() {
-    this.pollCol = this.afs.collection("poll", ref => ref.orderBy("createdAt", "desc").where("postOrgId", "==", this.orgId));
+    this.pollCol = this.afs.collection("poll", ref => ref.orderBy("createdAt", "desc").where("postOrgId", "==", this.orgId).where("status", "==", "approved"));
     //this.postCol = this.afs.collection("post", ref => ref.where("postOrgId", "==", this.orgIds));
 
     this.polls = this.pollCol.snapshotChanges().pipe(
@@ -79,6 +89,7 @@ export class PollsService {
     }).then(() => {
       loading.dismiss();
       this.toast('New Poll Added', 'success');
+      this.addtoQueueEvent(pollId);
       this.closePopOver();
     }).catch(error => {
       loading.dismiss();
@@ -168,6 +179,29 @@ export class PollsService {
 
   }
 
+  onPendingEvent(pollId, status) {
+    this.afs.collection('poll').doc(pollId).update({
+      'status': status
+    }).then(() => {
+      if (status == 'pending') {
+        this.toast("Poll is posted. Wait for the approval.", 'success');
+      } else if (status == 'approved') {
+        console.log("Approved.");
+      }
+    }).catch(error => {
+      this.toast(error.message, 'danger');
+    });
+  }
+
+  addtoQueueEvent(pollId) {
+    if (this.authService.canAccessByOfficer(this.user)) {
+      this.onPendingEvent(pollId, 'pending');
+    } else  {
+      this.onPendingEvent(pollId, 'approved');
+      console.log("Not an Officer");
+    }
+  }
+
    closePopOver(){
     this.popOverCtrl.dismiss();
   }//
@@ -182,4 +216,10 @@ export class PollsService {
 
     toast.present();
   }//
+
+  ngOnDestroy() {
+    if (!this.pollSub) {
+      this.pollSub.unsubscribe();
+    }
+  }
 }
