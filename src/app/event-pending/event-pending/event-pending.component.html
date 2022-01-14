@@ -1,6 +1,6 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>Pending Events</ion-title>
+    <ion-title>Pending {{ postInd === 'event' ? 'Events' : 'Polls' }}</ion-title>
     <ion-buttons slot="end">
       <ion-button (click)="closeModal()">
         <ion-icon slot="icon-only" name="close"></ion-icon>
@@ -11,12 +11,12 @@
 
 <ion-content>
 
-  <ion-segment value="evt" color="secondary" [(ngModel)]="segmentModel">
-    <ion-segment-button value="evt" layout="icon-start">
+  <ion-segment color="secondary" [(ngModel)]="segmentModel">
+    <ion-segment-button *ngIf="postInd === 'event'" value="evt" layout="icon-start">
       <ion-icon name="calendar"></ion-icon>
       <ion-label>Pending Events</ion-label>
     </ion-segment-button>
-    <ion-segment-button value="poll" layout="icon-start">
+    <ion-segment-button *ngIf="postInd === 'poll'" value="poll" layout="icon-start">
       <ion-icon name="stats-chart"></ion-icon>
       <ion-label>Pending Polls</ion-label>
     </ion-segment-button>

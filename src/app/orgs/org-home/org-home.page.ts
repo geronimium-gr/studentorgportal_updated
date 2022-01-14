@@ -240,7 +240,8 @@ export class OrgHomePage implements OnInit, OnDestroy {
     const modal = await this.modalCtrl.create({
       component: EventPendingComponent,
       componentProps: {
-        orgId: this.orgId
+        orgId: this.orgId,
+        postInd: this.segmentModel
       }
     });
     return await modal.present();
@@ -503,6 +504,9 @@ export class OrgHomePage implements OnInit, OnDestroy {
       console.log(this.segmentModel);
     } else if (this.segmentModel === 'event') {
       this.segmentModel = 'event';
+      console.log(this.segmentModel);
+    } else if (this.segmentModel === 'poll') {
+      this.segmentModel = 'poll';
       console.log(this.segmentModel);
     }
   }

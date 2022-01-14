@@ -18,7 +18,8 @@ export class EventPendingComponent implements OnInit {
   pendingPollRef: AngularFirestoreCollection;
 
   eventOrgId: any;
-  segmentModel = "evt";
+  postInd: any;
+  segmentModel: any;
 
   constructor(public modalCtrl: ModalController,
               private afs: AngularFirestore,
@@ -30,7 +31,14 @@ export class EventPendingComponent implements OnInit {
 
   {
     this.eventOrgId = this.navParams.get('orgId');
+    this.postInd = this.navParams.get('postInd');
     console.log(this.eventOrgId);
+
+    if (this.postInd === 'event') {
+      this.segmentModel = 'evt';
+    } else if (this.postInd === 'poll'){
+      this.segmentModel = 'poll';
+    }
   }
 
   ngOnInit() {
