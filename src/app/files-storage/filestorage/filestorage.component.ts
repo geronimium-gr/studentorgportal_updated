@@ -17,13 +17,20 @@ export class FilestorageComponent implements OnInit, OnDestroy {
   loadedOrgId: any;
   loadedOrgName: any;
   loadedUserId: any;
+  loadedRole: any;
 
   fileSize: any;
   fileType;
   name: any
 
+  //Org Files
   files: Observable<any[]>;
   filesRef: AngularFirestoreCollection;
+
+  //Public Files
+  filesPub: Observable<any[]>;
+  filesRefPub: AngularFirestoreCollection;
+
   fileName = "";
 
   selectedFile: any;
@@ -43,10 +50,14 @@ export class FilestorageComponent implements OnInit, OnDestroy {
     this.loadedOrgId = this.navParams.get('fileByOrgs');
     this.loadedOrgName = this.navParams.get('orgName');
     this.loadedUserId = this.navParams.get('userId');
-    console.log(this.loadedOrgId + "-" + this.loadedUserId);
+    this.loadedRole = this.navParams.get('role');
+    console.log(this.loadedOrgId + "-" + this.loadedUserId + this.loadedRole);
 
     this.filesRef = afs.collection('files', ref => ref.orderBy("createdAt", "desc").where("orgId", "==", this.loadedOrgId));
     this.files = this.filesRef.valueChanges();
+
+    this.filesRefPub = afs.collection('files', ref => ref.orderBy("createdAt", "desc").where("orgId", "==", "public"));
+    this.filesPub = this.filesRefPub.valueChanges();
 
   }
 
@@ -126,6 +137,27 @@ export class FilestorageComponent implements OnInit, OnDestroy {
       this.toast('Select file first!', 'danger');
       return null;
     }
+  }
+
+  async pinnedFile(slidingMember: IonItemSliding, id: any) {
+    const loading = await this.loadingCtrl.create({
+      message: 'Pinning this File. Please Wait',
+      spinner: 'crescent',
+      showBackdrop: true
+    });
+
+    loading.present();
+
+    this.filesRef.doc(id).update({
+      'orgId': "public"
+    }).then(() => {
+      this.toast('Pinned Successfully', 'success');
+    }).catch(error => {
+      this.toast(error.message, 'danger');
+    });
+
+    loading.dismiss();
+    slidingMember.close();
   }
 
   async presentLoading() {

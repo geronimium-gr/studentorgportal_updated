@@ -13,10 +13,10 @@
 <ion-content>
   <ion-card>
     <ion-card-header>
-      <ion-card-title>Add File</ion-card-title>
+      <ion-card-title>Upload File</ion-card-title>
     </ion-card-header>
     <ion-card-content>
-      <form class="ion-padding" #f="ngForm" (ngSubmit)="addFile(f)">
+      <form #f="ngForm" (ngSubmit)="addFile(f)">
         <ion-item>
           <ion-label *ngIf="fileCtrl.touched && !fileCtrl.valid" color="danger" position="floating">File name is required.</ion-label>
           <ion-input name="fileNameInput" [(ngModel)]="newFile" [value]="name" placeholder="Enter file name" #fileCtrl="ngModel" required></ion-input>
@@ -33,28 +33,63 @@
   </ion-card>
 
   <!-- File List -->
-  <div class="ion-text-center ion-padding" *ngIf="(files | async)?.length <= 0">
+  <div class="ion-text-center ion-padding" *ngIf="(files | async)?.length <= 0 && (filesPub | async)?.length <= 0">
     <ion-icon name="shapes" class="label-icon"></ion-icon>
     <p><strong>No File is added.</strong></p>
   </div>
   <ion-list>
-    <ion-item-sliding *ngFor="let file of files | async" #slidingMember>
-      <ion-item detail>
-        <ion-icon name="document" color="secondary" slot="start"></ion-icon>
-        <ion-label>
-          <h2>{{ file.title }}</h2>
-          <p>Size: {{ file.fileSize }} KB</p>
-          <p>Type: {{ file.fileType | uppercase }}</p>
-        </ion-label>
-      </ion-item>
-      <ion-item-options>
-        <ion-item-option color="success" (click)="openLink(slidingMember, file.downloadUrl)">
-          <ion-icon name="archive" slot="icon-only"></ion-icon>
-        </ion-item-option>
-        <ion-item-option color="danger" *ngIf="file.userId === loadedUserId" (click)="deleteFilePrompt(slidingMember, file.fileName, file.id); slidingMember.close()">
-          <ion-icon name="trash-bin" slot="icon-only"></ion-icon>
-        </ion-item-option>
-      </ion-item-options>
-    </ion-item-sliding>
+        <!-- Public Files -->
+        <ion-item-group>
+          <ion-item-divider *ngIf="(filesPub | async)?.length > 0">
+            <ion-label>Pinned Files</ion-label>
+          </ion-item-divider>
+          <ion-item-sliding *ngFor="let file of filesPub | async" #slidingMember>
+            <ion-item detail>
+              <ion-icon name="document" color="secondary" slot="start"></ion-icon>
+              <ion-label>
+                <h2>{{ file.title }}</h2>
+                <p>Size: {{ file.fileSize }} KB</p>
+                <p>Type: {{ file.fileType | uppercase }}</p>
+              </ion-label>
+            </ion-item>
+            <ion-item-options>
+              <ion-item-option color="success" (click)="openLink(slidingMember, file.downloadUrl)">
+                <ion-icon name="archive" slot="icon-only"></ion-icon>
+              </ion-item-option>
+              <ion-item-option color="danger" *ngIf="file.userId === loadedUserId || loadedRole" (click)="deleteFilePrompt(slidingMember, file.fileName, file.id); slidingMember.close()">
+                <ion-icon name="trash-bin" slot="icon-only"></ion-icon>
+              </ion-item-option>
+            </ion-item-options>
+          </ion-item-sliding>
+        </ion-item-group>
+  </ion-list>
+  <ion-list>
+    <!-- Org Files -->
+    <ion-item-group>
+      <ion-item-divider *ngIf="(files | async)?.length > 0">
+        <ion-label>Other Files</ion-label>
+      </ion-item-divider>
+      <ion-item-sliding *ngFor="let file of files | async" #slidingMember>
+        <ion-item detail>
+          <ion-icon name="document" color="secondary" slot="start"></ion-icon>
+          <ion-label>
+            <h2>{{ file.title }}</h2>
+            <p>Size: {{ file.fileSize }} KB</p>
+            <p>Type: {{ file.fileType | uppercase }}</p>
+          </ion-label>
+        </ion-item>
+        <ion-item-options>
+          <ion-item-option color="success" (click)="openLink(slidingMember, file.downloadUrl)">
+            <ion-icon name="archive" slot="icon-only"></ion-icon>
+          </ion-item-option>
+          <ion-item-option color="danger" *ngIf="file.userId === loadedUserId || loadedRole" (click)="deleteFilePrompt(slidingMember, file.fileName, file.id); slidingMember.close()">
+            <ion-icon name="trash-bin" slot="icon-only"></ion-icon>
+          </ion-item-option>
+          <ion-item-option color="primary" *ngIf="loadedRole" (click)="pinnedFile(slidingMember, file.id); slidingMember.close()">
+            <ion-icon name="pin" slot="icon-only"></ion-icon>
+          </ion-item-option>
+        </ion-item-options>
+      </ion-item-sliding>
+    </ion-item-group>
   </ion-list>
 </ion-content>

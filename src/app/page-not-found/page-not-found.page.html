@@ -1,9 +1,20 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>page-not-found</ion-title>
+    <ion-title>Page Not Found</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-
+  <section class="cloud my-2 py-2">
+    <div class="container grid">
+      <img src="https://firebasestorage.googleapis.com/v0/b/db-stuportal.appspot.com/o/assets%2Fmission.png?alt=media&token=9d7ad5d7-6fb8-48bb-ab45-725c6ca1f961">
+      <div class="ion-text-center">
+        <h2 class="mdt">UH OH! You're lost.</h2>
+        <p class="lead my-1">
+          The page you are looking for does not exist. But you can click the button below to go back to the homepage.
+        </p>
+        <ion-button [routerLink]="['/home']">Homepage</ion-button>
+      </div>
+    </div>
+  </section>
 </ion-content>

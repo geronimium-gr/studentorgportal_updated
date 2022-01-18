@@ -1,0 +1,61 @@
+@import url('https://fonts.googleapis.com/css2?family=Lato:wght@300&display=swap');
+
+ion-content {
+  font-family: 'Lato', sans-serif;
+  line-height: 1.6;
+}
+
+.container {
+  max-width: 1100px;
+  margin: 0 auto;
+  overflow: auto;
+  padding: 0 40px;
+  padding-top: 6rem;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 30px;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
+.cloud .grid {
+  grid-template-columns: 2fr 3fr;
+}
+
+.cloud img {
+  width: 50%;
+  justify-self: center;
+}
+
+.mdt {
+  font-size: 2rem;
+}
+
+.lead {
+  font-size: 20px;
+}
+
+.my-2 {
+  margin: 1.5rem 0;
+}
+
+.py-2 {
+  padding: 1.5rem 0;
+}
+
+@media(max-width: 768px) {
+  .grid,
+  .cloud .grid {
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr;
+  }
+
+  .cloud img {
+    width: 30%;
+    justify-self: center;
+  }
+}

@@ -416,7 +416,8 @@ export class OrgHomePage implements OnInit, OnDestroy {
       componentProps: {
         fileByOrgs: this.orgId,
         orgName: this.orgName,
-        userId: this.cUser
+        userId: this.cUser,
+        role: this.auth.canEdit(this.user)
       }
     });
     return await modal.present();
