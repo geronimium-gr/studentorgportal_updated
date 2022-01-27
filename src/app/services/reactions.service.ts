@@ -18,7 +18,7 @@ export class ReactionsService {
               private loadingCtrl: LoadingController) {
   }
 
-  async addLike(postId: string, userId: string, event: string) {
+  addLike(postId: string, userId: string, event: string) {
 
     const likeRef = firebase.firestore().collection(event).doc(postId);
 

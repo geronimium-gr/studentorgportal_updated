@@ -9,7 +9,10 @@ import { AuthService } from '../services/auth.service';
 import { OrganizationService } from '../services/organization.service';
 
 import firebase from 'firebase/app';
-import 'firebase/firestore'
+import 'firebase/firestore';
+import 'firebase/auth';
+
+import { MembershipService } from '../services/membership.service';
 
 @Component({
   selector: 'app-home',
@@ -22,9 +25,11 @@ export class HomePage implements OnInit, OnDestroy{
   orgSub: Subscription;
   isLoading = false;
 
-  segmentModel = "Academic"
+  segmentModel = "Academic";
+  joinOrgSegmentModel = "myOrgs";
 
-  user: any
+  user: any;
+  cUser: any;
 
   orgs: Observable<any[]>;
   orgRef: AngularFirestoreCollection;
@@ -37,11 +42,14 @@ export class HomePage implements OnInit, OnDestroy{
               private orgService: OrganizationService,
               private authService: AuthService,
               public auth: AuthService,
-              private afs: AngularFirestore)
+              private afs: AngularFirestore,
+              private memberService: MembershipService)
 
   {
-
-
+    if (firebase.auth().currentUser !== null) {
+      console.log('user id: ' + firebase.auth().currentUser.uid);
+      this.cUser = firebase.auth().currentUser.uid;
+    }
   }
 
   ngOnInit() {
@@ -94,6 +102,18 @@ export class HomePage implements OnInit, OnDestroy{
 
   segmentChanged() {
     console.log(this.segmentModel);
+  }
+
+  segmentChangedJoinOrg() {
+    console.log(this.joinOrgSegmentModel);
+  }
+
+  joinOrganization(orgId) {
+    this.memberService.joinOrganization(orgId, this.cUser)
+  }
+
+  cancelJoinOrganization(orgId) {
+    this.memberService.cancelJoinOrganization(orgId, this.cUser)
   }
 
   async openAddForm(ev: any) {

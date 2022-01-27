@@ -23,9 +23,18 @@ export class MembersListComponent implements OnInit, OnDestroy {
   public loadedUserList: any[];
 
   public memberList: string[];
+  public requestList: string[];
 
+  //Member
   public memberInfo = [];
   public loadedMemberInfo = [];
+
+  //Member Request
+  public memberReqInfo = [];
+  public loadedMemberReqInfo = [];
+
+  //Org Type
+  orgType: any;
 
   rowArray = [];
 
@@ -53,6 +62,7 @@ export class MembersListComponent implements OnInit, OnDestroy {
     this.orgId = this.navParams.get("orgId");
     this.cUser = this.navParams.get("cUser");
     this.orgName = this.navParams.get("orgName");
+    this.orgType = this.navParams.get("orgType");
   }
 
   ngOnInit() {
@@ -76,12 +86,65 @@ export class MembersListComponent implements OnInit, OnDestroy {
 
   ionViewWillEnter() {
     this.loadMembers();
+    this.loadMemberRequest();
   }
+
+    loadMemberRequest() {
+      this.memberSub = this.orgService.getOrganization(this.orgId).subscribe(org => {
+        this.requestList = org.pendingMembers;
+
+        this.memberReqInfo = [];
+        this.loadedMemberReqInfo = [];
+
+        this.requestList.forEach(uid => {
+          const docRef = firebase.firestore().collection("user").doc(uid);
+
+          docRef.get().then((doc) => {
+              if (doc.exists) {
+                if (!this.memberReqInfo.some(e => e.userId === doc.data().userId)) {
+                  this.memberReqInfo.push({
+                   userId: doc.data().userId,
+                   userName: doc.data().userName,
+                   userSurname: doc.data().userSurname,
+                   userPhoto: doc.data().userPhoto,
+                   roleName: doc.data().roleName,
+                   organizationId: doc.data().organizationId,
+                   userEmail: doc.data().userEmail,
+                   userSchoolId: doc.data().userSchoolId
+                 });
+                }
+
+                if (!this.loadedMemberReqInfo.some(e => e.userId === doc.data().userId)) {
+                  this.loadedMemberReqInfo.push({
+                    userId: doc.data().userId,
+                    userName: doc.data().userName,
+                    userSurname: doc.data().userSurname,
+                    userPhoto: doc.data().userPhoto,
+                    roleName: doc.data().roleName,
+                    organizationId: doc.data().organizationId,
+                    userEmail: doc.data().userEmail,
+                    userSchoolId: doc.data().userSchoolId
+                  });
+                }
+
+                this.memberReqInfo.sort((a, b) => (a.userName > b.userName) ? 1 : -1);
+                this.loadedMemberReqInfo.sort((a, b) => (a.userName > b.userName) ? 1 : -1);
+              } else {
+                // doc.data() will be undefined in this case
+                console.log("No such document!");
+              }
+            }).catch((error) => {
+              console.log("Error getting document:", error);
+            });
+          });//
+        });
+    }
 
     loadMembers() {
 
     this.memberSub = this.orgService.getOrganization(this.orgId).subscribe(org => {
       this.memberList = org.userList;
+
       this.memberInfo = [];
       this.loadedMemberInfo = [];
 
@@ -243,6 +306,14 @@ export class MembersListComponent implements OnInit, OnDestroy {
     document.body.appendChild(link);
 
     link.click();
+  }
+
+  acceptUser(userId) {
+    this.memberService.addUserInOrg(this.orgId, userId);
+  }
+
+  rejectUser(userId) {
+    this.memberService.cancelJoinOrganization(this.orgId, userId);
   }
 
   onClose() {

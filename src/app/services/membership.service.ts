@@ -34,6 +34,12 @@ export class MembershipService {
         organizationId: firebase.firestore.FieldValue.arrayUnion(orgId)
       });
 
+      const orgRef = firebase.firestore().collection('organization').doc(orgId);
+
+      orgRef.update({
+        pendingMembers: firebase.firestore.FieldValue.arrayRemove(userId)
+      });
+
       loading.dismiss();
       this.toast('New Member Added', 'success');
     }).catch(error => {
@@ -71,6 +77,24 @@ export class MembershipService {
       this.toast('Error happens. Try Again Later', 'danger');
     });
 
+  }
+
+  joinOrganization(orgId: string, userId: string) {
+
+    const orgRef = firebase.firestore().collection('organization').doc(orgId);
+
+    orgRef.update({
+      pendingMembers: firebase.firestore.FieldValue.arrayUnion(userId)
+    });
+  }
+
+  cancelJoinOrganization(orgId: string, userId: string) {
+
+    const orgRef = firebase.firestore().collection('organization').doc(orgId);
+
+    orgRef.update({
+      pendingMembers: firebase.firestore.FieldValue.arrayRemove(userId)
+    });
   }
 
   async toast(message, status){
