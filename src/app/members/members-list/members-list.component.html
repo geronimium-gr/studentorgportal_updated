@@ -11,7 +11,12 @@
 </ion-header>
 
 <ion-content>
-  <ion-searchbar animated (ionInput)="segmentModel === 'members' ? filterListMembers($event): filterListUsers($event)"></ion-searchbar>
+  <ion-searchbar
+    animated
+    (ionInput)="segmentModel === 'members' ? filterListMembers($event) :
+                segmentModel === 'add member' ? filterListUsers($event) :
+                segmentModel === 'member requests' ? filterListRequests($event) : ''">
+  </ion-searchbar>
   <ion-segment value="comment" color="secondary" [(ngModel)]="segmentModel" (ionChange)="onSegmentChange()">
     <ion-segment-button value="members" layout="icon-start">
       <ion-icon name="people"></ion-icon>
@@ -164,12 +169,12 @@
             <ion-badge slot="start">{{ memberReqInfo?.length }}</ion-badge>
             <ion-label>Member Requests</ion-label>
           </ion-item>
-  
+
            <div class="ion-text-center ion-padding" *ngIf="memberReqInfo?.length <= 0">
             <ion-icon name="people" class="label-icon"></ion-icon>
             <p><strong>No Member Requests.</strong></p>
           </div>
-  
+
           <div *ngFor="let user of memberReqInfo">
             <ion-item-sliding #slidingMember>
               <ion-item detail lines="none">

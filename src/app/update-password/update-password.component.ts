@@ -13,7 +13,9 @@ export class UpdatePasswordComponent implements OnInit {
   oldPassword: string;
   newPassword: string;
   confirmPassword: string;
-  passwordNotMatch: boolean;
+
+  passwordMatch: boolean;
+  cPasswordMatch = true;
 
   viewPass: boolean = false;
   showPassword: boolean = false;
@@ -25,10 +27,18 @@ export class UpdatePasswordComponent implements OnInit {
   ngOnInit() {}
 
   checkPassword(){
-    if (this.oldPassword !== this.newPassword) {
-      this.passwordNotMatch = true;
+    if (this.oldPassword === this.newPassword) {
+      this.passwordMatch = true;
     } else {
-      this.passwordNotMatch = false;
+      this.passwordMatch = false;
+    }
+  }// end
+
+  checkConfirmPassword(){
+    if (this.newPassword === this.confirmPassword) {
+      this.cPasswordMatch = true;
+    } else {
+      this.cPasswordMatch = false;
     }
   }// end
 

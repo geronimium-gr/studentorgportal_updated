@@ -82,6 +82,7 @@ export class MembersListComponent implements OnInit, OnDestroy {
   initializeItems() {
     this.memberInfo = this.loadedMemberInfo;
     this.userList = this.loadedUserList;
+    this.memberReqInfo = this.loadedMemberReqInfo;
   }
 
   ionViewWillEnter() {
@@ -279,6 +280,23 @@ export class MembersListComponent implements OnInit, OnDestroy {
     }
 
     this.userList = this.userList.filter(currentItem => {
+      if (currentItem.userName.toLowerCase().indexOf(searchTerm.toLowerCase()) > -1 || currentItem.userSurname.toLowerCase().indexOf(searchTerm.toLowerCase()) > -1) {
+        return true;
+      }
+      return false;
+    })
+  }
+
+  filterListRequests(evt) {
+    this.initializeItems();
+
+    const searchTerm = evt.srcElement.value;
+
+    if (!searchTerm) {
+      return;
+    }
+
+    this.memberReqInfo = this.memberReqInfo.filter(currentItem => {
       if (currentItem.userName.toLowerCase().indexOf(searchTerm.toLowerCase()) > -1 || currentItem.userSurname.toLowerCase().indexOf(searchTerm.toLowerCase()) > -1) {
         return true;
       }

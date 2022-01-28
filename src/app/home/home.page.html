@@ -122,13 +122,14 @@
     </ion-segment-button>
   </ion-segment>
 
-  <div class="ion-text-center ion-padding" *ngIf="orgInfo?.length <= 0">
-    <ion-icon name="shapes" class="label-icon"></ion-icon>
-    <p><strong>No Organization is added</strong></p>
-  </div>
 
   <!-- My Orgs -->
   <ion-grid *ngIf="joinOrgSegmentModel === 'myOrgs'">
+    <div class="ion-text-center ion-padding" *ngIf="orgInfo?.length <= 0">
+      <ion-icon name="shapes" class="label-icon"></ion-icon>
+      <p><strong>No Organization is added</strong></p>
+    </div>
+
     <ion-row>
       <ion-col size-lg="3" size-md="4" size-sm="6" size="12" *ngFor="let o of orgInfo">
         <ion-card>
