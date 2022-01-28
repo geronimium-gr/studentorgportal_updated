@@ -39,6 +39,13 @@
           </ion-select>
         </ion-item>
 
+        <ion-item>
+          <ion-label>Course</ion-label>
+          <ion-select interface="action-sheet" [value]="currentCourse" [(ngModel)]="selectCourse" (ionChange)="updateCourse(selectCourse)" [ngModelOptions]="{standalone: true}">
+            <ion-select-option *ngFor="let course of courses | async" [value]="course?.courseName">{{ course?.courseName }}</ion-select-option>
+          </ion-select>
+        </ion-item>
+
         <ion-button class="ion-margin" type="submit" expand="block" shape="round" [disabled]="!f.valid">Edit User</ion-button>
       </ion-list>
     </form>

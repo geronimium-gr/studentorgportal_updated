@@ -1,9 +1,9 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { AngularFirestore } from '@angular/fire/firestore';
+import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/firestore';
 import { NgForm } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AlertController, LoadingController, ToastController } from '@ionic/angular';
-import { Subscription } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 
 import { UserService } from '../services/user.service';
 
@@ -29,26 +29,38 @@ export class ProfileEditPage implements OnInit, OnDestroy {
 
   userRole: any;
   selectRole: any;
+  selectCourse: any;
+  currentCourse: any;
 
   profileEditSub: Subscription;
 
+  courses: Observable<any[]>;
+  courseRef: AngularFirestoreCollection;
+
   //EDITING PROFILE - ADMIN VIEW
-
-
   constructor(private userService: UserService,
               private afs: AngularFirestore,
               private loadingCtrl: LoadingController,
               private toaster: ToastController,
               private router: Router,
               private activateRoute: ActivatedRoute,
-              private alertCtrl: AlertController) { }
+              private alertCtrl: AlertController)
+  {
+
+  }
 
   ngOnInit() {
     this.userId = this.activateRoute.snapshot.params['userID'];
+    this.courseRef = this.afs.collection('course');
+    this.courses = this.courseRef.valueChanges();
   }
 
   ionViewWillEnter(){
     this.loadUserDetails();
+  }
+
+  updateCourse(course) {
+    console.log(course); 
   }
 
   async loadUserDetails(){
@@ -68,6 +80,7 @@ export class ProfileEditPage implements OnInit, OnDestroy {
         this.studentId = user.userSchoolId;
         this.sname = user.userSurname;
         this.birthday = user.birthday;
+        this.currentCourse = user.course;
         loading.dismiss();
       } catch (error) {
         this.router.navigate(['/page-not-found']);
@@ -149,6 +162,7 @@ export class ProfileEditPage implements OnInit, OnDestroy {
         'student': this.roleStudent
       },
       'roleName': this.roleHolder,
+      'course': this.selectCourse,
       'editedAt': Date.now()
     })
     .then(() => {
