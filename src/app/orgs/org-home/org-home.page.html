@@ -1,4 +1,4 @@
-<ion-header>
+<ion-header *ngIf="accessUser?.includes(cUser) || auth.canDelete(user)">
   <ion-toolbar>
     <ion-buttons slot="start">
       <ion-back-button defaultHref="/home"></ion-back-button>
@@ -15,7 +15,15 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content *ngIf="loadOrganization">
+<ion-content *ngIf="!accessUser?.includes(cUser) && !auth.canDelete(user)">
+  <ion-card>
+    <ion-card-header>
+      No Page Found
+    </ion-card-header>
+  </ion-card>
+</ion-content>
+
+<ion-content *ngIf="loadOrganization && (accessUser?.includes(cUser) || auth.canDelete(user))">
   <ion-card class="action-card ion-no-margin ion-no-padding">
     <img class="header-img" [src]="loadOrganization?.imageUrl" />
     <ion-button class="cover-photo-btn" (click)="editOrgPhoto(null)" *ngIf="auth.canAccessByMod(user) || auth.canAccessByOfficer(user)">

@@ -46,6 +46,7 @@ export class OrgHomePage implements OnInit, OnDestroy {
   user: any;
   userName: any;
   userPhoto: any;
+  public accessUser = [];
 
   commentCounter: any;
 
@@ -264,6 +265,7 @@ export class OrgHomePage implements OnInit, OnDestroy {
         this.orgName = org.orgName;
         this.orgDesc = org.description;
         this.orgType = org.orgType;
+        this.accessUser = org.userList; 
 
         loading.dismiss();
       } catch (error) {
