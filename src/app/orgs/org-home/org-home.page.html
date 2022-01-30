@@ -66,14 +66,19 @@
             <ion-text>Edit Org</ion-text>
           </ion-item>
 
-          <ion-item detail button (click)="deleteOrg()" *ngIf="auth.canDelete(user)">
-            <ion-icon name="trash-bin" slot="start"></ion-icon>
-            <ion-text>Delete Org</ion-text>
+          <ion-item detail button (click)="changeStatus(loadOrganization.orgId, loadOrganization?.status)" [disabled]="!auth.canDelete(user)">
+            <ion-icon name="checkmark-circle" slot="start"></ion-icon>
+            <ion-text>Org Status</ion-text>
+            <ion-badge slot="end" [color]="loadOrganization?.status === 'active' ? 'success' : 
+                                           loadOrganization?.status === 'probation' ? 'warning' :
+                                           loadOrganization?.status === 'inactive' ? 'danger' : ''">
+                {{ loadOrganization?.status }} 
+            </ion-badge> 
           </ion-item>
 
           <ion-item detail button (click)="openFileSystem()">
             <ion-icon name="folder-open" slot="start"></ion-icon>
-            <ion-text>File System</ion-text>
+            <ion-text>Files</ion-text>
           </ion-item>
         </ion-card>
       </ion-col>
@@ -87,10 +92,10 @@
           <ion-segment-button value="post">
             <ion-label>Posts</ion-label>
           </ion-segment-button>
-          <ion-segment-button value="event">
+          <ion-segment-button value="event" *ngIf="loadOrganization?.status === 'active'">
             <ion-label>Events</ion-label>
           </ion-segment-button>
-          <ion-segment-button value="poll">
+          <ion-segment-button value="poll" *ngIf="loadOrganization?.status === 'active'">
             <ion-label>Polls</ion-label>
           </ion-segment-button>
         </ion-segment>
@@ -169,8 +174,9 @@
                       <ion-icon
                         class="reaction-icon"
                         name="chatbox"
-                        slot="icon-only"
+                        slot="start"
                       ></ion-icon>
+                      <ion-text class="reaction-num">{{ p.postComments?.length }}</ion-text>
                     </ion-button>
                   </ion-col>
                 </ion-row>

@@ -76,6 +76,7 @@ export class OrganizationService {
       'orgType': orgType,
       'userList': [],
       'pendingMembers': [],
+      'status': "active",
       'createdAt': Date.now()
     }).then(() => {
       loading.dismiss();
@@ -104,6 +105,26 @@ export class OrganizationService {
       loading.dismiss();
       this.toast('Update Success', 'success');
       this.closePopOver();
+    }).catch(error => {
+      loading.dismiss();
+      this.toast(error.message, 'danger');
+    });
+  }
+
+  async changeStatus(orgId, status) {
+    const loading = await this.loadingCtrl.create({
+      message: 'Updating...',
+      spinner: 'crescent',
+      showBackdrop: true
+    });
+
+    loading.present();
+
+    this.afs.collection('organization').doc(orgId).update({
+      'status': status
+    }).then(() => {
+      loading.dismiss();
+      this.toast('Update Success', 'success');
     }).catch(error => {
       loading.dismiss();
       this.toast(error.message, 'danger');

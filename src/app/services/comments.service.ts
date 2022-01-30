@@ -5,6 +5,9 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Comments } from '../models/comments';
 
+import firebase from 'firebase/app';
+import 'firebase/firestore'
+
 @Injectable({
   providedIn: 'root'
 })
@@ -90,6 +93,13 @@ export class CommentsService {
       'createdAt': Date.now()
     }).then(() => {
       loading.dismiss();
+
+      const postRef = firebase.firestore().collection('post').doc(postId);
+
+      postRef.update({
+        postComments: firebase.firestore.FieldValue.arrayUnion(commentId)
+      });
+
       this.toast('New Comment Added', 'success');
     }).catch(error => {
       loading.dismiss();
@@ -165,7 +175,7 @@ export class CommentsService {
     });
   }
 
-  async deleteComment(commentId) {
+  async deleteComment(commentId, postId) {
     const loading = await this.loadingCtrl.create({
       message: `Deleting comment. Please Wait`,
       spinner: 'crescent',
@@ -177,6 +187,13 @@ export class CommentsService {
     this.afs.collection('comment').doc(commentId).delete()
     .then(() => {
       loading.dismiss();
+
+      const postRef = firebase.firestore().collection('post').doc(postId);
+
+      postRef.update({
+        postComments: firebase.firestore.FieldValue.arrayRemove(commentId)
+      });
+
       this.toast('Delete successfully', 'success');
     }).catch(error => {
       loading.dismiss();

@@ -285,7 +285,7 @@ export class CommentSectionComponent implements OnInit, OnDestroy {
     alert.present();
   }//
 
-  async deleteComment(commentId: string) {
+  async deleteComment(commentId: string, postId: string) {
     const alert = await this.alertCtrl.create({
       header: 'Confirm',
       message: 'Delete this comment?',
@@ -300,7 +300,7 @@ export class CommentSectionComponent implements OnInit, OnDestroy {
         }, {
           text: 'Confirm',
           handler: () => {
-            this.commentService.deleteComment(commentId);
+            this.commentService.deleteComment(commentId, postId);
           }
         }
       ]

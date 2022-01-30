@@ -77,6 +77,7 @@ export class PostService {
       'postContent': content,
       'postImageUrl': image,
       'postLikes': [],
+      'postComments': [],
       'postedById': userId,
       'postedBy': userName,
       'postedBySurname': surname,

@@ -22,11 +22,11 @@
       <ion-icon name="people"></ion-icon>
       <ion-label>Members</ion-label>
     </ion-segment-button>
-    <ion-segment-button value="add member" layout="icon-start" *ngIf="auth.canEdit(user)">
+    <ion-segment-button value="add member" layout="icon-start" *ngIf="auth.canEdit(user) && orgStatus === 'active'">
       <ion-icon name="person-add"></ion-icon>
       <ion-label>Add Member</ion-label>
     </ion-segment-button>
-    <ion-segment-button value="member requests" layout="icon-start" *ngIf="auth.canEdit(user) && orgType === 'Non-Academic'">
+    <ion-segment-button value="member requests" layout="icon-start" *ngIf="auth.canEdit(user) && orgType === 'Non-Academic' && orgStatus === 'active'">
       <ion-icon name="log-in"></ion-icon>
       <ion-label>Requests</ion-label>
     </ion-segment-button>

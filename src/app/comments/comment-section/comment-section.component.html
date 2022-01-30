@@ -30,14 +30,6 @@
 
 <ion-content>
 
-  <ion-segment value="comment" color="secondary">
-    <ion-segment-button value="comment" layout="icon-start">
-      <ion-icon name="chatbox"></ion-icon>
-      <ion-label>{{ commentCounter }} Comments</ion-label>
-    </ion-segment-button>
-  </ion-segment>
-
-
   <div class="ion-text-center ion-padding" *ngIf="!isLoading && comments?.length <= 0">
     <ion-icon name="chatbox" class="label-icon"></ion-icon>
     <p><strong>No Comment is added.</strong></p>
@@ -64,7 +56,7 @@
         <ion-button fill="clear" (click)="updateComment(c.commentId, c.commentContent)" *ngIf="c.userId === cUser">
           <ion-icon name="create" color="tertiary" slot="icon-only"></ion-icon>
         </ion-button>
-        <ion-button fill="clear" (click)="deleteComment(c.commentId)" *ngIf="c.userId === cUser || auth.canEdit(user)">
+        <ion-button fill="clear" (click)="deleteComment(c.commentId, c.postId)" *ngIf="c.userId === cUser || auth.canEdit(user)">
           <ion-icon name="trash" color="danger" slot="icon-only"></ion-icon>
         </ion-button>
         <ion-button fill="clear" (click)="flagComment(c.commentId)" *ngIf="c.userId != cUser">

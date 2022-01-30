@@ -9,6 +9,7 @@ export interface Post {
   postedByPhoto: string;
   postOrgId: string;
   postLikes: string[],
+  postComments: string[],
   createdAt: number;
   editedBy: string;
 }

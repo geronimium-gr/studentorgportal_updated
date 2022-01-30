@@ -193,7 +193,8 @@ export class OrgHomePage implements OnInit, OnDestroy {
         orgId: this.orgId,
         orgName: this.orgName,
         cUser: this.cUser,
-        orgType: this.orgType
+        orgType: this.orgType,
+        status: this.loadOrganization.status
       }
     });
     return await modal.present();
@@ -249,6 +250,71 @@ export class OrgHomePage implements OnInit, OnDestroy {
     return await modal.present();
   }
 
+  async changeStatus(id, status) {
+    let checkActive = false;
+    let checkProbation = false;
+    let checkInactive = false;
+
+    if (status === 'active') {
+      checkActive = true;
+    } else if (status === 'probation') {
+      checkProbation = true;
+    } else if (status === 'inactive') {
+      checkInactive = true;
+    }
+
+    const alert = await this.alertCtrl.create({
+      cssClass: 'flag-alert',
+      header: 'Change Org Status',
+      message: 'Organization Status',
+      inputs: [
+        {
+          name: 'radio1',
+          type: 'radio',
+          label: 'Active',
+          value: 'active',
+          checked: checkActive
+        },
+        {
+          name: 'radio2',
+          type: 'radio',
+          label: 'Under Probation',
+          value: 'probation',
+          checked: checkProbation
+        },
+        {
+          name: 'radio3',
+          type: 'radio',
+          label: 'Inactive',
+          value: 'inactive',
+          checked: checkInactive
+        }
+      ],
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          cssClass: 'secondary',
+          handler: () => {
+            console.log('Confirm Cancel');
+          }
+        }, {
+          text: 'Ok',
+          handler: (result) => {
+            if (result == undefined) {
+              return false;
+            } else {
+              //console.log(result);
+              this.orgService.changeStatus(id, result);
+            }
+          }
+        }
+      ]
+    });
+
+    await alert.present();
+  }
+
   async loadOrgDetails() {
     const loading = await this.loadingCtrl.create({
       message: 'Loading...',
@@ -265,7 +331,7 @@ export class OrgHomePage implements OnInit, OnDestroy {
         this.orgName = org.orgName;
         this.orgDesc = org.description;
         this.orgType = org.orgType;
-        this.accessUser = org.userList; 
+        this.accessUser = org.userList;
 
         loading.dismiss();
       } catch (error) {

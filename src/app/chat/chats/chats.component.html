@@ -86,10 +86,10 @@
   <ion-toolbar>
     <ion-row class="ion-align-items-center ion-no-padding">
       <ion-col size="10">
-        <textarea autosize [maxRows]="4" placeholder="Type a message here..." class="message-writer" [(ngModel)]="chatContent"></textarea>
+        <textarea autosize [maxRows]="4" (keydown.enter)="sendMessage()" placeholder="Type a message here..." class="message-writer" [(ngModel)]="chatContent"></textarea>
       </ion-col>
       <ion-col size="2">
-        <ion-button expand="block" fill="clear" size="default" class="msg-btn" (click)="sendMessage()" [disabled]="chatContent === ''">
+        <ion-button id="btnSearch" expand="block" fill="clear" size="default" class="msg-btn" (click)="sendMessage()" [disabled]="chatContent === ''">
           <ion-icon name="send" slot="icon-only"></ion-icon>
         </ion-button>
       </ion-col>

@@ -62,7 +62,7 @@ export class FlagsModuleComponent implements OnInit {
     await alert.present();
   }//
 
-  async deleteComment(commentId) {
+  async deleteComment(commentId, postId) {
     const alert = await this.alertCtrl.create({
       header: 'Confirm',
       message: 'Delete this comment?',
@@ -77,7 +77,7 @@ export class FlagsModuleComponent implements OnInit {
         }, {
           text: 'Confirm',
           handler: () => {
-            this.commentService.deleteComment(commentId);
+            this.commentService.deleteComment(commentId, postId);
             console.log('Confirm Okay');
           }
         }

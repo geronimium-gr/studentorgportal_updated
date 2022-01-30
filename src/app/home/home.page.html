@@ -36,6 +36,7 @@
     <ion-title>Organization List</ion-title>
   </ion-item>
 
+<!-- Admin -->
 <div *ngIf="auth.canDelete(user)">
   <ion-segment color="tertiary" value="Academic" [(ngModel)]="segmentModel" (ionChange)="segmentChanged()">
     <ion-segment-button value="Academic" layout="icon-start">
@@ -143,9 +144,9 @@
           <ion-card-content>
             <p class="truncateWord">{{ o.description }}</p>
           </ion-card-content>
-          <ion-button fill="solid" class="ion-margin" expand="block" color="primary" [routerLink]="['/home', o.orgId]">
+          <ion-button fill="solid" class="ion-margin" expand="block" [color]="o.status === 'inactive' ? 'danger' : 'primary'" [routerLink]="['/home', o.orgId]" [disabled]="o.status === 'inactive'">
             <ion-icon name="open" slot="start"></ion-icon>
-            <ion-label>View</ion-label>
+            <ion-label>{{ o.status === 'inactive' ? 'Inactive Org' : 'View'}}</ion-label>
           </ion-button>
         </ion-card>
       </ion-col>
@@ -157,7 +158,7 @@
     <!-- Check this -->
     <ion-row>
       <ng-template ngFor let-o [ngForOf]="orgs | async">
-        <ion-col size-lg="3" size-md="4" size-sm="6" size="12" *ngIf="!o.userList?.includes(cUser)">
+        <ion-col size-lg="3" size-md="4" size-sm="6" size="12" *ngIf="!o.userList?.includes(cUser) && o.status === 'active'">
           <ion-card>
             <div class="container">
               <ion-img class="img" [src]="o.imageUrl"></ion-img>

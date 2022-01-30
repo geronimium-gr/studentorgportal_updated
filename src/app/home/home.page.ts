@@ -69,11 +69,12 @@ export class HomePage implements OnInit, OnDestroy{
                  orgName: doc.data().orgName,
                  description: doc.data().description,
                  imageUrl: doc.data().imageUrl,
-                 userList: doc.data().userList
+                 userList: doc.data().userList,
+                 status: doc.data().status
                });
               }
 
-              this.orgInfo.sort((a, b) => (a.userName > b.userName) ? 1 : -1);
+              this.orgInfo.sort((a, b) => (a.orgName > b.orgName) ? 1 : -1);
             } else {
                 // doc.data() will be undefined in this case
                 console.log("No such document!");

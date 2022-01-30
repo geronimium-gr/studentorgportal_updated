@@ -35,6 +35,7 @@ export class MembersListComponent implements OnInit, OnDestroy {
 
   //Org Type
   orgType: any;
+  orgStatus: any;
 
   rowArray = [];
 
@@ -63,6 +64,7 @@ export class MembersListComponent implements OnInit, OnDestroy {
     this.cUser = this.navParams.get("cUser");
     this.orgName = this.navParams.get("orgName");
     this.orgType = this.navParams.get("orgType");
+    this.orgStatus = this.navParams.get("status");
   }
 
   ngOnInit() {
