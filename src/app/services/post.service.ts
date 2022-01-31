@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument } from '@angular/fire/firestore';
-import { LoadingController, PopoverController, ToastController } from '@ionic/angular';
+import { LoadingController, ModalController, PopoverController, ToastController } from '@ionic/angular';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
@@ -28,7 +28,8 @@ export class PostService {
     private loadingCtrl: LoadingController,
     private popOverCtrl: PopoverController,
     private toaster: ToastController,
-    private notifService: NotificationsService
+    private notifService: NotificationsService,
+    private modalCtrl: ModalController
     ) {}//
 
   getOrgId(idParameter) {
@@ -88,7 +89,7 @@ export class PostService {
       loading.dismiss();
       this.toast('New Post Added', 'success');
       this.notifService.sendNotif(userId, userName, surname, userPhoto, orgId, "added a post", image, postId, content, title, "", "", "", "");
-      this.closePopOver();
+      this.closeModal();
     }).catch(error => {
       loading.dismiss();
       this.toast(error.message, 'danger');
@@ -190,6 +191,10 @@ export class PostService {
 
    closePopOver(){
     this.popOverCtrl.dismiss();
+  }//
+
+  closeModal(){
+    this.modalCtrl.dismiss();
   }//
 
    async toast(message, status){

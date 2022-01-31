@@ -50,11 +50,17 @@
             </ion-chip>
             <ion-card-title class="org-title">{{ orgName }}</ion-card-title>
           </ion-card-header>
-          <ion-card-content [ngClass]="{'limitTextHeight': isReadMore}"> {{ orgDesc }} </ion-card-content>
+          <!-- <ion-card-content [ngClass]="{'limitTextHeight': isReadMore}"> {{ orgDesc }} </ion-card-content>
           <ion-button color="tertiary" expand="full" size="small" fill="clear" (click)="showText()">
             <ion-icon [name]="isReadMore ? 'chevron-down-circle' : 'chevron-up-circle'" slot="start"></ion-icon>
             {{ isReadMore ? 'Read More' : 'Read Less'}}
-          </ion-button>
+          </ion-button> -->
+
+          <ion-item detail button (click)="aboutPage()">
+            <ion-icon name="information-circle" slot="start"></ion-icon>
+            <ion-text>About</ion-text>
+          </ion-item>
+
           <ion-item detail button (click)="openMembersList()">
             <ion-icon name="person" slot="start"></ion-icon>
             <ion-text>Members</ion-text>
@@ -69,11 +75,11 @@
           <ion-item detail button (click)="changeStatus(loadOrganization.orgId, loadOrganization?.status)" [disabled]="!auth.canDelete(user)">
             <ion-icon name="checkmark-circle" slot="start"></ion-icon>
             <ion-text>Org Status</ion-text>
-            <ion-badge slot="end" [color]="loadOrganization?.status === 'active' ? 'success' : 
+            <ion-badge slot="end" [color]="loadOrganization?.status === 'active' ? 'success' :
                                            loadOrganization?.status === 'probation' ? 'warning' :
                                            loadOrganization?.status === 'inactive' ? 'danger' : ''">
-                {{ loadOrganization?.status }} 
-            </ion-badge> 
+                {{ loadOrganization?.status }}
+            </ion-badge>
           </ion-item>
 
           <ion-item detail button (click)="openFileSystem()">
@@ -111,7 +117,7 @@
                   </ion-avatar>
                   <ion-input
                     class="placeholder-title"
-                    (click)="segmentModel === 'post' ? addPost(null) : segmentModel === 'event' ? addEvent(null) : segmentModel === 'poll' ? addPoll(null) : false"
+                    (click)="segmentModel === 'post' ? addPost() : segmentModel === 'event' ? addEvent() : segmentModel === 'poll' ? addPoll() : false"
                     [placeholder]="'Add ' + segmentModel +  ' content...'"
                   >
                   </ion-input>

@@ -1,6 +1,6 @@
 <ion-header>
   <ion-toolbar color="light">
-    <ion-title>Add Post</ion-title>
+    <ion-title>Create Post</ion-title>
     <ion-buttons slot="primary">
       <ion-button (click)="onClose()">
         <ion-icon name="close" slot="icon-only"></ion-icon>
@@ -9,63 +9,80 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-list class="ion-no-margin">
 
-  <ion-list-header>
-    <h6>Add a photo:</h6>
-  </ion-list-header>
-  <div class="picker">
-    <div class="selectedImage" *ngIf="selectedImage">
-      <img class="img" [src]="selectedImageUri" alt=" " />
+<ion-content>
+
+  <ion-list class="ion-no-margin">
+
+    <ion-item lines="none">
+      <ion-avatar slot="start">
+        <img [src]="userPhoto" alt="" />
+      </ion-avatar>
+      <ion-label>
+        <h2 class="userpost-name">{{ userName }} {{ userSurname }}</h2>
+        <p>{{ role }}</p>
+      </ion-label>
+    </ion-item>
+
+    <form [formGroup]="formGroup">
+      <ion-list lines="none">
+        <ion-item>
+          <ion-label *ngIf="!formGroup.get('postTitle').valid && formGroup.get('postTitle').touched" color="danger" position="floating">Field cannot be empty.</ion-label>
+          <ion-icon [color]="!formGroup.get('postTitle').valid && formGroup.get('postTitle').touched ? 'danger' : 'secondary'" name="receipt" slot="start"></ion-icon>
+          <ion-input
+          formControlName="postTitle"
+          placeholder="Post Title">
+          </ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label *ngIf="!formGroup.get('postContent').valid && formGroup.get('postContent').touched" color="danger" position="floating">Field cannot be empty.</ion-label>
+          <ion-icon [color]="!formGroup.get('postContent').valid && formGroup.get('postContent').touched ? 'danger' : 'secondary'" name="newspaper" slot="start"></ion-icon>
+          <ion-textarea
+          formControlName="postContent"
+          rows="4"
+          placeholder="Post Content">
+          </ion-textarea>
+        </ion-item>
+      </ion-list>
+    </form>
+    <ion-item lines="none" *ngIf="auth.canDelete(user)">
+      <ion-label>Post in all Orgs</ion-label>
+      <ion-checkbox color="primary" slot="start" [(ngModel)]="checkOrg" (ionChange)="checkAllOrg()"></ion-checkbox>
+    </ion-item>
+
+    <div class="picker" *ngIf="viewImage">
+      <div class="selectedImage" *ngIf="selectedImage">
+        <img class="img" [src]="selectedImageUri" alt=" " />
+      </div>
+      <ion-button color="dark" fill="clear" (click)="onPickImage()" *ngIf="!selectedImage">
+        <ion-icon name="image" slot="start"></ion-icon>
+        <ion-text> <h5>Add Photo</h5></ion-text>
+      </ion-button>
     </div>
-    <ion-button fill="clear" (click)="onPickImage()" *ngIf="!selectedImage">
+    <input
+    type="file"
+    accept=".jpg,.png"
+    *ngIf="usePicker"
+    #filePicker
+    (change)="onFileChosen($event)"
+    />
+
+    <!-- <ion-button color="primary" expand="full" class="ion-margin-vertical" (click)="onPickImage()">
       <ion-icon name="image" slot="start"></ion-icon>
       <ion-text>Choose Image</ion-text>
-    </ion-button>
-  </div>
-  <input
-  type="file"
-  accept=".jpg,.png"
-  *ngIf="usePicker"
-  #filePicker
-  (change)="onFileChosen($event)"
-  />
+    </ion-button> -->
 
-  <ion-button color="primary" expand="full" class="ion-margin-vertical" (click)="onPickImage()">
-    <ion-icon name="image" slot="start"></ion-icon>
-    <ion-text>Choose Image</ion-text>
-  </ion-button>
+    <ion-item lines="none" class="ion-padding">
+      <ion-text style="font-weight: bold;">Add Image to the post:</ion-text>
+      <ion-button slot="end" (click)="addImage()" fill="none">
+        <ion-icon [color]="viewImage ? 'secondary' : ''" name="image" slot="icon-only"></ion-icon>
+      </ion-button>
+    </ion-item>
 
-  <form [formGroup]="formGroup">
-    <ion-list lines="none">
-      <ion-item>
-        <ion-label *ngIf="!formGroup.get('postTitle').valid && formGroup.get('postTitle').touched" color="danger" position="floating">FIELD CANNOT BE EMPTY</ion-label>
-        <ion-icon [color]="!formGroup.get('postTitle').valid && formGroup.get('postTitle').touched ? 'danger' : 'secondary'" name="receipt" slot="start"></ion-icon>
-        <ion-input
-        formControlName="postTitle"
-        placeholder="Post Title">
-        </ion-input>
-      </ion-item>
-      <ion-item>
-        <ion-label *ngIf="!formGroup.get('postContent').valid && formGroup.get('postContent').touched" color="danger" position="floating">FIELD CANNOT BE EMPTY</ion-label>
-        <ion-icon [color]="!formGroup.get('postContent').valid && formGroup.get('postContent').touched ? 'danger' : 'secondary'" name="newspaper" slot="start"></ion-icon>
-        <ion-textarea
-        formControlName="postContent"
-        rows="2"
-        placeholder="Post Content">
-        </ion-textarea>
-      </ion-item>
-    </ion-list>
-  </form>
-  <ion-item lines="none" *ngIf="auth.canDelete(user)">
-    <ion-label>Post in all Orgs</ion-label>
-    <ion-checkbox color="primary" slot="start" [(ngModel)]="checkOrg" (ionChange)="checkAllOrg()"></ion-checkbox>
-  </ion-item>
-
-</ion-list>
+  </ion-list>
+</ion-content>
 
 <ion-item lines="none" color="success" detail="true" button [disabled]="!formGroup.valid" (click)="addPost()">
   <ion-icon name="add-circle-outline" slot="start"></ion-icon>
   <ion-text>Add Post</ion-text>
 </ion-item>
-

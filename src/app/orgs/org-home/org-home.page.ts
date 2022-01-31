@@ -31,6 +31,7 @@ import { AddPollComponent } from '../../polls/add-poll/add-poll.component';
 import { PollsService } from '../../services/polls.service';
 import { Polls } from '../../models/polls';
 import { UpdateCoverComponent } from '../update-cover/update-cover.component';
+import { AboutComponent } from '../about/about.component';
 
 @Component({
   selector: 'app-org-home',
@@ -524,38 +525,48 @@ export class OrgHomePage implements OnInit, OnDestroy {
   //   this.formGroup.reset();
   // }
 
-  async addPost(ev: any) {
-    const popover = await this.popoverCtrl.create({
+  async addPost() {
+    const modal = await this.modalCtrl.create({
       component: AddPostComponent,
-      event: ev,
       animated: true,
       mode: 'md',
-      cssClass: 'contact-popover',
       componentProps: {
         editOrgId: this.loadOrganization
       }
     });
-    return await popover.present();
+    return await modal.present();
   }
 
-  async addEvent(ev: any) {
-    const popover = await this.popoverCtrl.create({
+  async addEvent() {
+    const modal = await this.modalCtrl.create({
       component: AddEventsComponent,
-      event: ev,
+      animated: true,
+      mode: 'md',
+      componentProps: {
+        editOrgId: this.loadOrganization
+      }
+    });
+    return await modal.present();
+  }
+
+  async addPoll() {
+    const popover = await this.modalCtrl.create({
+      component: AddPollComponent,
       animated: true,
       mode: 'md',
       cssClass: 'contact-popover',
       componentProps: {
-        editOrgId: this.loadOrganization
+        orgId: this.orgId,
+        cUser: this.cUser,
+        userInfo: this.user
       }
     });
     return await popover.present();
   }
 
-  async addPoll(ev: any) {
-    const popover = await this.popoverCtrl.create({
-      component: AddPollComponent,
-      event: ev,
+  async aboutPage() {
+    const popover = await this.modalCtrl.create({
+      component: AboutComponent,
       animated: true,
       mode: 'md',
       cssClass: 'contact-popover',

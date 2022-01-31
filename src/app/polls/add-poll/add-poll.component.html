@@ -1,6 +1,6 @@
 <ion-header>
   <ion-toolbar color="light">
-    <ion-title>Add Poll</ion-title>
+    <ion-title>Create Poll</ion-title>
     <ion-buttons slot="primary">
       <ion-button (click)="onClose()">
         <ion-icon name="close" slot="icon-only"></ion-icon>
@@ -9,63 +9,77 @@
   </ion-toolbar>
 </ion-header>
 
-<form [formGroup]="formGroup">
-  <ion-list lines="none">
-    <ion-item>
-      <ion-label *ngIf="!formGroup.get('pollTitle').valid && formGroup.get('pollTitle').touched" color="danger" position="floating">FIELD CANNOT BE EMPTY</ion-label>
-      <ion-icon [color]="!formGroup.get('pollTitle').valid && formGroup.get('pollTitle').touched ? 'danger' : 'secondary'" name="receipt" slot="start"></ion-icon>
-      <ion-input
-      formControlName="pollTitle"
-      placeholder="Poll Title">
-      </ion-input>
-    </ion-item>
-    <ion-item>
-      <ion-label *ngIf="!formGroup.get('pollContent').valid && formGroup.get('pollContent').touched" color="danger" position="floating">FIELD CANNOT BE EMPTY</ion-label>
-      <ion-icon [color]="!formGroup.get('pollContent').valid && formGroup.get('pollContent').touched ? 'danger' : 'secondary'" name="newspaper" slot="start"></ion-icon>
-      <ion-textarea
-      formControlName="pollContent"
-      rows="2"
-      placeholder="Poll Description">
-      </ion-textarea>
-    </ion-item>
-    
-    <ion-item-group>
-      <ion-item-divider>
-        <ion-label>Poll Options</ion-label>
-      </ion-item-divider>
+<ion-content>
+  
+  <form [formGroup]="formGroup">
+    <ion-list lines="none">
+  
+      <ion-item lines="none">
+        <ion-avatar slot="start">
+          <img [src]="userInfo?.userPhoto" alt="" />
+        </ion-avatar>
+        <ion-label>
+          <h2 class="userpost-name">{{ userInfo?.userName }} {{ userInfo?.userSurname }}</h2>
+          <p>{{ userInfo?.roleName }}</p>
+        </ion-label>
+      </ion-item>
+  
       <ion-item>
-        <ion-label *ngIf="!formGroup.get('pollOptA').valid && formGroup.get('pollOptA').touched" color="danger" position="floating">FIELD CANNOT BE EMPTY</ion-label>
-        <ion-icon [color]="!formGroup.get('pollOptA').valid && formGroup.get('pollOptA').touched ? 'danger' : 'secondary'" name="stats-chart" slot="start"></ion-icon>
+        <ion-label *ngIf="!formGroup.get('pollTitle').valid && formGroup.get('pollTitle').touched" color="danger" position="floating">FIELD CANNOT BE EMPTY</ion-label>
+        <ion-icon [color]="!formGroup.get('pollTitle').valid && formGroup.get('pollTitle').touched ? 'danger' : 'secondary'" name="receipt" slot="start"></ion-icon>
         <ion-input
-        formControlName="pollOptA"
-        placeholder="Poll Option A">
+        formControlName="pollTitle"
+        placeholder="Poll Title">
         </ion-input>
       </ion-item>
       <ion-item>
-        <ion-label *ngIf="!formGroup.get('pollOptB').valid && formGroup.get('pollOptB').touched" color="danger" position="floating">FIELD CANNOT BE EMPTY</ion-label>
-        <ion-icon [color]="!formGroup.get('pollOptB').valid && formGroup.get('pollOptB').touched ? 'danger' : 'secondary'" name="stats-chart" slot="start"></ion-icon>
-        <ion-input
-        formControlName="pollOptB"
-        placeholder="Poll Option B">
-        </ion-input>
+        <ion-label *ngIf="!formGroup.get('pollContent').valid && formGroup.get('pollContent').touched" color="danger" position="floating">FIELD CANNOT BE EMPTY</ion-label>
+        <ion-icon [color]="!formGroup.get('pollContent').valid && formGroup.get('pollContent').touched ? 'danger' : 'secondary'" name="newspaper" slot="start"></ion-icon>
+        <ion-textarea
+        formControlName="pollContent"
+        rows="2"
+        placeholder="Poll Description">
+        </ion-textarea>
       </ion-item>
-      <ion-item>  
-        <ion-icon color="secondary" name="stats-chart" slot="start"></ion-icon>
-        <ion-input
-        formControlName="pollOptC"
-        placeholder="Poll Option C">
-        </ion-input>
-      </ion-item>
-      <ion-item>  
-        <ion-icon color="secondary" name="stats-chart" slot="start"></ion-icon>
-        <ion-input
-        formControlName="pollOptD"
-        placeholder="Poll Option D">
-        </ion-input>
-      </ion-item>
-    </ion-item-group>
-  </ion-list>
-</form>
+      
+      <ion-item-group>
+        <ion-item-divider>
+          <ion-label>Poll Options</ion-label>
+        </ion-item-divider>
+        <ion-item>
+          <ion-label *ngIf="!formGroup.get('pollOptA').valid && formGroup.get('pollOptA').touched" color="danger" position="floating">FIELD CANNOT BE EMPTY</ion-label>
+          <ion-icon [color]="!formGroup.get('pollOptA').valid && formGroup.get('pollOptA').touched ? 'danger' : 'secondary'" name="stats-chart" slot="start"></ion-icon>
+          <ion-input
+          formControlName="pollOptA"
+          placeholder="Poll Option A">
+          </ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label *ngIf="!formGroup.get('pollOptB').valid && formGroup.get('pollOptB').touched" color="danger" position="floating">FIELD CANNOT BE EMPTY</ion-label>
+          <ion-icon [color]="!formGroup.get('pollOptB').valid && formGroup.get('pollOptB').touched ? 'danger' : 'secondary'" name="stats-chart" slot="start"></ion-icon>
+          <ion-input
+          formControlName="pollOptB"
+          placeholder="Poll Option B">
+          </ion-input>
+        </ion-item>
+        <ion-item>  
+          <ion-icon color="secondary" name="stats-chart" slot="start"></ion-icon>
+          <ion-input
+          formControlName="pollOptC"
+          placeholder="Poll Option C">
+          </ion-input>
+        </ion-item>
+        <ion-item>  
+          <ion-icon color="secondary" name="stats-chart" slot="start"></ion-icon>
+          <ion-input
+          formControlName="pollOptD"
+          placeholder="Poll Option D">
+          </ion-input>
+        </ion-item>
+      </ion-item-group>
+    </ion-list>
+  </form>
+</ion-content>
 
 <ion-item lines="none" color="success" detail="true" button [disabled]="!formGroup.valid" (click)="addPoll()">
   <ion-icon name="add-circle-outline" slot="start"></ion-icon>

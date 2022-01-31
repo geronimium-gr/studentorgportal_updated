@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { NavParams, PopoverController } from '@ionic/angular';
+import { ModalController, NavParams } from '@ionic/angular';
 import { PollsService } from '../../services/polls.service';
 
 @Component({
@@ -17,7 +17,7 @@ export class AddPollComponent implements OnInit {
   currentUser: any;
   userInfo: any;
 
-  constructor(private popoverCtrl: PopoverController,
+  constructor(private modalCtrl: ModalController,
               private afs: AngularFirestore,
               private pollService: PollsService,
               private navParams: NavParams)
@@ -74,7 +74,7 @@ export class AddPollComponent implements OnInit {
   }
 
   onClose() {
-    this.popoverCtrl.dismiss();
+    this.modalCtrl.dismiss();
   }
 
 }

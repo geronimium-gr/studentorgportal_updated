@@ -111,6 +111,86 @@ export class OrganizationService {
     });
   }
 
+  async updateAbout(orgId, orgDesc) {
+    const loading = await this.loadingCtrl.create({
+      message: 'Updating...',
+      spinner: 'crescent',
+      showBackdrop: true
+    });
+
+    loading.present();
+
+    this.afs.collection('organization').doc(orgId).update({
+      'description': orgDesc
+    }).then(() => {
+      loading.dismiss();
+      this.toast('Update Success', 'success');
+    }).catch(error => {
+      loading.dismiss();
+      this.toast(error.message, 'danger');
+    });
+  }
+
+  async updateAboutLink(orgId, orgLink) {
+    const loading = await this.loadingCtrl.create({
+      message: 'Updating...',
+      spinner: 'crescent',
+      showBackdrop: true
+    });
+
+    loading.present();
+
+    this.afs.collection('organization').doc(orgId).update({
+      'orgLink': orgLink
+    }).then(() => {
+      loading.dismiss();
+      this.toast('Update Success', 'success');
+    }).catch(error => {
+      loading.dismiss();
+      this.toast(error.message, 'danger');
+    });
+  }
+
+  async updateAboutEmail(orgId, orgEmail) {
+    const loading = await this.loadingCtrl.create({
+      message: 'Updating...',
+      spinner: 'crescent',
+      showBackdrop: true
+    });
+
+    loading.present();
+
+    this.afs.collection('organization').doc(orgId).update({
+      'orgEmail': orgEmail
+    }).then(() => {
+      loading.dismiss();
+      this.toast('Update Success', 'success');
+    }).catch(error => {
+      loading.dismiss();
+      this.toast(error.message, 'danger');
+    });
+  }
+
+  async updateAboutLaw(orgId, orgLaw) {
+    const loading = await this.loadingCtrl.create({
+      message: 'Updating...',
+      spinner: 'crescent',
+      showBackdrop: true
+    });
+
+    loading.present();
+
+    this.afs.collection('organization').doc(orgId).update({
+      'byLaw': orgLaw
+    }).then(() => {
+      loading.dismiss();
+      this.toast('Update Success', 'success');
+    }).catch(error => {
+      loading.dismiss();
+      this.toast(error.message, 'danger');
+    });
+  }
+
   async changeStatus(orgId, status) {
     const loading = await this.loadingCtrl.create({
       message: 'Updating...',

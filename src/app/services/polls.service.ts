@@ -1,6 +1,6 @@
 import { Injectable, OnDestroy } from '@angular/core';
 import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument } from '@angular/fire/firestore';
-import { LoadingController, PopoverController, ToastController } from '@ionic/angular';
+import { LoadingController, ModalController, PopoverController, ToastController } from '@ionic/angular';
 import { Observable, Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Polls } from '../models/polls';
@@ -27,7 +27,8 @@ export class PollsService implements OnDestroy {
     private loadingCtrl: LoadingController,
     private toaster: ToastController,
     private popOverCtrl: PopoverController,
-    private authService: AuthService)
+    private authService: AuthService,
+    private modalCtrl: ModalController)
 
   {
     this.pollSub = this.authService.user$.subscribe(async user => {
@@ -90,7 +91,7 @@ export class PollsService implements OnDestroy {
       loading.dismiss();
       this.toast('New Poll Added', 'success');
       this.addtoQueueEvent(pollId);
-      this.closePopOver();
+      this.closeModal();
     }).catch(error => {
       loading.dismiss();
       this.toast(error.message, 'danger');
@@ -204,6 +205,10 @@ export class PollsService implements OnDestroy {
 
    closePopOver(){
     this.popOverCtrl.dismiss();
+  }//
+
+  closeModal(){
+    this.modalCtrl.dismiss();
   }//
 
    async toast(message, status){

@@ -1,0 +1,105 @@
+<ion-header>
+  <ion-toolbar color="light">
+    <ion-title>About</ion-title>
+    <ion-buttons slot="primary">
+      <ion-button (click)="onClose()">
+        <ion-icon name="close" slot="icon-only"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>
+        Description
+      </ion-card-title>
+    </ion-card-header>
+    <ion-card-content *ngIf="!openDesc">
+      {{ orgDesc }}
+    </ion-card-content>
+    <ion-card-content *ngIf="openDesc">
+      <ion-input placeholder="Enter Description" [(ngModel)]="desc"></ion-input>
+      <ion-button (click)="addDescription()" color="success" *ngIf="desc" size="small">
+        <ion-icon name="checkmark"></ion-icon>
+      </ion-button>
+      <ion-button (click)="closeDescText()" color="danger" size="small">
+        <ion-icon name="close"></ion-icon>
+      </ion-button>
+    </ion-card-content>
+    <ion-button (click)="openDescText()" class="ion-float-right" fill="none" *ngIf="!openDesc">
+      <ion-icon name="create"></ion-icon>
+    </ion-button>
+  </ion-card>
+
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>
+        Email
+      </ion-card-title>
+    </ion-card-header>
+    <ion-card-content *ngIf="!openEmail">
+      {{ orgEmail }}
+    </ion-card-content>
+    <ion-card-content *ngIf="openEmail">
+      <ion-input placeholder="Enter Description" [(ngModel)]="email"></ion-input>
+      <ion-button (click)="addEmail()" color="success" *ngIf="email" size="small">
+        <ion-icon name="checkmark"></ion-icon>
+      </ion-button>
+      <ion-button (click)="closeEmailText()" color="danger" size="small">
+        <ion-icon name="close"></ion-icon>
+      </ion-button>
+    </ion-card-content>
+    <ion-button (click)="openEmailText()" class="ion-float-right" fill="none" *ngIf="!openEmail">
+      <ion-icon name="create"></ion-icon>
+    </ion-button>
+  </ion-card>
+
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>
+        Links
+      </ion-card-title>
+    </ion-card-header>
+    <ion-card-content *ngIf="!openLink">
+    <a [href]="orgLink">{{ orgLink }}</a>
+    </ion-card-content>
+    <ion-card-content *ngIf="openLink">
+      <ion-input placeholder="Enter Description" [(ngModel)]="link"></ion-input>
+      <ion-button (click)="addLink()" color="success" *ngIf="link" size="small">
+        <ion-icon name="checkmark"></ion-icon>
+      </ion-button>
+      <ion-button (click)="closeLinkText()" color="danger" size="small">
+        <ion-icon name="close"></ion-icon>
+      </ion-button>
+    </ion-card-content>
+    <ion-button (click)="openLinkText()" class="ion-float-right" fill="none" *ngIf="!openLink">
+      <ion-icon name="create"></ion-icon>
+    </ion-button>
+  </ion-card>
+
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>
+        Rules and ByLaws
+      </ion-card-title>
+    </ion-card-header>
+    <ion-card-content *ngIf="!openRule">
+      {{ orgByLaw }}
+    </ion-card-content>
+    <ion-card-content *ngIf="openRule">
+      <ion-input placeholder="Enter Description" [(ngModel)]="rule"></ion-input>
+      <ion-button (click)="addLaw()" color="success" *ngIf="rule" size="small">
+        <ion-icon name="checkmark"></ion-icon>
+      </ion-button>
+      <ion-button (click)="closeLawText()" color="danger" size="small">
+        <ion-icon name="close"></ion-icon>
+      </ion-button>
+    </ion-card-content>
+    <ion-button (click)="openLawText()" class="ion-float-right" fill="none" *ngIf="!openRule">
+      <ion-icon name="create"></ion-icon>
+    </ion-button>
+  </ion-card>
+
+</ion-content>

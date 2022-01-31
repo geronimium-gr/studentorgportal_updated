@@ -1,6 +1,6 @@
 import { Injectable, OnDestroy } from '@angular/core';
 import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument } from '@angular/fire/firestore';
-import { LoadingController, PopoverController, ToastController } from '@ionic/angular';
+import { LoadingController, ModalController, PopoverController, ToastController } from '@ionic/angular';
 import { Observable, Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
 
@@ -34,7 +34,8 @@ export class EventzService implements OnDestroy {
     private popOverCtrl: PopoverController,
     private toaster: ToastController,
     private authService: AuthService,
-    private notifService: NotificationsService )
+    private notifService: NotificationsService,
+    private modalCtrl: ModalController )
     {
 
       this.eventHub = this.authService.user$.subscribe(async user => {
@@ -102,7 +103,7 @@ export class EventzService implements OnDestroy {
       this.toast('New Event Added', 'success');
       this.notifService.sendNotif(userId, userName, surname, userPhoto, orgId, "added an event", image, eventId, content, title, startDate, endDate, time, "");
       this.addtoQueueEvent(eventId);
-      this.closePopOver();
+      this.closeModal();
     }).catch(error => {
       loading.dismiss();
       this.toast(error.message, 'danger');
@@ -236,6 +237,10 @@ export class EventzService implements OnDestroy {
 
    closePopOver(){
     this.popOverCtrl.dismiss();
+  }//
+
+  closeModal(){
+    this.modalCtrl.dismiss();
   }//
 
    async toast(message, status){

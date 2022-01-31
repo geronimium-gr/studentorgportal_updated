@@ -2,7 +2,7 @@ import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/co
 import { AngularFirestore } from '@angular/fire/firestore';
 import { AngularFireStorage } from '@angular/fire/storage';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { LoadingController, NavParams, PopoverController } from '@ionic/angular';
+import { LoadingController, ModalController, NavParams } from '@ionic/angular';
 import { Subscription } from 'rxjs';
 import { AuthService } from '../../services/auth.service';
 
@@ -29,6 +29,9 @@ export class AddPostComponent implements OnInit, OnDestroy {
   userName: any;
   userPhoto: any;
   userSurname: any;
+  role: any;
+
+  viewImage: boolean = false;
 
   postSub: Subscription;
 
@@ -40,7 +43,7 @@ export class AddPostComponent implements OnInit, OnDestroy {
               private afs: AngularFirestore,
               private navParams: NavParams,
               private authService: AuthService,
-              private popoverCtrl: PopoverController,
+              private modalCtrl: ModalController,
               public auth: AuthService) {
 
     this.postSub = this.authService.user$.subscribe(async user => {
@@ -48,6 +51,7 @@ export class AddPostComponent implements OnInit, OnDestroy {
       this.userName = user.userName;
       this.userSurname = user.userSurname;
       this.userId = user.userId;
+      this.role = user.roleName;
       try {
         this.userPhoto = user.userPhoto;
       } catch (error) {
@@ -72,6 +76,10 @@ export class AddPostComponent implements OnInit, OnDestroy {
     this.loadedOrg = this.navParams.get('editOrgId');
 
   }//
+
+  addImage() {
+    this.viewImage = true;
+  }
 
   async addPost() {
     if (!this.formGroup.valid) {
@@ -152,7 +160,7 @@ export class AddPostComponent implements OnInit, OnDestroy {
   }//
 
   onClose() {
-    this.popoverCtrl.dismiss();
+    this.modalCtrl.dismiss();
   }
 
   checkAllOrg() {

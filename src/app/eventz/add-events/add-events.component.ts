@@ -2,7 +2,7 @@ import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/co
 import { AngularFirestore } from '@angular/fire/firestore';
 import { AngularFireStorage } from '@angular/fire/storage';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { LoadingController, NavParams, PopoverController } from '@ionic/angular';
+import { LoadingController, ModalController, NavParams } from '@ionic/angular';
 import { Subscription } from 'rxjs';
 
 import { AuthService } from '../../services/auth.service';
@@ -29,6 +29,9 @@ export class AddEventsComponent implements OnInit, OnDestroy {
   userName: any;
   userSurname: any;
   userPhoto: any;
+  role: any;
+
+  viewImage: boolean = false;
 
   eventSub: Subscription;
 
@@ -39,13 +42,14 @@ export class AddEventsComponent implements OnInit, OnDestroy {
     private afs: AngularFirestore,
     private navParams: NavParams,
     private authService: AuthService,
-    private popoverCtrl: PopoverController)
+    private modalCtrl: ModalController)
     {
       this.eventSub = this.authService.user$.subscribe(async user => {
         this.user = user;
         this.userName = user.userName;
         this.userSurname = user.userSurname;
         this.userId = user.userId;
+        this.role = user.roleName;
         try {
           this.userPhoto = user.userPhoto;
         } catch (error) {
@@ -80,6 +84,10 @@ export class AddEventsComponent implements OnInit, OnDestroy {
 
     this.loadedOrg = this.navParams.get('editOrgId');
 
+  }
+
+  addImage() {
+    this.viewImage = true;
   }
 
   async addEvent() {
@@ -163,7 +171,7 @@ export class AddEventsComponent implements OnInit, OnDestroy {
   }
 
   onClose() {
-    this.popoverCtrl.dismiss();
+    this.modalCtrl.dismiss();
   }
 
   ngOnDestroy() {
